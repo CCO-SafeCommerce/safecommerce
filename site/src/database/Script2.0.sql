@@ -100,6 +100,20 @@ and Leitura.fkMetrica = Metrica.idMetrica
 ORDER BY Leitura.dataLeitura;
 select * from visualizacaoSemanal;
 
+create view visaoGeralServidores as
+select 
+	s.idServidor,
+    s.fkEmpresa,
+	s.modelo,
+    s.so,
+    s.enderecoMac,
+    (select valor_leitura from Leitura where fkServidor = s.idServidor AND fkMetrica = 2 order by dataLeitura desc limit 1) as 'qtdCPU',
+    (select valor_leitura from Leitura where fkServidor = s.idServidor AND fkMetrica = 5 order by dataLeitura desc limit 1) as 'qtdRAM',
+    (select valor_leitura from Leitura where fkServidor = s.idServidor AND fkMetrica = 7 order by dataLeitura desc limit 1) as 'qtdDisco',
+    (select dataLeitura from Leitura where fkServidor = s.idServidor order by dataLeitura desc limit 1) as 'ultimoRegistro'
+from Servidor s;
+
+select * from visaoGeralServidores;
 
 create view leituraCPU as 
 select 
