@@ -15,6 +15,10 @@ router.put('/', (req, res) => {
     serverController.updateServer(req, res)
 });
 
+router.delete('/:idServidor', (req, res) => {
+    serverController.deleteServer(req, res)
+});
+
 router.post("/obterDadosCPU", (req,res)=>{
     serverController.obterDadosCPU(req, res);
 })

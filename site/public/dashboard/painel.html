@@ -21,7 +21,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js" integrity="sha512-F+u8eWHrfY8Xw9BLzZ8rG/0wIvs0y+JyRJrXjp3VjtFPylAEEGwKbua5Ip/oiVhaTDaDs4eU2Xtsxjs/9ag2bQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body onresize="responsive()" onload="responsive(), validateSession()">
@@ -167,7 +167,7 @@
                         </td>
 
                         <td>
-                            <button type="button" class="btn btn-outline-danger btn-sm">
+                            <button onclick="deleteServer(${data[i].idServidor})" type="button" class="btn btn-outline-danger btn-sm">
                                 <i class="bi bi-trash-fill"></i>
                                 Remover
                             </ button>
@@ -176,6 +176,51 @@
                 `
             }
         }
+    }
+
+    function deleteServer(idServer) {
+        Swal.fire({
+            title: 'Excluir servidor',
+            icon: 'warning',
+            text: 'Tem certeza que deseja excluir servidor?',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#dc3545',
+            confirmButtonText: 'Remover',
+            focusConfirm: false,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`/servers/${idServer}`, {
+                    method: 'DELETE',
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        Swal.fire({
+                            title: 'Suceso',
+                            text: 'Servidor excluído com sucesso',
+                            icon: 'success',
+                            timer: 1500,
+                            timerProgressBar: true,
+                            confirmButtonColor: '#6BF178',
+                            willClose: () => {
+                                window.location.reload()
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Erro',
+                            text: 'Houve um erro ao excluir o servidor',
+                            icon: 'error',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: 'OK'
+                        });
+                    }
+                })
+            }
+        })
     }
 
     getData(indexPage);

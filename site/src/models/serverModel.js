@@ -35,6 +35,11 @@ function updateServer(id, modelo, so) {
     return database.execute(instruction);
 }
 
+function deleteServer(id) {
+    console.log(`DELETANDO ID ${id} !!!`)
+    return database.execute('DESC Servidor')
+}
+
 function obterDadosCPU(id) {
     var instruction = `SELECT valor, horario FROM leituraCPU where idServidor = ${id};`
    
@@ -104,6 +109,7 @@ module.exports = {
     obterSO,
     getCurrentServer,
     updateServer,
+    deleteServer,
     obterDadosCPU,
     obterDadosCPUCore,
     obterDadosRam,

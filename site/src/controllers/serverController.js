@@ -77,6 +77,21 @@ function updateServer(req, res) {
     })
 }
 
+function deleteServer(req, res) {
+    var id = req.params.idServidor
+
+    serverModel.deleteServer(id).then(function (result) {
+        res.json(result)
+    }).catch(function(error) {
+        console.log(error);
+        console.log(
+            "\nHouve um erro ao receber os dados dos servidores! Erro ",
+            error.sqlMessage
+        );
+        res.status(500).json(error.sqlMessage);
+    })
+}
+
 function obterDadosCPU(req,res) {
     var id = req.body.idServidor;
     
@@ -307,6 +322,7 @@ module.exports = {
     getServers,
     getCurrentServer,
     updateServer,
+    deleteServer,
     obterDadosCPU,
     obterDadosCPUCore,
     obterDadosFreq,
