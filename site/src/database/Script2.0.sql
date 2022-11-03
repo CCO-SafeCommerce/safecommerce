@@ -5,14 +5,14 @@ USE safecommerce;
 create table Empresa(
 	idEmpresa int primary key auto_increment,
     nome varchar(45),
-    cnpj char(14)
+    cnpj char(14) unique
 );
 
 create table Usuario(
 	idUsuario int primary key auto_increment,
     nome varchar(45),
 	email varchar(45),
-	senha varchar(65),
+	senha varchar(65) unique,
 	fkUsuario int,
     foreign key (fkUsuario) references Usuario(idUsuario),
     fkEmpresa int,
@@ -23,7 +23,7 @@ create table Servidor(
 	idServidor int primary key auto_increment,
     modelo varchar(45),
 	so varchar(45),
-    enderecoMac varchar(17),
+    enderecoMac varchar(17) unique,
     fkEmpresa int,
     foreign key (fkEmpresa) references Empresa(idEmpresa)
 );

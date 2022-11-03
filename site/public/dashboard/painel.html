@@ -18,6 +18,10 @@
     <!-- style -->
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/painel.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js" integrity="sha512-F+u8eWHrfY8Xw9BLzZ8rG/0wIvs0y+JyRJrXjp3VjtFPylAEEGwKbua5Ip/oiVhaTDaDs4eU2Xtsxjs/9ag2bQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body onresize="responsive()" onload="responsive(), validateSession()">
@@ -51,7 +55,15 @@
 
                             <!-- Cards -->
                             <div class="col-md-12">
-                                <div id="cards_servers" class="row">
+                                <div id="cards_servers" class="row justify-content-center align-items-center">
+                                    <div class="col-sm-3">
+                                        <div class="card" style="width: 320px">
+                                            <div class="card-body">
+                                                <h5 class="card-title mb-4">Sistemas Operacionais</h5>
+                                                <canvas id="myChart" width="800" height="800" style="display: block; box-sizing: border-box; height: 800px; width: 800px;"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="col-md-12 mt-4 margin-table">
@@ -68,12 +80,13 @@
                                         <table class="table v-middle">
                                             <thead>
                                                 <tr class="bg-light">
-                                                    <th class="border-top-0">ID</th>
+                                                    <th class="border-top-0">Status</th>
                                                     <th class="border-top-0">Modelo</th>
                                                     <th class="border-top-0">Sistema Operacional</th>
                                                     <th class="border-top-0">vCPU</th>
                                                     <th class="border-top-0">Memória RAM</th>
-                                                    <th class="border-top-0">Disco</th>
+                                                    <th class="border-top-0">Disco</th>                                                    
+                                                    <th class="border-top-0">Remover</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="server_table">
@@ -104,79 +117,95 @@
     document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;
 
     function setTable(data) {
-        console.log("Entrou no setTable()");
-
         var serverTable = document.getElementById("server_table");
 
         if (data.length == 0) {
             serverTable.innerHTML = '';
         } else {
             for (let i in data) {
-                serverTable.innerHTML +=
+                var agora = new Date()
+                var status = ''
+
+                if (dateFns.differenceInSeconds(agora, data[i].ultimoRegistro) >= 90) {
+                    status = `
+                        <i class="bi bi-exclamation-triangle-fill text-danger"></i> Offline
                     `
-        <tr>
-            <td>
-            ${data[i].idServidor}
-            </td>
+                } else {
+                    status = `
+                        <i class="bi bi-exclamation-triangle-fill text-success"></i> Online
+                    `
+                }
 
-            <td>
-            ${data[i].modelo}
-            </td>
+                serverTable.innerHTML += `
+                    <tr>
+                        <td>
+                            ${status}
+                        </td>
 
-            <td>
-            ${data[i].so}
-            </td>
+                        <td>
+                            ${data[i].modelo}
+                        </td>
 
-            <td>
-            ${data[i].qtd_cpus}
-            </td>
+                        <td>
+                            ${data[i].so}
+                        </td>
 
-            <td>
-            ${Number(data[i].qtd_memoria_ram).toFixed()} GB
-            </td>
+                        <td>
+                            ${data[i].qtdCPU}
+                        </td>
 
-            <td>
-            ${Number(data[i].qtd_disco).toFixed()} GB
-            </td>
-        </tr>
-        `
-            }
-        }
-    }
+                        <td>
+                            ${Number(data[i].qtdRAM).toFixed()} GB
+                        </td>
 
-    function setCards(data) {
-        var cardsServers = document.getElementById("cards_servers");
+                        <td>
+                            ${Number(data[i].qtdDisco).toFixed()} GB
+                        </td>
 
-        if (data.length == 0) {
-            cardsServers.innerHTML = '<h4 class="card-title h4-style">Nenhum servidor cadastrado</h4>';
-        }
-
-        for (let i in data) {
-            var status = "";
-            var dateTimeAtual = new Date();
-            var dateTime = new Date(data[data.length - 1].dataLeitura);
-            //check diff in seconds
-
-            var diff = (dateTimeAtual.getTime() - dateTime.getTime()) / 1000;
-
-            if (diff > 15) {
-                status = "Inativo"
-            }else{
-                status = "Ativo"
-            }
-            cardsServers.innerHTML +=
+                        <td>
+                            <button type="button" class="btn btn-outline-danger btn-sm">
+                                <i class="bi bi-trash-fill"></i>
+                                Remover
+                            </ button>
+                        </td>
+                    </tr>
                 `
-        <div class="col-sm-3">
-            <div class="card" style="width: 320px">
-                <div class="card-body">
-                    <h5 class="card-title mb-4">${data[i].modelo}</h5>
-                    <h5 class="display-5 mt-1 mb-3">Status: ${status} </h5>
-                </div>
-            </div>
-        </div>
-        `
+            }
         }
     }
 
     getData(indexPage);
+</script>
+<script>
+    const data = {
+        labels: ['Red', 'Blue', 'Yellow' ],
+        datasets: [{
+            data: [300, 50, 100],
+            backgroundColor: [
+                'rgb(255, 99, 132)',
+                'rgb(54, 162, 235)',
+                'rgb(255, 205, 86)'
+            ],
+            hoverOffset: 4
+        }]
+    };
+
+
+    const config = {
+        type: 'pie',
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            }
+        },
+    };
+
+    const myChart = new Chart(
+        document.getElementById('myChart'),
+        config
+    );
 </script>

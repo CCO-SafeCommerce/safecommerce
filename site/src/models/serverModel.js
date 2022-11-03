@@ -1,19 +1,15 @@
 const database = require('../database/config');
+
 function obterUltimaMedidaRam(id) {
     var instruction = `SELECT valor_leitura FROM Leitura WHERE fkServidor = ${id} AND fkMetrica = 5 ORDER BY dataLeitura desc LIMIT 1;`
     return database.execute(instruction);
 }
+
 function getServers(idCompany) {
     console.log("ACESSEI O SERVER MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function getServer(): ", idCompany);
     var instruction = 
     `
-    SELECT DISTINCT(idServidor), modelo, so, (SELECT valor_leitura FROM Leitura WHERE fkServidor = idServidor AND fkMetrica = 7 ORDER BY dataLeitura desc LIMIT 1) as 'qtd_disco',
-(SELECT valor_leitura FROM Leitura WHERE fkServidor = idServidor AND fkMetrica = 2 ORDER BY dataLeitura desc LIMIT 1) as 'qtd_cpus',
-(SELECT valor_leitura FROM Leitura WHERE fkServidor = idServidor AND fkMetrica = 5 ORDER BY dataLeitura desc LIMIT 1) as 'qtd_memoria_ram',
-(SELECT dataLeitura FROM Leitura WHERE fkServidor = idServidor ORDER BY dataLeitura desc LIMIT 1) as 'dataLeitura' FROM Servidor 
-INNER JOIN Leitura
-	ON Leitura.fkServidor = idServidor
-            WHERE fkEmpresa = ${idCompany}
+    SELECT * FROM visaoGeralServidores WHERE fkEmpresa = ${idCompany}
     `
     return database.execute(instruction);
 }

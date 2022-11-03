@@ -147,8 +147,7 @@ function getData(index) {
                 console.log(servers)
                 console.log(servers[0].idServidor);  
                 if(index) {
-                    setTable(servers); 
-                    setCards(servers);
+                    setTable(servers);
                     setLinks(servers);    
                 } else {
                     setLinks(servers); 
