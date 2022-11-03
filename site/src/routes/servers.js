@@ -10,6 +10,11 @@ router.post("/getServers", (req, res) => {
 router.post("/getCurrentServer", (req, res) => {
     serverController.getCurrentServer(req, res);
 })
+
+router.put('/', (req, res) => {
+    serverController.updateServer(req, res)
+});
+
 router.post("/obterDadosCPU", (req,res)=>{
     serverController.obterDadosCPU(req, res);
 })
@@ -54,4 +59,5 @@ router.post("/obterUltimaMedidaRam", (req,res)=>{
 router.post("/obterSO"  , (req,res)=>{
     serverController.obterSO(req, res);
 })
+
 module.exports = router;

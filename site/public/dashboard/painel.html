@@ -46,21 +46,25 @@
                             <div class="col-md-12 mt-lg-4 mt-4">
                                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800">Visão Geral</h1>
-                                    <a href="" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                                        <i class="bi bi-cloud-arrow-down-fill"></i>
-                                        Gerar relatório
-                                    </a>
                                 </div>
                             </div>
 
                             <!-- Cards -->
                             <div class="col-md-12">
-                                <div id="cards_servers" class="row justify-content-center align-items-center">
+                                <div id="cards_servers" class="row justify-content-around">
                                     <div class="col-sm-3">
                                         <div class="card" style="width: 320px">
                                             <div class="card-body">
                                                 <h5 class="card-title mb-4">Sistemas Operacionais</h5>
-                                                <canvas id="myChart" width="800" height="800" style="display: block; box-sizing: border-box; height: 800px; width: 800px;"></canvas>
+                                                <canvas id="myChart1" width="800" height="800" style="display: block; box-sizing: border-box; height: 800px; width: 800px;"></canvas>
+                                            </div>
+                                        </div>                                        
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="card" style="width: 320px">
+                                            <div class="card-body">
+                                                <h5 class="card-title mb-4">Status dos Servidores</h5>
+                                                <canvas id="myChart2" width="800" height="800" style="display: block; box-sizing: border-box; height: 800px; width: 800px;"></canvas>
                                             </div>
                                         </div>
                                     </div>
@@ -177,8 +181,8 @@
     getData(indexPage);
 </script>
 <script>
-    const data = {
-        labels: ['Red', 'Blue', 'Yellow' ],
+    const dataSO = {
+        labels: ['Windows 11', 'Windows 10', 'Ubuntu' ],
         datasets: [{
             data: [300, 50, 100],
             backgroundColor: [
@@ -190,10 +194,9 @@
         }]
     };
 
-
-    const config = {
+    const configSO = {
         type: 'pie',
-        data: data,
+        data: dataSO,
         options: {
             responsive: true,
             plugins: {
@@ -204,8 +207,38 @@
         },
     };
 
-    const myChart = new Chart(
-        document.getElementById('myChart'),
-        config
+    const myChartSO = new Chart(
+        document.getElementById('myChart1'),
+        configSO
+    );
+
+    const dataSt = {
+        labels: ['Online', 'Offline' ],
+        datasets: [{
+            data: [300, 50],
+            backgroundColor: [
+                'rgb(54, 162, 235)',
+                'rgb(255, 99, 132)'
+            ],
+            hoverOffset: 4
+        }]
+    };
+
+    const configSt = {
+        type: 'pie',
+        data: dataSt,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top',
+                }
+            }
+        },
+    };
+
+    const myChartSt = new Chart(
+        document.getElementById('myChart2'),
+        configSt
     );
 </script>

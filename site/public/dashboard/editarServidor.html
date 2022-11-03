@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeCommerce | Editar Servidor</title>
+
+    <!-- Icon -->
+    <link rel="icon" href="./assets/images/logo-icon.png">
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    
+    <!-- style -->
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/painel.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../js/validate.js"></script>
+</head>
+<body onresize="responsive()" onload="responsive(), validateSession()">
+
+    <div id="wrapper">
+        <div id="overlay"> 
+        </div>
+        <!-- barra lateral -->
+        <my-sidebar></my-sidebar>
+        <!-- Fim barra lateral  -->
+
+        <!-- Barra de navegação -->
+        <div id="page-content-wrapper">
+            <div id="content">
+                <div class="container-fluid p-0 px-lg-0 px-md-0">
+                    <my-navbar></my-navbar>
+                    <!-- Fim da barra de navegação -->
+
+                    <!-- Conteudo da página -->
+                    <div class="container-fluid px-lg-4">
+                        <div class="row">
+
+                            <!-- Cards -->
+                            <div class="col-md-12">
+                                <div class="col-md-12 mt-4">
+                                    <div class="container h-100">
+                                    <div class="row d-flex justify-content-center align-items-center h-100">
+                                        <div class="col-xl-9">
+                                    
+                                            <h1 class="text-gray-800 mb-4">Editar Servidor</h1>
+                                    
+                                            <div class="card">
+                                                <div class="card-body">
+                                                    <div class="row align-items-center pt-4 pb-3">
+                                                        <div class="col-md-3 ps-5">
+                                                            <h6 class="mb-0">Modelo</h6>                                        
+                                                        </div>
+                                                    <div class="col-md-9 pe-5">
+                                                        <input id="model_input" type="text" class="form-control form-control-lg" placeholder="Digite seu nome...">
+                                                    </div>
+                                                </div>
+                                        
+                                                <hr class="mx-n3">
+                                        
+                                                <div class="row align-items-center py-3">
+                                                    <div class="col-md-3 ps-5">
+                                                        <h6 class="mb-0">Sistema Operacional</h6>
+                                                    </div>
+                                                    <div class="col-md-9 pe-5">
+                                                        <input id="so_input" type="text" class="form-control form-control-lg" placeholder="nome@email.com" />
+                                                    </div>
+                                                </div>
+                                                                                           
+                                                <hr class="mx-n3">
+                                        
+                                                <div class="px-5 py-4 div-btn-register">
+                                                    <button onclick="updateServer()" class="btn btn-primary btn-lg">Cadastrar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!-- Fim do conteudo da página -->
+
+            <!-- Footer -->
+            <my-footer></my-footer>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./js/main.js"></script>
+<script src="./js/script.js"></script>
+</html>
+<script>
+    const indexPage = false;
+    var varId = 0
+
+    function setPage() {
+        var inputModelo = document.getElementById('model_input')
+        var inputSO = document.getElementById('so_input')
+        var params = new URLSearchParams(window.location.search)
+        var idServidor = params.get('idServer')
+
+        if (idServidor != null) {
+            varId = Number(idServidor)
+            var servers = JSON.parse(sessionStorage.SERVERS)
+
+            var servidor = servers.find(s => {
+                if (s.idServidor == idServidor) {
+                    return s
+                }
+            })
+
+            inputModelo.value = servidor.modelo;
+            inputSO.value = servidor.so;
+        } else {
+            window.location.href = './painel.html'
+        }
+    }
+
+    function updateServer() {
+        var modeloVar = model_input.value
+        var soVar = so_input.value
+
+        if (modeloVar == '' || soVar == '') {
+            Swal.fire({
+                title: 'Erro',
+                text: "Campos são obrigatórios",
+                icon: 'error',
+                showConfirmButton: false,
+                showDenyButton: true,
+                denyButtonText: 'OK'
+            });
+            return;
+        }
+
+        fetch('/servers', {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idServidorServer: varId,
+                modeloServer: modeloVar,
+                soServer: soVar
+            })
+        }).then(function (resposta) {
+            console.log("Recuperando valores")
+            console.log("resposta: ", resposta);
+
+            if (resposta.ok) {
+                Swal.fire({
+                    title: 'Suceso',
+                    text: 'Atualização realizada com sucesso',
+                    icon: 'success',
+                    timer: 1750,
+                    timerProgressBar: true,
+                    confirmButtonColor: '#34e269',
+                });
+
+                window.location.href = `./servidores.html?idServer=${varId}`
+
+            } else {
+                throw ("Houve um erro ao tentar realizar o cadastro!");
+            }
+        })
+    }
+
+    getData(indexPage);
+    setPage()
+</script>

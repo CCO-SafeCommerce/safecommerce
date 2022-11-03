@@ -27,6 +27,14 @@ function getCurrentServer(id) {
     return database.execute(instruction);
 }
 
+function updateServer(id, modelo, so) {
+    var instruction = `
+        UPDATE Servidor SET modelo = '${modelo}', so = '${so}' WHERE idServidor = ${id}
+    `;
+
+    return database.execute(instruction);
+}
+
 function obterDadosCPU(id) {
     var instruction = `SELECT valor, horario FROM leituraCPU where idServidor = ${id};`
    
@@ -95,6 +103,7 @@ module.exports = {
     getServers,
     obterSO,
     getCurrentServer,
+    updateServer,
     obterDadosCPU,
     obterDadosCPUCore,
     obterDadosRam,

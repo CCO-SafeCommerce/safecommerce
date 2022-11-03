@@ -60,6 +60,23 @@ function getCurrentServer(req, res) {
         )
 }
 
+function updateServer(req, res) {
+    var id = req.body.idServidorServer
+    var modelo = req.body.modeloServer
+    var so = req.body.soServer
+
+    serverModel.updateServer(id, modelo, so).then(function (result) {
+        res.json(result)
+    }).catch(function(error) {
+        console.log(error);
+        console.log(
+            "\nHouve um erro ao receber os dados dos servidores! Erro ",
+            error.sqlMessage
+        );
+        res.status(500).json(error.sqlMessage);
+    })
+}
+
 function obterDadosCPU(req,res) {
     var id = req.body.idServidor;
     
@@ -289,6 +306,7 @@ function obterSO(req,res) {
 module.exports = {
     getServers,
     getCurrentServer,
+    updateServer,
     obterDadosCPU,
     obterDadosCPUCore,
     obterDadosFreq,

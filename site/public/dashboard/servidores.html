@@ -52,10 +52,26 @@
                             <div class="col-md-12 mt-lg-4 mt-4">
                                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800" id="server_title">Servidor</h1>
-                                    <a id="aParametros" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                                        <i class="bi bi-list-task"></i>
-                                        Alterar parâmetros de coleta
-                                    </a>
+                                    <div class="row justify-content-around">
+                                        <div class="col">
+                                            <a id="aEditar" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                                                <i class="bi bi-pencil-square"></i>
+                                                Editar
+                                            </a>
+                                        </div>
+                                        <div class="col">
+                                            <a id="aParametros" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                                                <i class="bi bi-list-task"></i>
+                                                Alterar parâmetros de coleta
+                                            </a>
+                                        </div>
+                                        <div class="col">
+                                            <button type="button" class="btn btn-danger btn-sm">
+                                                <i class="bi bi-trash-fill"></i>
+                                                Excluir    
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-xl-3 col-md-6 mb-4 card-size">
@@ -272,6 +288,7 @@
         var serverTitle = document.getElementById('server_title')
         var titlePage = document.getElementById('title_page')
         var linkParametros = document.getElementById('aParametros')
+        var linkEditar = document.getElementById('aEditar')
 
         var params = new URLSearchParams(window.location.search)
         var idServidor = params.get('idServer')
@@ -288,7 +305,8 @@
 
             serverTitle.innerText = servidor.modelo;
             titlePage.innerHTML = `SafeCommerce | ${servidor.modelo}`;
-            linkParametros.href = `./parametros.html?idServidor=${idServidor}`
+            linkEditar.href = `./editarServidor.html?idServer=${idServidor}`
+            linkParametros.href = `./parametros.html?idServer=${idServidor}`
         } else {
             window.location = './painel.html'
         }
