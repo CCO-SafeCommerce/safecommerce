@@ -11,8 +11,8 @@ create table Empresa(
 create table Usuario(
 	idUsuario int primary key auto_increment,
     nome varchar(45),
-	email varchar(45),
-	senha varchar(65) unique,
+	email varchar(45) unique,
+	senha varchar(65),
 	fkUsuario int,
     foreign key (fkUsuario) references Usuario(idUsuario),
     fkEmpresa int,
