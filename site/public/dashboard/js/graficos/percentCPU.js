@@ -3,7 +3,7 @@ var percentCPUChart = {}
 function renderizarAba1(idServidor) {
     var tabelaMetrica = document.getElementById('accordionExample');
 
-    tabelaMetrica.innerHTML = `        
+    tabelaMetrica.innerHTML += `        
         <div class="accordion-item" id="abaMetrica1">
             <h2 class="accordion-header" id="headingOne">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -51,7 +51,7 @@ function criarGraficoPercentCPU() {
         }
     };
 
-    CpuLineChart = new Chart(
+    percentCPUChart = new Chart(
         document.getElementById('cpuPercent'),
         configCpu
     );
@@ -66,7 +66,7 @@ function obterDadosPercentCPU(idServidor) {
     }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
-                plotarGraficoPercentCPU(resposta, CpuLineChart);
+                plotarGraficoPercentCPU(resposta, percentCPUChart);
             });
         } else {
             console.error('Nenhum dado encontrado ou erro na API');

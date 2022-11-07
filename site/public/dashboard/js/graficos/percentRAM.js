@@ -3,7 +3,7 @@ var percentRAMChart = {}
 function renderizarAba6() {
     var tabelaMetrica = document.getElementById('accordionExample');
 
-    tabelaMetrica.innerHTML = `        
+    tabelaMetrica.innerHTML += `        
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingSix">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"

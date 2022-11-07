@@ -3,7 +3,7 @@ var discoWriteMsChart = {}
 function renderizarAba10() {
     var tabelaMetrica = document.getElementById('accordionExample');
 
-    tabelaMetrica.innerHTML = `        
+    tabelaMetrica.innerHTML += `        
         <div class="accordion-item">
             <h2 class="accordion-header" id="headingTen">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"

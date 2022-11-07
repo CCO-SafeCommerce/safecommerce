@@ -27,7 +27,6 @@
     <!-- style -->
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/servidores.css">
-    <script src="./js/dadosJava.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="./js/graficos/percentCPU.js"></script>
@@ -214,6 +213,10 @@
                 }
             })
 
+            if(!servidor){
+                window.location = './painel.html'
+            }
+
             var linkParametros = document.getElementById('aParametros')
             var linkEditar = document.getElementById('aEditar')
             var btnExcluir = document.getElementById('btnExcluir')
@@ -238,21 +241,21 @@
                 "Content-Type": "application/json"
             },
         }).then(function (resposta) {
-            resposta.json().then(json => {
-                var adicionar = json.filter(p => {
+            resposta.json().then(parametros => {
+                var adicionar = parametros.filter(p => {
                     if (!parametrosAtuais.includes(p)) {
                         return p;
                     }
                 })
 
-                var atualizar = json.filter(p => {
+                var atualizar = parametros.filter(p => {
                     if (parametrosAtuais.includes(p)) {
                         return p;
                     }
                 })
 
                 var remover = parametrosAtuais.filter(p => {
-                    if (!json.includes(p)) {
+                    if (!parametros.includes(p)) {
                         return p;
                     }
                 })
@@ -260,6 +263,8 @@
                 lidarDestruir(remover)
                 lidarRenderizar(adicionar)
                 lidarAtualizar(atualizar)
+
+                parametrosAtuais = parametros
             })
         })
     }
@@ -270,24 +275,24 @@
                 case 1:
                     destruirAba1()
                     break;
-                case 3:
-                    destruirAba3()
-                    break;
-                case 4:
-                    destruirAba4()
-                    break;
-                case 6:
-                    destruirAba6()
-                    break;
-                case 8:
-                    destruirAba8()
-                    break;
-                case 9:
-                    destruirAba9()
-                    break;
-                case 10:
-                    destruirAba10()
-                    break;
+                // case 3:
+                //     destruirAba3()
+                //     break;
+                // case 4:
+                //     destruirAba4()
+                //     break;
+                // case 6:
+                //     destruirAba6()
+                //     break;
+                // case 8:
+                //     destruirAba8()
+                //     break;
+                // case 9:
+                //     destruirAba9()
+                //     break;
+                // case 10:
+                //     destruirAba10()
+                //     break;
             }
         })
     }
@@ -296,26 +301,27 @@
         itensParaRenderizar.forEach(item => {
             switch (item) {
                 case 1:
+                    console.log(item)
                     renderizarAba1(selectedServer)
                     break;
-                case 3:
-                    renderizarAba3(selectedServer)
-                    break;
-                case 4:
-                    renderizarAba4(selectedServer)
-                    break;
-                case 6:
-                    renderizarAba6(selectedServer)
-                    break;
-                case 8:
-                    renderizarAba8(selectedServer)
-                    break;
-                case 9:
-                    renderizarAba9(selectedServer)
-                    break;
-                case 10:
-                    renderizarAba10(selectedServer)
-                    break;
+                // case 3:
+                //     renderizarAba3(selectedServer)
+                //     break;
+                // case 4:
+                //     renderizarAba4(selectedServer)
+                //     break;
+                // case 6:
+                //     renderizarAba6(selectedServer)
+                //     break;
+                // case 8:
+                //     renderizarAba8(selectedServer)
+                //     break;
+                // case 9:
+                //     renderizarAba9(selectedServer)
+                //     break;
+                // case 10:
+                //     renderizarAba10(selectedServer)
+                //     break;
             }
         })
     }
@@ -326,24 +332,24 @@
                 case 1:
                     obterDadosPercentCPU(selectedServer)
                     break;
-                case 3:
-                    obterDadosPercentCPUperCore(selectedServer)
-                    break;
-                case 4:
-                    obterDadosFreqCPU(selectedServer)
-                    break;
-                case 6:
-                    obterDadosPercentRAM(selectedServer)
-                    break;
-                case 8:
-                    obterDadosPercentDisco(selectedServer)
-                    break;
-                case 9:
-                    obterDadosDiscoReadMs(selectedServer)
-                    break;
-                case 10:
-                    obterDadosDiscoWriteMs(selectedServer)
-                    break;
+                // case 3:
+                //     obterDadosPercentCPUperCore(selectedServer)
+                //     break;
+                // case 4:
+                //     obterDadosFreqCPU(selectedServer)
+                //     break;
+                // case 6:
+                //     obterDadosPercentRAM(selectedServer)
+                //     break;
+                // case 8:
+                //     obterDadosPercentDisco(selectedServer)
+                //     break;
+                // case 9:
+                //     obterDadosDiscoReadMs(selectedServer)
+                //     break;
+                // case 10:
+                //     obterDadosDiscoWriteMs(selectedServer)
+                //     break;
             }
         })
     }
