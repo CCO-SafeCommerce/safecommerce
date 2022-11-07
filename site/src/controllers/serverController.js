@@ -2,25 +2,6 @@ const serverModel = require("../models/serverModel");
 const parametroModel = require("../models/parametroModel");
 const leituraModel = require("../models/leituraModel");
 
-function obterUltimaMedidaDisco(req,res) {
-    var id = req.body.idServidor;
-   
-    serverModel.obterUltimaMedidaDisco(id)
-            .then(
-                function (resultado) {
-                    res.json(resultado);
-                }
-            ).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
-                        erro.sqlMessage
-                    );
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
-}
 function getServers(req, res) {
     var idCompany = req.body.idCompanyServer;
 
@@ -261,99 +242,7 @@ function obterDadosWDisk(req,res) {
                 }
             );
 }
-function obterDadosTotalDisk(req,res) {
-    var id = req.body.idServidor;
-    
-    serverModel.obterDadosTotalDisk(id)
-            .then(
-                function (resultado) {
-                    res.json(resultado);
-                }
-            ).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
-                        erro.sqlMessage
-                    );
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
-}
-function obterDadosTotalRam(req,res) {
-    var id = req.body.idServidor;
-    
-    serverModel.obterDadosTotalRam(id)
-            .then(
-                function (resultado) {
-                    res.json(resultado);
-                }
-            ).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
-                        erro.sqlMessage
-                    );
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
-}
-function obterDadosTotalCpus(req,res) {
-    var id = req.body.idServidor;
-    
-    serverModel.obterDadosTotalCpus(id)
-            .then(
-                function (resultado) {
-                    res.json(resultado);
-                }
-            ).catch(
-                function (erro) {
-                    console.log(erro);
-                    console.log(
-                        "\nHouve um erro ao realizar o cadastro! Erro: ",
-                        erro.sqlMessage
-                    );
-                    res.status(500).json(erro.sqlMessage);
-                }
-            );
-}
-function obterUltimaMedidaRam(req,res) {
-    var id = req.body.idServidor;
-    serverModel.obterUltimaMedidaRam(id)
-    .then(
-        function (resultado) {
-            res.json(resultado);
-        }
-    ).catch(
-        function (erro) {
-            console.log(erro);
-            console.log(
-                "\nHouve um erro ao realizar o cadastro! Erro: ",
-                erro.sqlMessage
-            );
-            res.status(500).json(erro.sqlMessage);
-        }
-    );
-}
-function obterSO(req,res) {
-    var id = req.body.idServidor;
-    serverModel.obterSO(id)
-    .then(
-        function (resultado) {
-            res.json(resultado);
-        }
-    ).catch(
-        function (erro) {
-            console.log(erro);
-            console.log(
-                "\nHouve um erro ao realizar o cadastro! Erro: ",
-                erro.sqlMessage
-            );
-            res.status(500).json(erro.sqlMessage);
-        }
-    );
-}
+
 module.exports = {
     getServers,
     getCurrentServer,
@@ -365,11 +254,5 @@ module.exports = {
     obterDadosRam,
     obterDadosDisk,
     obterDadosRDisk,
-    obterDadosWDisk,
-    obterDadosTotalDisk,
-    obterDadosTotalRam,
-    obterDadosTotalCpus,
-    obterUltimaMedidaDisco,
-    obterUltimaMedidaRam,
-    obterSO
+    obterDadosWDisk
 }
