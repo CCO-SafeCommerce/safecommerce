@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeCommerce | Usuários</title>
+
+    <!-- Icon -->
+    <link rel="icon" href="./assets/images/logo-icon.png">
+
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!-- style -->
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/painel.css">
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body onresize="responsive()" onload="responsive(), validateSession()">
+
+    <div id="wrapper">
+        <div id="overlay">
+        </div>
+        <!-- barra lateral -->
+        <my-sidebar></my-sidebar>
+        <!-- Fim barra lateral  -->
+
+        <!-- Barra de navegação -->
+        <div id="page-content-wrapper">
+            <div id="content">
+                <div class="container-fluid p-0 px-lg-0 px-md-0">
+                    <my-navbar></my-navbar>
+                    <!-- Fim da barra de navegação -->
+
+                    <!-- Conteudo da página -->
+                    <div class="container-fluid px-lg-4">
+                        <div class="row">
+                            <div class="col-md-12 mt-lg-4 mt-4">
+                                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                    <h1 class="h3 mb-0 text-gray-800">Usuários</h1>
+                                    <a href="./cadastroUsuario.html" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                                        <i class="bi bi-person-plus-fill"></i>
+                                        Cadastrar novo usuário
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Cards -->
+                            <div class="col-md-12">                                
+                                <div class="col-md-12 mt-4 margin-table">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <div class="d-md-flex align-items-center"></div>
+                                            <div>
+                                                <h4 class="card-title">Usuários cadastrados</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="table-responsive">
+                                        <table class="table v-middle">
+                                            <thead>
+                                                <tr class="bg-light">
+                                                    <th class="border-top-0">Id</th>
+                                                    <th class="border-top-0">Nome</th>
+                                                    <th class="border-top-0">Email</th>                                           
+                                                    <th class="border-top-0">Remover</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="users_table">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Fim do conteudo da página -->
+
+                <!-- Footer -->
+                <my-footer></my-footer>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./js/main.js"></script>
+<script src="./js/script.js"></script>
+
+</html>
+<script>
+    const indexPage = false;
+
+    document.getElementById('menu-painel').classList.add('active');
+    document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;
+
+    function obterUsuarios() {
+        var idCompanyVar = sessionStorage.ID_EMPRESA;
+
+        fetch(`/usuarios/obterPorEmpresa/${idCompanyVar}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(resposta => {
+            resposta.json().then(json => {
+                renderizarUsuarios(json)
+            })
+        })
+    }
+
+    function renderizarUsuarios(data) {
+        var userTable = document.getElementById("users_table");
+
+        if (data.length == 0) {
+            userTable.innerHTML = '';
+        } else {
+            for (let i in data) {
+                var deletarUsuario = ''
+
+                if (data[i].fkUsuario != null) {
+                    deletarUsuario = `
+                        <button onclick="deleteUser(${data[i].idUsuario})" type="button" class="btn btn-outline-danger btn-sm">
+                            <i class="bi bi-trash-fill"></i>
+                            Remover
+                        </ button>
+                    `
+                }
+
+                userTable.innerHTML += `
+                    <tr>
+                        <td>
+                            ${data[i].idUsuario}
+                        </td>
+
+                        <td>
+                            ${data[i].nome}
+                        </td>
+
+                        <td>
+                            ${data[i].email}
+                        </td>
+
+                        <td>
+                            ${deletarUsuario}
+                        </td>
+                    </tr>
+                `
+            }
+        }
+    }
+
+    function deleteUser(idServer) {
+        Swal.fire({
+            title: 'Excluir usuário',
+            icon: 'warning',
+            text: 'Tem certeza que deseja excluir o usuário?',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#dc3545',
+            confirmButtonText: 'Remover',
+            focusConfirm: false,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`/usuarios/excluir/${idServer}`, {
+                    method: 'DELETE',
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        Swal.fire({
+                            title: 'Suceso',
+                            text: 'Usuário excluído com sucesso',
+                            icon: 'success',
+                            timer: 1500,
+                            timerProgressBar: true,
+                            confirmButtonColor: '#6BF178',
+                            willClose: () => {
+                                window.location.reload()
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Erro',
+                            text: 'Houve um erro ao excluir usuário',
+                            icon: 'error',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: 'OK'
+                        });
+                    }
+                })
+            }
+        })
+    }
+
+    getData(indexPage);
+    obterUsuarios();
+</script>

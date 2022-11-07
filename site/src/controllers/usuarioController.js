@@ -1,7 +1,6 @@
 var usuarioModel = require("../models/usuarioModel");
 var bcrypt = require('bcrypt');
 
-
 function dadosUsuarioJava(req, res) {
     var idUsuario = req.body.idUsuarioServer;
     var token = req.body.tokenUsuario;
@@ -37,7 +36,6 @@ function dadosUsuarioJava(req, res) {
 
 
 }
-
 
 function entrar(req, res) {
     var email = req.body.emailServer;
@@ -130,8 +128,42 @@ function cadastrar(req, res) {
     }
 }
 
+function obterPorEmpresa(req, res) {
+    var idEmpresa = req.params.idEmpresa;
+
+    if (idEmpresa == undefined) {
+        res.status(400).send("Seu nome está undefined!");
+    } else {
+        usuarioModel.obterPorEmpresa(idEmpresa).then(function (usuarios) {
+            res.json(usuarios)
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+    }
+}
+
+function deletar(req,res) {
+    var idUsuario = req.params.idUsuario
+
+    if (idUsuario == undefined) {
+        res.status(400).send("Seu nome está undefined!");
+    } else {
+        usuarioModel.excluir(idUsuario).then(function (resultado) {
+            res.json(resultado)
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        });
+    }
+}
+
 module.exports = {
     entrar,
     cadastrar,
-    dadosUsuarioJava
+    dadosUsuarioJava,
+    obterPorEmpresa,
+    deletar
 }

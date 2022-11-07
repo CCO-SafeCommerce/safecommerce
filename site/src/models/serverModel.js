@@ -36,8 +36,13 @@ function updateServer(id, modelo, so) {
 }
 
 function deleteServer(id) {
-    console.log(`DELETANDO ID ${id} !!!`)
-    return database.execute('DESC Servidor')
+    console.log("ACESSEI O SERVER MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function delete(): ", id)
+
+    var instruction = `
+        DELETE FROM Servidor WHERE idServidor = ${id}
+    `
+
+    return database.execute(instruction)
 }
 
 function obterDadosCPU(id) {

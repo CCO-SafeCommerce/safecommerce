@@ -15,4 +15,12 @@ router.post("/dadosUsuarioJava", function (req, res) {
     usuarioController.dadosUsuarioJava(req, res);
 });
 
+router.get("/obterPorEmpresa/:idEmpresa", function (req, res) {
+    usuarioController.obterPorEmpresa(req, res)
+});
+
+router.delete('/excluir/:idUsuario', function (req, res) {
+    usuarioController.deletar(req,res)
+})
+
 module.exports = router;

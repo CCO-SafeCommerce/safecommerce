@@ -1,4 +1,6 @@
 const serverModel = require("../models/serverModel");
+const parametroModel = require("../models/parametroModel");
+const leituraModel = require("../models/leituraModel");
 
 function obterUltimaMedidaDisco(req,res) {
     var id = req.body.idServidor;
@@ -65,31 +67,65 @@ function updateServer(req, res) {
     var modelo = req.body.modeloServer
     var so = req.body.soServer
 
-    serverModel.updateServer(id, modelo, so).then(function (result) {
-        res.json(result)
-    }).catch(function(error) {
-        console.log(error);
-        console.log(
-            "\nHouve um erro ao receber os dados dos servidores! Erro ",
-            error.sqlMessage
-        );
-        res.status(500).json(error.sqlMessage);
-    })
+    if (id == undefined) {
+        res.status(400).send("Id do Servidor está undefined!");
+    } else if (modelo == undefined) {
+        res.status(400).send("Modelo está undefined!");
+    } else if (so == undefined) {
+        res.status(400).send("SO está undefined!");
+    } else {
+        serverModel.updateServer(id, modelo, so).then(function (result) {
+            res.json(result)
+        }).catch(function(error) {
+            console.log(error);
+            console.log(
+                "\nHouve um erro ao receber os dados dos servidores! Erro ",
+                error.sqlMessage
+            );
+            res.status(500).json(error.sqlMessage);
+        })
+
+    }
 }
 
 function deleteServer(req, res) {
     var id = req.params.idServidor
 
-    serverModel.deleteServer(id).then(function (result) {
-        res.json(result)
-    }).catch(function(error) {
-        console.log(error);
-        console.log(
-            "\nHouve um erro ao receber os dados dos servidores! Erro ",
-            error.sqlMessage
-        );
-        res.status(500).json(error.sqlMessage);
-    })
+    if (id == undefined) {
+        res.status(400).send("Id do Servidor está undefined!");
+    } else {
+        parametroModel.limparParametros(id).then(function (_) {
+            leituraModel.limparHistoricoServidor(id).then(function (_) {
+                serverModel.deleteServer(id).then(function (result) {
+                    res.json(result)
+                    
+                }).catch(function(error) {
+                    console.log(error);
+                    console.log(
+                        "\nHouve um erro ao receber os dados dos servidores! Erro ",
+                        error.sqlMessage
+                    );
+                    res.status(500).json(error.sqlMessage);
+                })
+
+            }).catch(function(error) {
+                console.log(error);
+                console.log(
+                    "\nHouve um erro ao receber os dados dos servidores! Erro ",
+                    error.sqlMessage
+                );
+                res.status(500).json(error.sqlMessage);
+            })
+
+        }).catch(function(error) {
+            console.log(error);
+            console.log(
+                "\nHouve um erro ao receber os dados dos servidores! Erro ",
+                error.sqlMessage
+            );
+            res.status(500).json(error.sqlMessage);
+        })
+    }
 }
 
 function obterDadosCPU(req,res) {

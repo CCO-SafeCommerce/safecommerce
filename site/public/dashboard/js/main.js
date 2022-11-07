@@ -65,7 +65,7 @@ class myNavbar extends HTMLElement {
                 <div class="dropdown-content" id="dropdown-content">
                     <a href="#" id="company_name">Company user</a>
                     <div class="divisor"></div>
-                    <a id="btn_registerUser" href="./cadastroUsuario.html">Cadastrar Usuário</a>
+                    <a id="btn_registerUser" href="./usuarios.html">Usuários</a>
                     <a href="#">
                         <div id="btn_exit">
                             Sair
