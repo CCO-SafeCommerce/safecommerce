@@ -20,6 +20,7 @@ function renderizarAba3() {
             </div>
         </div>
     `;
+    criarGraficoPercentCPUperCore()
 }
 
 function criarGraficoPercentCPUperCore() {
@@ -29,48 +30,6 @@ function criarGraficoPercentCPUperCore() {
                 label: 'Core de CPU: 1',
                 backgroundColor: '#dc3e1d',
                 borderColor: '#dc3e1d',
-                data: [],
-            },
-            {
-                label: 'Core de CPU: 2',
-                backgroundColor: '#68b2f8',
-                borderColor: '#68b2f8',
-                data: [],
-            },
-            {
-                label: 'Core de CPU: 3',
-                backgroundColor: '#fce07f',
-                borderColor: '#fce07f',
-                data: [],
-            },
-            {
-                label: 'Core de CPU: 4',
-                backgroundColor: '#7fda89',
-                borderColor: '#7fda89',
-                data: [],
-            },
-            {
-                label: 'Core de CPU: 5',
-                backgroundColor: '#ffb145',
-                borderColor: '#ffb145',
-                data: [],
-            },
-            {
-                label: 'Core de CPU: 6',
-                backgroundColor: '#adeada',
-                borderColor: '#adeada',
-                data: [],
-            },
-            {
-                label: 'Core de CPU: 7',
-                backgroundColor: '#a45785',
-                borderColor: '#a45785',
-                data: [],
-            },
-            {
-                label: 'Core de CPU: 8',
-                backgroundColor: '#626970',
-                borderColor: '#626970',
                 data: [],
             },
         ]
@@ -113,36 +72,13 @@ function obterDadosPercentCPUperCore(idServidor) {
 }
 
 function plotarGraficoPercentCPUperCore(resposta, grafico) {
-    //console.log('iniciando plotagem do gráfico...');
-    //console.log("ANTES DO IF CPUCore" + resposta.length)
-    if (grafico.data.datasets[0].data.length > 30 && grafico.data.labels.length > 30) {
-        resposta = resposta.slice(-100)
-    }
-    grafico.update()
-    //console.log("Depois do IF CPUCore" + resposta.length)
-    for (i = 0; i < resposta.length; i += 8) {
-
+    for (i = resposta.length -1; i >= 0; i--) {
         if (grafico.data.datasets[0].data.length > 30 && grafico.data.labels.length > 30) {
-            grafico.data.datasets[0].data.shift();
-            grafico.data.datasets[1].data.shift();
-            grafico.data.datasets[2].data.shift();
-            grafico.data.datasets[3].data.shift();
-            grafico.data.datasets[4].data.shift();
-            grafico.data.datasets[5].data.shift();
-            grafico.data.datasets[6].data.shift();
-            grafico.data.datasets[7].data.shift();
             grafico.data.labels.shift();
         }
         var dataN = new Date(resposta[i].horario)
         var dataS = `${dataN.getHours()}:${dataN.getMinutes()}`
         grafico.data.datasets[0].data.push(resposta[i].valor);
-        grafico.data.datasets[1].data.push(resposta[i + 1].valor);
-        grafico.data.datasets[2].data.push(resposta[i + 2].valor);
-        grafico.data.datasets[3].data.push(resposta[i + 3].valor);
-        grafico.data.datasets[4].data.push(resposta[i + 4].valor);
-        grafico.data.datasets[5].data.push(resposta[i + 5].valor);
-        grafico.data.datasets[6].data.push(resposta[i + 6].valor);
-        grafico.data.datasets[7].data.push(resposta[i + 7].valor);
         grafico.data.labels.push(dataS);
     }
     grafico.update()

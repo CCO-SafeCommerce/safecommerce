@@ -264,6 +264,10 @@
                 lidarRenderizar(adicionar)
                 lidarAtualizar(atualizar)
 
+                console.log(remover);
+                console.log(adicionar);
+                console.log(atualizar);
+
                 parametrosAtuais = parametros
             })
         })
@@ -275,24 +279,24 @@
                 case 1:
                     destruirAba1()
                     break;
-                // case 3:
-                //     destruirAba3()
-                //     break;
-                // case 4:
-                //     destruirAba4()
-                //     break;
-                // case 6:
-                //     destruirAba6()
-                //     break;
-                // case 8:
-                //     destruirAba8()
-                //     break;
-                // case 9:
-                //     destruirAba9()
-                //     break;
-                // case 10:
-                //     destruirAba10()
-                //     break;
+                 case 3:
+                     destruirAba3()
+                     break;
+                 case 4:
+                     destruirAba4()
+                     break;
+                 case 6:
+                     destruirAba6()
+                     break;
+                 case 8:
+                     destruirAba8()
+                     break;
+                 case 9:
+                     destruirAba9()
+                     break;
+                 case 10:
+                     destruirAba10()
+                     break;
             }
         })
     }
@@ -301,27 +305,29 @@
         itensParaRenderizar.forEach(item => {
             switch (item) {
                 case 1:
-                    console.log(item)
+                    console.log("Criando cpu")
                     renderizarAba1(selectedServer)
                     break;
-                // case 3:
-                //     renderizarAba3(selectedServer)
-                //     break;
-                // case 4:
-                //     renderizarAba4(selectedServer)
-                //     break;
-                // case 6:
-                //     renderizarAba6(selectedServer)
-                //     break;
-                // case 8:
-                //     renderizarAba8(selectedServer)
-                //     break;
-                // case 9:
-                //     renderizarAba9(selectedServer)
-                //     break;
-                // case 10:
-                //     renderizarAba10(selectedServer)
-                //     break;
+                 case 3:
+                    console.log("Criando cpuCore")
+                     renderizarAba3(selectedServer)
+                     break;
+                 case 4:
+                    console.log("Criando cpuFrequency")
+                     renderizarAba4(selectedServer)
+                     break;
+                 case 6:
+                     renderizarAba6(selectedServer)
+                     break;
+                 case 8:
+                     renderizarAba8(selectedServer)
+                     break;
+                 case 9:
+                     renderizarAba9(selectedServer)
+                     break;
+                 case 10:
+                     renderizarAba10(selectedServer)
+                     break;
             }
         })
     }
@@ -332,24 +338,25 @@
                 case 1:
                     obterDadosPercentCPU(selectedServer)
                     break;
-                // case 3:
-                //     obterDadosPercentCPUperCore(selectedServer)
-                //     break;
-                // case 4:
-                //     obterDadosFreqCPU(selectedServer)
-                //     break;
-                // case 6:
-                //     obterDadosPercentRAM(selectedServer)
-                //     break;
-                // case 8:
-                //     obterDadosPercentDisco(selectedServer)
-                //     break;
-                // case 9:
-                //     obterDadosDiscoReadMs(selectedServer)
-                //     break;
-                // case 10:
-                //     obterDadosDiscoWriteMs(selectedServer)
-                //     break;
+                 case 3:
+                     obterDadosPercentCPUperCore(selectedServer)
+                     break;
+                 case 4:
+                     obterDadosFreqCPU(selectedServer)
+                     break;
+                 case 6:
+                     obterDadosPercentRAM(selectedServer)
+                     break;
+                 case 8:
+                     obterDadosPercentDisco(selectedServer)
+                     break;
+                 case 9:
+                     obterDadosDiscoReadMs(selectedServer)
+                     break;
+                 case 10:
+                    console.log("criando gráfico atualizar");
+                     obterDadosDiscoWriteMs(selectedServer)
+                     break;
             }
         })
     }

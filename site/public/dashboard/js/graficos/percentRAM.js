@@ -19,6 +19,7 @@ function renderizarAba6() {
             </div>
         </div>
     `;
+    criarGraficoPercentRAM()
 }
 
 function criarGraficoPercentRAM() {
@@ -56,7 +57,7 @@ function criarGraficoPercentRAM() {
 
 function obterDadosPercentRAM(idServidor) {
     fetch(`/leituras/obterDadosRam/${idServidor}`, {
-        method: "POST",
+        method: "GET",
         headers: {
             "Content-Type": "application/json"
         }
@@ -75,14 +76,7 @@ function obterDadosPercentRAM(idServidor) {
 }
 
 function plotarGraficoPercentRAM(resposta, grafico) {
-    //console.log('iniciando plotagem do gráfico...');
-    //console.log("ANTES DO IF RAM" + resposta.length)
-    if (grafico.data.datasets[0].data.length > 30 && grafico.data.labels.length > 30) {
-        resposta = resposta.slice(-50)
-    }
-    grafico.update()
-    //console.log("Depois do IF RAM" + resposta.length)
-    for (i = 0; i < resposta.length; i++) {
+    for (i = resposta.length -1; i >= 0; i--) {
 
         if (grafico.data.datasets[0].data.length > 30 && grafico.data.labels.length > 30) {
             grafico.data.datasets[0].data.shift();

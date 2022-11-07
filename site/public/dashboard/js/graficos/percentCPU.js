@@ -13,18 +13,16 @@ function renderizarAba1(idServidor) {
             </h2>
             <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
                 data-bs-parent="#accordionExample">
-                <div class="accordion-body">
+                <div class="accordion-body bodyCanvas">
                     <canvas id="cpuPercent" class="chartjs-render-monitor lineChart"></canvas>
                 </div>
             </div>
         </div>
     `;
-    
-    criarGraficoPercentCPU()
-    obterDadosPercentCPU(idServidor)
+    criarGraficoPercentCPU(idServidor)
 }
 
-function criarGraficoPercentCPU() {
+function criarGraficoPercentCPU(idServidor) {
     const dadosCpu = {
         labels: [],
         datasets: [{
@@ -55,6 +53,8 @@ function criarGraficoPercentCPU() {
         document.getElementById('cpuPercent'),
         configCpu
     );
+
+    obterDadosPercentCPU(idServidor)
 }
 
 function obterDadosPercentCPU(idServidor) {
@@ -78,14 +78,7 @@ function obterDadosPercentCPU(idServidor) {
 }
 
 function plotarGraficoPercentCPU(resposta, grafico) {
-    //console.log('iniciando plotagem do gráfico...');
-    //console.log("ANTES DO IF CPU" + resposta.length)
-    if (grafico.data.datasets[0].data.length > 30 && grafico.data.labels.length > 30) {
-        resposta = resposta.slice(-100)
-    }
-    grafico.update()
-    //console.log("Depois do IF CPU" + resposta.length)
-    for (i = 0; i < resposta.length; i++) {
+    for (i = resposta.length -1; i >= 0; i--) {
 
         if (grafico.data.datasets[0].data.length > 30 && grafico.data.labels.length > 30) {
             grafico.data.datasets[0].data.shift();

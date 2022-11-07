@@ -19,6 +19,7 @@ function renderizarAba10() {
             </div>
         </div>
     `;
+    criarGraficoDiscoWriteMs()
 }
 
 function criarGraficoDiscoWriteMs() {
@@ -75,14 +76,7 @@ function obterDadosDiscoWriteMs(idServidor) {
 }
 
 function plotarGraficoDiscoWriteMs(resposta, grafico) {
-   // //console.log('iniciando plotagem do gráfico...');
-    //console.log("ANTES DO IF WDisk" + resposta.length)
-    if (grafico.data.datasets[0].data.length > 30 && grafico.data.labels.length > 30) {
-        resposta = resposta.slice(-50)
-    }
-    grafico.update()
-    //console.log("Depois do IF WDisk" + resposta.length)
-    for (i = 0; i < resposta.length; i++) {
+    for (i = resposta.length -1; i >= 0; i--) {
 
         if (grafico.data.datasets[0].data.length > 30 && grafico.data.labels.length > 30) {
             grafico.data.datasets[0].data.shift();

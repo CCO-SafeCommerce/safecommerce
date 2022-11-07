@@ -207,6 +207,13 @@ where m.idMetrica = 10 and m.idMetrica = 10;
 select * from leituraEDisco;
 
 
+create view processo as
+select dataLeitura as horario, componente as nome,  valor_leitura as pid,
+(select valor_leitura from Leitura where fkServidor = 1 and fkMetrica = 12 and componente = nome order by dataLeitura desc limit 1) as uso_Cpu,  
+(select valor_leitura from Leitura where fkServidor = 1 and fkMetrica = 13 and componente = nome order by dataLeitura desc limit 1) as uso_Ram
+from Leitura where fkServidor = 1 and fkMetrica = 11 order by dataLeitura desc limit 10;
+select * from processo;
+
 select * from Parametro;
 select * from Servidor;
 select * from Leitura;
