@@ -1,28 +1,5 @@
 var freqCPUChart = {}
 
-function renderizarAba4() {
-    var tabelaMetrica = document.getElementById('accordionExample');
-
-    tabelaMetrica.innerHTML += `        
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingFour">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#collapseFour" aria-expanded="false"
-                    aria-controls="collapseFour">
-                    Frequência de uso da CPU
-                </button>
-            </h2>
-            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
-                data-bs-parent="#accordionExample">
-                <div class="accordion-body bodyCanvas">
-                    <canvas id="frequencyCpu" class="chartjs-render-monitorlineChart"></canvas>
-                </div>
-            </div>
-        </div>
-    `;
-    criarGraficoFreqCPU()
-}
-
 function criarGraficoFreqCPU() {
     const dadosFreq = {
         labels: [],

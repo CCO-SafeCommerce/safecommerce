@@ -1,27 +1,5 @@
 var percentRAMChart = {}
 
-function renderizarAba6() {
-    var tabelaMetrica = document.getElementById('accordionExample');
-
-    tabelaMetrica.innerHTML += `        
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingSix">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                    Porcentagem de uso da Memória RAM
-                </button>
-            </h2>
-            <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
-                data-bs-parent="#accordionExample">
-                <div class="accordion-body bodyCanvas">
-                    <canvas id="ramPercent" class="chartjs-render-monitorlineChart"></canvas>
-                </div>
-            </div>
-        </div>
-    `;
-    criarGraficoPercentRAM()
-}
-
 function criarGraficoPercentRAM() {
     const dadosRam = {
         labels: [],

@@ -135,7 +135,7 @@
                     `
                 } else {
                     status = `
-                        <i class="bi bi-exclamation-triangle-fill text-success"></i> Online
+                        <i class="bi bi-check-circle-fill text-success"></i> Online
                     `
                 }
 
@@ -154,7 +154,7 @@
                         </td>
 
                         <td>
-                            ${data[i].qtdCPU}
+                            ${data[i].qtdCPU ? data[i].qtdCPU : 0}
                         </td>
 
                         <td>

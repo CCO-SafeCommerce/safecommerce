@@ -1,27 +1,5 @@
 var discoWriteMsChart = {}
 
-function renderizarAba10() {
-    var tabelaMetrica = document.getElementById('accordionExample');
-
-    tabelaMetrica.innerHTML += `        
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingTen">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
-                    Escrito pelo Disco
-                </button>
-            </h2>
-            <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen"
-                data-bs-parent="#accordionExample">
-                <div class="accordion-body bodyCanvas">
-                    <canvas id="diskWrite" class="chartjs-render-monitorlineChart"></canvas>
-                </div>
-            </div>
-        </div>
-    `;
-    criarGraficoDiscoWriteMs()
-}
-
 function criarGraficoDiscoWriteMs() {
     const dadosWDisk = {
         labels: [],

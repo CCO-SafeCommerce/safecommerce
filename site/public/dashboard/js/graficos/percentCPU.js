@@ -1,28 +1,6 @@
 var percentCPUChart = {}
 
-function renderizarAba1(idServidor) {
-    var tabelaMetrica = document.getElementById('accordionExample');
-
-    tabelaMetrica.innerHTML += `        
-        <div class="accordion-item" id="abaMetrica1">
-            <h2 class="accordion-header" id="headingOne">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                    Porcentagem de uso da CPU
-                </button>
-            </h2>
-            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
-                data-bs-parent="#accordionExample">
-                <div class="accordion-body bodyCanvas">
-                    <canvas id="cpuPercent" class="chartjs-render-monitor lineChart"></canvas>
-                </div>
-            </div>
-        </div>
-    `;
-    criarGraficoPercentCPU(idServidor)
-}
-
-function criarGraficoPercentCPU(idServidor) {
+function criarGraficoPercentCPU() {
     const dadosCpu = {
         labels: [],
         datasets: [{
@@ -53,8 +31,6 @@ function criarGraficoPercentCPU(idServidor) {
         document.getElementById('cpuPercent'),
         configCpu
     );
-
-    obterDadosPercentCPU(idServidor)
 }
 
 function obterDadosPercentCPU(idServidor) {
@@ -90,10 +66,4 @@ function plotarGraficoPercentCPU(resposta, grafico) {
         grafico.data.labels.push(dataS);
     }
     grafico.update()
-}
-
-function destruirAba1() {
-    percentCPUChart.destroy()
-    var aba = document.getElementById("abaMetrica1")
-    aba.parentNode.removeChild(aba)
 }

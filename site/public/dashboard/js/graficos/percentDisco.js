@@ -1,28 +1,5 @@
 var percentDiscoChart = {}
 
-function renderizarAba8() {
-    var tabelaMetrica = document.getElementById('accordionExample');
-
-    tabelaMetrica.innerHTML += `        
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingEight">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#collapseEight" aria-expanded="false"
-                    aria-controls="collapseEight">
-                    Porcentagem de uso de Disco
-                </button>
-            </h2>
-            <div id="collapseEight" class="accordion-collapse collapse"
-                aria-labelledby="headingEight" data-bs-parent="#accordionExample">
-                <div class="accordion-body bodyCanvas">
-                    <canvas id="diskPercent" class="chartjs-render-monitorlineChart"></canvas>
-                </div>
-            </div>
-        </div>
-    `;
-    criarGraficoPercentDisco()
-}
-
 function criarGraficoPercentDisco() {
     const dadosDisk = {
         labels: [],

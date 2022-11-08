@@ -1,28 +1,5 @@
 var discoReadMsChart = {}
 
-function renderizarAba9() {
-    var tabelaMetrica = document.getElementById('accordionExample');
-
-    tabelaMetrica.innerHTML += `        
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingNine">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#collapseNine" aria-expanded="false"
-                    aria-controls="collapseNine">
-                    Lido pelo Disco
-                </button>
-            </h2>
-            <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine"
-                data-bs-parent="#accordionExample">
-                <div class="accordion-body bodyCanvas">
-                    <canvas id="diskRead" class="chartjs-render-monitorlineChart"></canvas>
-                </div>
-            </div>
-        </div>
-    `;
-    criarGraficoDiscoReadMs()
-}
-
 function criarGraficoDiscoReadMs() {
     const dadosRDisk = {
         labels: [],

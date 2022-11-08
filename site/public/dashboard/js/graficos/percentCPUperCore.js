@@ -1,28 +1,5 @@
 var percentCPUperCoreChart = {}
 
-function renderizarAba3() {
-    var tabelaMetrica = document.getElementById('accordionExample');
-
-    tabelaMetrica.innerHTML += `        
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="headingThree">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                    data-bs-target="#collapseThree" aria-expanded="false"
-                    aria-controls="collapseThree">
-                    Porcentagem de uso da CPU por core
-                </button>
-            </h2>
-            <div id="collapseThree" class="accordion-collapse collapse"
-                aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                <div class="accordion-body bodyCanvas">
-                    <canvas id="qtdCpuCore" class="chartjs-render-monitorlineChart"></canvas>
-                </div>
-            </div>
-        </div>
-    `;
-    criarGraficoPercentCPUperCore()
-}
-
 function criarGraficoPercentCPUperCore() {
     const dadosCpuCore = {
         labels: [],
