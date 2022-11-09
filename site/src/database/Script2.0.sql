@@ -45,9 +45,11 @@ INSERT INTO Metrica VALUES
 	(null, "Porcentagem de uso de Disco", "%"),
 	(null, "Lido pelo Disco", "ms"),
 	(null, "Escrito pelo Disco", "ms"),
-    (null, "Temperatura CPU", "ºC");
+    (null, "Temperatura CPU", "ºC"),
+    (null, "PID", "Number"),
+    (null, "Porcentagem de uso de CPU do processo", "%"),
+    (null, "Porcentagem de uso de RAM do processo", "%");
 
-select * from Metrica;
 
 create table Parametro(
 	fk_Servidor int,
@@ -209,10 +211,11 @@ select * from leituraEDisco;
 
 create view processo as
 select dataLeitura as horario, componente as nome,  valor_leitura as pid,
-(select valor_leitura from Leitura where fkServidor = 1 and fkMetrica = 12 and componente = nome order by dataLeitura desc limit 1) as uso_Cpu,  
-(select valor_leitura from Leitura where fkServidor = 1 and fkMetrica = 13 and componente = nome order by dataLeitura desc limit 1) as uso_Ram
-from Leitura where fkServidor = 1 and fkMetrica = 11 order by dataLeitura desc limit 10;
+(select valor_leitura from Leitura where fkServidor = 1 and fkMetrica = 13 and componente = nome order by dataLeitura desc limit 1) as uso_Cpu,  
+(select valor_leitura from Leitura where fkServidor = 1 and fkMetrica = 14 and componente = nome order by dataLeitura desc limit 1) as uso_Ram
+from Leitura where fkServidor = 1 and fkMetrica = 12 order by dataLeitura desc limit 10;
 select * from processo;
+
 
 select * from Parametro;
 select * from Servidor;
