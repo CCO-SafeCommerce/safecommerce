@@ -241,3 +241,5 @@ insert into Parametro values (1, 8);
 -- Configurar para o java carregar o csv
 SET GLOBAL local_infile=1;
 SHOW GLOBAL VARIABLES LIKE 'local_infile';
+
+
