@@ -50,7 +50,7 @@
                                     
                                             <div class="card">
                                                 <div class="card-body">
-                                                    <div class="row align-items-center pt-4 pb-3">
+                                                    <div class="row align-items-center pt-4 pb-3">                                                
                                                     <div class="col-md-3 ps-5">
                                         
                                                     <h6 class="mb-0">Nome</h6>
@@ -92,13 +92,27 @@
                                         
                                                     </div>
                                                     </div>
-                                        
+
                                                     <hr class="mx-n3">
+
+                                                    <div class="px-5 py-4 div-btn-register">
+                                                        <button onclick="editUser()" class="btn btn-primary btn-lg">Atualizar</button>
+                                                    </div>
                                         
+                                                    
+
+                                                    <div class="row align-items-start">
+                                                        <div class="col-md-3 ps-5">
+                                                            <h5 class="mb-0">Mudar Senha</h5>
+                                                        </div>
+                                                    </div>
+
+                                                    <hr class="mx-n3">
+                                                    
                                                     <div class="row align-items-center py-3">
                                                     <div class="col-md-3 ps-5">
                                         
-                                                    <h6 class="mb-0">Senha</h6>
+                                                    <h6 class="mb-0">Senha Atual</h6>
                                         
                                                     </div>
                                                     <div class="col-md-3 pe-5">
@@ -113,7 +127,22 @@
                                                     <div class="row align-items-center py-3">
                                                     <div class="col-md-3 ps-5">
                                         
-                                                    <h6 class="mb-0">Confirmar senha</h6>
+                                                    <h6 class="mb-0">Nova senha</h6>
+                                        
+                                                    </div>
+                                                    <div class="col-md-3 pe-5">
+                                        
+                                                    <input id="new_passwd_input" class="form-control form-control-lg" type="password" placeholder="**************">
+                                        
+                                                    </div>
+                                                    </div>
+                                                    
+                                                    <hr class="mx-n3">
+                                        
+                                                    <div class="row align-items-center py-3">
+                                                    <div class="col-md-3 ps-5">
+                                        
+                                                    <h6 class="mb-0">Confirmar nova senha</h6>
                                         
                                                     </div>
                                                     <div class="col-md-3 pe-5">
@@ -126,7 +155,7 @@
                                                     <hr class="mx-n3">
                                         
                                                     <div class="px-5 py-4 div-btn-register">
-                                                    <button onclick="registerUser()" class="btn btn-primary btn-lg">Cadastrar</button>
+                                                    <button onclick="changePassword()" class="btn btn-primary btn-lg">Mudar senha</button>
                                                     </div>
                                     
                                                 </div>
@@ -152,6 +181,19 @@
 </html>
 <script>
     const indexPage = false;
+
+    function setPage() {
+        var nameElement = document.getElementById('name_input')
+        var emailElement = document.getElementById('email_input')
+        var cpfElement = document.getElementById('cpf_input')
+
+        var cpf = sessionStorage.CPF_USUARIO
+        cpf = `${cpf.substring(0,3)}.${cpf.substring(3,6)}.${cpf.substring(6,9)}-${cpf.substring(9,11)}`;
+
+        nameElement.value = sessionStorage.NOME_USUARIO
+        emailElement.value = sessionStorage.EMAIL_USUARIO
+        cpfElement.value = cpf
+    }
 
     function mascaraCPF(evento) {
         if (evento.key == 'Backspace') {
@@ -181,14 +223,11 @@
         cpf_input.value = cpfMascarado
     }
 
-    function registerUser() {
+    function editUser() {
+        var idUserVar = sessionStorage.ID_USUARIO
         var nameVar = name_input.value;
         var emailVar = email_input.value;
         var cpfVar = cpf_input.value;
-        var passwdVar = passwd_input.value;
-        var confirmPasswdVar = confirm_passwd_input.value;
-        var idAdminVar = sessionStorage.ID_USUARIO;
-        var idCompanyVar = sessionStorage.ID_EMPRESA;
 
         if (nameVar == "" || nameVar == null) {
             Swal.fire({
@@ -231,8 +270,54 @@
         } else {
             cpfVar = cpfVar.replaceAll('.','').replace('-','')
         }
+        
+        fetch("/usuarios/mudar-perfil", {  
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idUserServer: idUserVar,
+                nameServer: nameVar,
+                emailServer: emailVar,
+                cpfServer: cpfVar,
+            })
+        }).then(function (resposta) {
+            console.log("Recuperando valores")
+            console.log("resposta: ", resposta);
 
-        if (passwdVar.length < 8) {
+            if (resposta.ok) {
+                Swal.fire({
+                    title: 'Suceso',
+                    text: 'Perfil atualizado com sucesso',
+                    icon: 'success',
+                    timer: 1750,
+                    timerProgressBar: true,
+                    confirmButtonColor: '#34e269',
+                });
+
+                sessionStorage.NOME_USUARIO = nameVar
+                sessionStorage.EMAIL_USUARIO = emailVar
+                sessionStorage.CPF_USUARIO = cpfVar
+
+                window.location.reload()
+            } else {
+                throw ("Houve um erro ao tentar realizar o cadastro!");
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+
+        return false;
+    }
+
+    function changePassword() {
+        var idUserVar = sessionStorage.ID_USUARIO
+        var senhaAtual = passwd_input.value
+        var novaSenha = new_passwd_input.value
+        var confirmaSenha = confirm_passwd_input.value
+
+        if (novaSenha.length < 8) {
             Swal.fire({
                 title: 'Erro',
                 text: "As senhas deve ter no minímo 8 caracteres",
@@ -244,7 +329,7 @@
             return;
         }
 
-        if (passwdVar != confirmPasswdVar) {
+        if (novaSenha != confirmaSenha) {
             Swal.fire({
                 title: 'Erro',
                 text: "As senhas devem ser iguais",
@@ -255,19 +340,16 @@
             });
             return;
         }
-        
-        fetch("/usuarios/cadastrar", {  
-            method: "POST",
+
+        fetch("/usuarios/mudar-senha", {  
+            method: "PUT",
             headers: {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                nameServer: nameVar,
-                emailServer: emailVar,
-                cpfServer: cpfVar,
-                passwdServer: passwdVar,
-                idAdminServer: idAdminVar,
-                idCompanyServer: idCompanyVar,
+                idUserServer: idUserVar,
+                senhaAtualServer: senhaAtual,
+                novaSenhaServer: novaSenha,
             })
         }).then(function (resposta) {
             console.log("Recuperando valores")
@@ -276,27 +358,22 @@
             if (resposta.ok) {
                 Swal.fire({
                     title: 'Suceso',
-                    text: 'Cadastro realizado com sucesso',
+                    text: 'Senha atualizada com sucesso',
                     icon: 'success',
                     timer: 1750,
                     timerProgressBar: true,
                     confirmButtonColor: '#34e269',
                 });
 
-                name_input.value = '';
-                email_input.value = '';
-                cpf_input.value = '';
-                passwd_input.value = '';
-                confirm_passwd_input.value = '';
+                passwd_input.value = ''
+                new_passwd_input.value = ''
+                confirm_passwd_input.value = ''
             } else {
                 throw ("Houve um erro ao tentar realizar o cadastro!");
             }
-        }).catch(function (resposta) {
-            console.log(`#ERRO: ${resposta}`);
-        });
-
-        return false;
+        })
     }
 
     getData(indexPage);
+    setPage();
 </script>

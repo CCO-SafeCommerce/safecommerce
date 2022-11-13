@@ -163,10 +163,99 @@ function deletar(req,res) {
     }
 }
 
+function atualizarPerfil(req, res) {
+    var idUsuario = req.body.idUserServer
+    var nome = req.body.nameServer
+    var email = req.body.emailServer
+    var cpf = req.body.cpfServer
+
+    if (nome == undefined) {
+        res.status(400).send("Seu nome está undefined!");
+    } else if (email == undefined) {
+        res.status(400).send("Seu email está undefined!");
+    } else if (cpf == undefined) {
+        res.status(400).send("Seu cpf está undefined!");
+    } else if (idUsuario == undefined) {
+        res.status(400).send("Sua senha está undefined!");
+    } else {
+        usuarioModel.procurarPorEmail(email)
+        .then(function (isEmailEmUso) {
+            if (isEmailEmUso.length == 0) {                
+                usuarioModel.atualizar(idUsuario, nome, email, cpf)
+                .then(function (resultado) {
+                    console.log(resultado)
+                    res.json(resultado);    
+                }).catch(function (erro) {
+                    console.log(erro);
+                    console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
+                    res.status(500).json(erro.sqlMessage);
+                });                    
+            } else {
+                res.status(403).send("Email já está em uso");
+            }
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        }); 
+    }
+}
+
+function mudarSenha(req, res) {
+    var idUsuario = req.body.idUserServer
+    var senhaAtual = req.body.senhaAtualServer
+    var novaSenha = req.body.novaSenhaServer
+
+    if (idUsuario == undefined) {
+        res.status(400).send("Id do usuario está undefined!");
+    } else if (senhaAtual == undefined) {
+        res.status(400).send("Senha atual está undefined!");
+    } else if (novaSenha == undefined) {
+        res.status(400).send("Nova senha está undefined!");
+    } else {
+        usuarioModel.procurarPorId(idUsuario).then(usuario => {
+            bcrypt.compare(senhaAtual, usuario[0].senha).then(isIgual => {
+                if (isIgual) {
+                    bcrypt.hash(novaSenha, 8)
+                    .then(function (hash) {
+                        usuarioModel.mudarSenha(idUsuario, hash).then(resultado => {
+                            console.log(resultado)
+                            res.json(resultado)
+                        }).catch(function (erro) {
+                            console.log(erro);
+                            console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
+                            res.status(500).json(erro.sqlMessage);
+                        });
+
+                    }).catch(function (erro) {
+                        console.log(erro);
+                        console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
+                        res.status(500).json(erro.sqlMessage);
+                    });
+
+                } else {
+                    res.status(403).send("Email e/ou senha inválido(s)");
+
+                } 
+            }).catch(function (erro) {
+                console.log(erro);
+                console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
+                res.status(500).json(erro.sqlMessage);
+            });
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log("\nHouve um erro ao realizar o login! Erro: ", erro.sqlMessage);
+            res.status(500).json(erro.sqlMessage);
+        }); 
+    }
+}
+
 module.exports = {
     entrar,
     cadastrar,
     dadosUsuarioJava,
     obterPorEmpresa,
-    deletar
+    deletar,
+    atualizarPerfil,
+    mudarSenha
 }

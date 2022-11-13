@@ -59,11 +59,11 @@ class myNavbar extends HTMLElement {
                 <li class="nav-item icon"><a href="#" class="nav-link"><i class="bi bi-bell-fill"></i></a></li>
                 <li class="nav-item icon"><a href="#" class="nav-link"><i class="bi bi-envelope-fill"></i></a></li>
                 <li class="nav-item icon" id="dropdown"><a href="#" class="nav-link dropdown-toggle" role="button">
-                    <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="user_name">Empresa</span>
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="company_name">Empresa</span>
                     <span class="bi bi-person-circle img-profile"></span>
                 </a></li>
                 <div class="dropdown-content" id="dropdown-content">
-                    <a href="#" id="company_name">Company user</a>
+                    <a href="./editarUsuario.html" id="user_name">Company user</a>
                     <div class="divisor"></div>
                     <a id="btn_registerUser" href="./usuarios.html">Usuários</a>
                     <a href="#">

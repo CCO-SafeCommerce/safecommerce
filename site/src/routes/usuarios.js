@@ -7,6 +7,14 @@ router.post('/cadastrar', function (req, res) {
    usuarioController.cadastrar(req, res) 
 });
 
+router.put('/mudar-perfil', function (req, res) {
+    usuarioController.atualizarPerfil(req, res);
+})
+
+router.put('/mudar-senha', function (req, res) {
+    usuarioController.mudarSenha(req, res);
+})
+
 router.post("/autenticar", function (req, res) {
     usuarioController.entrar(req, res);
 });

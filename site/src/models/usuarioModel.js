@@ -25,6 +25,7 @@ function procurarPorEmail(email) {
             u.idUsuario,
             u.nome, 
             u.email, 
+            u.cpf,
             u.senha, 
             e.nome as 'empresa',
             e.idEmpresa,
@@ -61,10 +62,29 @@ function excluir(idUsuario) {
     return database.execute(instrucao);
 }
 
+function atualizar(idUsuario, nome, email, cpf) {
+    var instrucao = `
+        UPDATE Usuario SET nome = '${nome}', email = '${email}', cpf = '${cpf}' WHERE idUsuario = ${idUsuario};
+    `;
+
+    return database.execute(instrucao)
+}
+
+function mudarSenha(idUsuario, senha) {
+    var instrucao = `
+        UPDATE Usuario SET senha = '${senha}' WHERE idUsuario = ${idUsuario};
+    `;
+
+    return database.execute(instrucao)
+    
+}
+
 module.exports = {
     procurarPorEmail,
     cadastrar,
     procurarPorId,
     obterPorEmpresa,
-    excluir
+    excluir,
+    atualizar,
+    mudarSenha
 };
