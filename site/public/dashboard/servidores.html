@@ -315,7 +315,7 @@
         var idServidor = params.get('idServer')
 
         if (idServidor != null) {
-            selectedServer = Number(idServidor)
+            selectedServer = idServidor
             var servers = JSON.parse(sessionStorage.SERVERS)
 
             var servidor = servers.find(s => {
@@ -385,20 +385,28 @@
 
     function lidarEsconder(itensParaEsconder) {
         itensParaEsconder.forEach(item => {
-            var aba = document.getElementById(`abaMetrica#${item}`)
+            switch (item) {
+                default:
+                    var aba = document.getElementById(`abaMetrica#${item}`)
 
-            if (aba) {
-                aba.style.display = 'none'
+                    if (aba) {
+                        aba.style.display = 'none'
+                    }
+                    break;
             }
         })
     }
 
     function lidarExibir(itensParaExibir) {        
         itensParaExibir.forEach(item => {        
-            var aba = document.getElementById(`abaMetrica#${item}`)
+            switch (item) {
+                default:
+                    var aba = document.getElementById(`abaMetrica#${item}`)
 
-            if (aba) {
-                aba.style.display = 'block'
+                    if (aba) {
+                        aba.style.display = 'none'
+                    }
+                    break;
             }
         })
 

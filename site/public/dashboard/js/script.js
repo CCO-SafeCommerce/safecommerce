@@ -1,5 +1,13 @@
 var btnRegisterUser = document.getElementById('btn_registerUser')
 
+const paletaCores = [
+    'rgb(220, 61, 37)',
+    'rgb(236, 148, 132)',
+    'rgb(28, 60, 154)',
+    'rgb(79, 101, 168)',
+    'rgb(132, 37, 20)'
+]
+
 //sessão
 function validateSession() {
     var companyName = sessionStorage.NOME_EMPRESA;
@@ -122,7 +130,6 @@ function closeDropdown() {
 };
 
 // Fim do dropdown
-
 function getData(index) {
     var idCompanyVar = sessionStorage.ID_EMPRESA;
     
@@ -140,18 +147,32 @@ function getData(index) {
         if(answer.ok) {
             console.log("A requisição foi um sucesso!");
 
-            answer.json().then(json => {   
-                sessionStorage.SERVERS = JSON.stringify(json);
-                console.log(json)
-                var servers = JSON.parse(sessionStorage.SERVERS);
-                console.log(servers)
-                console.log(servers[0].idServidor);  
-                if(index) {
-                    setTable(servers);
-                    setLinks(servers);    
-                } else {
-                    setLinks(servers); 
+            answer.json().then(json => {
+                var data = []
+                
+                if (sessionStorage.SERVERS) {
+                    data = JSON.parse(sessionStorage.SERVERS)
                 }
+
+                var remover = data.filter(s => {                    
+                    if(json.filter(ds => ds.idServidor == s.idServidor).length == 0) {
+                      return s
+                    }
+                })
+
+                if(index) {
+                    setTable(json);
+                    deleteTable(remover);
+                    lidarGraficos(json)
+
+                    setLinks(json);
+                    deleteLinks(remover);
+                } else {
+                    setLinks(json);
+                    deleteLinks(remover);
+                }
+
+                sessionStorage.SERVERS = JSON.stringify(json)
             });
         } else {
             console.log("ERROR: answer is not ok");
@@ -161,16 +182,30 @@ function getData(index) {
     });
 }
 
-function setLinks(data) {
-    var serverLinks = document.getElementById("server_links");
+var serverLinks = document.getElementById("server_links");
 
-    for(let i in data) {
-        serverLinks.innerHTML += 
-        `
-        <li><a href="./servidores.html?idServer=${data[i].idServidor}" class="nav-link text-left options-menu" role="button"><i class="bi bi-hdd"></i>${data[i].modelo}</a></li>
-        `
+function setLinks(data) {
+    for (let i in data) {
+        var aServerLink = document.getElementById(`aServerLink#${data[i].idServidor}`)
+
+        if (!aServerLink) {
+            serverLinks.innerHTML += 
+            `
+                <li id="liServerLink#${data[i].idServidor}"><a id="aServerLink#${data[i].idServidor}" href="./servidores.html?idServer=${data[i].idServidor}" class="nav-link text-left options-menu" role="button"><i class="bi bi-hdd"></i>${data[i].modelo}</a></li>
+            `
+        } else {
+            aServerLink.innerHTML = `<i class="bi bi-hdd"></i>${data[i].modelo}`
+        }
+
     }
 };
+
+function deleteLinks(data) {
+    for (let i in data) {
+        var serverLink = document.getElementById(`liServerLink#${data[i].idServidor}`)
+        serverLink.parentNode.removeChild(serverLink)
+    }
+}
 
 // Sair da dashboard
 

@@ -118,50 +118,54 @@
 
     document.getElementById('menu-painel').classList.add('active');
     document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;
+    var serverTable = document.getElementById("server_table");
+
+    function getStatus(ultimoRegistro) {
+        return dateFns.differenceInSeconds(new Date(ultimoRegistro), new Date()) >= 60
+    }
+
+    function getStatusElement(ultimoRegistro) {
+        if (getStatus(ultimoRegistro)) {
+            return `
+                <i class="bi bi-exclamation-triangle-fill text-danger"></i> Offline
+            `
+        } else {
+            return `
+                <i class="bi bi-check-circle-fill text-success"></i> Online
+            `
+        }
+    }
 
     function setTable(data) {
-        var serverTable = document.getElementById("server_table");
+        for (let i in data) {
+            var status = getStatusElement(data[i].ultimoRegistro)
 
-        if (data.length == 0) {
-            serverTable.innerHTML = '';
-        } else {
-            for (let i in data) {
-                var agora = new Date()
-                var status = ''
+            var trServer = document.getElementById(`trServer#${data[i].idServidor}`)
 
-                if (dateFns.differenceInSeconds(agora, data[i].ultimoRegistro) >= 90) {
-                    status = `
-                        <i class="bi bi-exclamation-triangle-fill text-danger"></i> Offline
-                    `
-                } else {
-                    status = `
-                        <i class="bi bi-check-circle-fill text-success"></i> Online
-                    `
-                }
-
+            if (!trServer) {
                 serverTable.innerHTML += `
-                    <tr>
-                        <td>
+                    <tr id="trServer#${data[i].idServidor}">
+                        <td id="tdServerStatus#${data[i].idServidor}">
                             ${status}
                         </td>
 
-                        <td>
+                        <td id="tdServerModelo#${data[i].idServidor}">
                             ${data[i].modelo}
                         </td>
 
-                        <td>
+                        <td id="tdServerSO#${data[i].idServidor}">
                             ${data[i].so}
                         </td>
 
-                        <td>
+                        <td id="tdServerVCPU#${data[i].idServidor}">
                             ${data[i].qtdCPU ? data[i].qtdCPU : 0}
                         </td>
 
-                        <td>
+                        <td id="tdServerRAM#${data[i].idServidor}">
                             ${Number(data[i].qtdRAM).toFixed()} GB
                         </td>
 
-                        <td>
+                        <td id="tdServerDisco#${data[i].idServidor}">
                             ${Number(data[i].qtdDisco).toFixed()} GB
                         </td>
 
@@ -173,7 +177,28 @@
                         </td>
                     </tr>
                 `
-            }
+            } else {
+                var tdStatus = document.getElementById(`tdServerStatus#${data[i].idServidor}`)
+                var tdModelo = document.getElementById(`tdServerModelo#${data[i].idServidor}`)
+                var tdSO = document.getElementById(`tdServerSO#${data[i].idServidor}`)
+                var tdVCPU = document.getElementById(`tdServerVCPU#${data[i].idServidor}`)
+                var tdRAM = document.getElementById(`tdServerRAM#${data[i].idServidor}`)
+                var tdDisco = document.getElementById(`tdServerDisco#${data[i].idServidor}`)
+
+                tdStatus.innerHTML = status
+                tdModelo.innerText = data[i].modelo
+                tdSO.innerText = data[i].so
+                tdVCPU.innerText = data[i].qtdCPU ? data[i].qtdCPU : 0
+                tdRAM.innerText = Number(data[i].qtdRAM).toFixed() + ' GB'
+                tdDisco.innerText = Number(data[i].qtdDisco).toFixed() + ' GB'
+            }            
+        }
+    }
+
+    function deleteTable(data) {
+        for (let i in data) {
+            var trServer = document.getElementById(`trServer#${data[i].idServidor}`)
+            trServer.parentNode.removeChild(trServer)
         }
     }
 
@@ -222,18 +247,45 @@
         })
     }
 
-    getData(indexPage);
+    getData(indexPage)
+    setInterval(() => {
+        getData(indexPage)
+    }, 5000)
 </script>
 <script>
+    function lidarGraficos(data) {
+        var sistemasOperacionais = [...new Set(data.map(s => s.so))]
+        var qtds = []
+        var cores = []
+
+        sistemasOperacionais.forEach((so, i) => {
+            var qtd = data.filter(s => s.so == so).length
+            var cor = paletaCores[i % paletaCores.length]
+
+            qtds.push(qtd)
+            cores.push(cor)
+        });
+
+        myChartSO.data.labels = sistemasOperacionais
+        myChartSO.data.datasets[0].data = qtds
+        myChartSO.data.datasets[0].backgroundColor = cores
+        myChartSO.update()
+
+        var offline = data.filter(s => {
+            if (getStatus(s.ultimoRegistro)) {
+                return s
+            }
+        }).length
+
+        myChartSt.data.datasets[0].data = [data.length - offline, offline]
+        myChartSt.update()
+    }
+
     const dataSO = {
-        labels: ['Windows 11', 'Windows 10', 'Ubuntu' ],
+        labels: [],
         datasets: [{
-            data: [300, 50, 100],
-            backgroundColor: [
-                'rgb(255, 99, 132)',
-                'rgb(54, 162, 235)',
-                'rgb(255, 205, 86)'
-            ],
+            data: [],
+            backgroundColor: [],
             hoverOffset: 4
         }]
     };
@@ -259,10 +311,10 @@
     const dataSt = {
         labels: ['Online', 'Offline' ],
         datasets: [{
-            data: [300, 50],
+            data: [],
             backgroundColor: [
-                'rgb(54, 162, 235)',
-                'rgb(255, 99, 132)'
+                'rgb(25,135,84)',
+                'rgb(220,53,69)'
             ],
             hoverOffset: 4
         }]

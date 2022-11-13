@@ -6,11 +6,6 @@
     var idUsuario = params.get('idUser')
     var userToken = params.get('token')
     var tokenConvertido = hexToString(userToken)
-    if ("$2b$08$0K.ndLYMOCaA8TYw0WBBJuTmTn2XKmhzznF5W67xPzv4dnC6xIrD2" ==
-        "$2b$08$0K.ndLYMOCaA8TYw0WBBJuTmTn2XKmhzznF5W67xPzv4dnC6xIrD2") {}
-    console.log(idServidor)
-    console.log(idUsuario)
-    console.log(tokenConvertido)
 
     fetch("/usuarios/dadosUsuarioJava", {
         method: "POST",

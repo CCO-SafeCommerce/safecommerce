@@ -35,5 +35,5 @@ app.listen(PORTA, function () {
     console.log(`Servidor do seu site já está rodando!\n 
     Acesse o caminho a seguir para visualizar: http://localhost:${PORTA} \n
     Você está rodando sua aplicação em Ambiente de ${process.env.AMBIENTE_PROCESSO}`
-);
+    );''
 });

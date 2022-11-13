@@ -33,14 +33,14 @@ class myNavbar extends HTMLElement {
                     <span></span>
                 </div>
 
-                <form class="d-none d-sm-inline-block form-inline navbar-search">
+                <!--<form class="d-none d-sm-inline-block form-inline navbar-search">
                     <div class="input-group">
                         <input type="text" class="form-control bg-light" placeholder="Procure por...">
                         <div class="input-group-append">
                             <button class="btn btn-primary" type="button"><i class="bi bi-search"></i></button>
                         </div>
                     </div>
-                </form>
+                </form>--!>
             </div>
 
             <ul class="navbar-nav navbar-menu">

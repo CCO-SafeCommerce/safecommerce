@@ -106,7 +106,7 @@
         var idServidor = params.get('idServer')
 
         if (idServidor != null) {
-            varId = Number(idServidor)
+            varId = idServidor
             var servers = JSON.parse(sessionStorage.SERVERS)
 
             var servidor = servers.find(s => {
@@ -172,4 +172,7 @@
 
     getData(indexPage);
     setPage()
+    setInterval(() => {
+        getData(indexPage)
+    }, 5000)
 </script>
