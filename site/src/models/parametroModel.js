@@ -41,7 +41,7 @@ function limparParametros(idServidor) {
     console.log("ACESSEI O PARAMETRO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function limparParametros(): ", idServidor);
 
     var instruction = `
-        DELETE FROM Parametro WHERE fk_Servidor = ${idServidor} and fk_Metrica IN (${metricas})
+        DELETE FROM Parametro WHERE fk_Servidor = ${idServidor}
     `;
 
     return database.execute(instruction)
