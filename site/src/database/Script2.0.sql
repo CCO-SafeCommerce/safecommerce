@@ -51,6 +51,8 @@ INSERT INTO Metrica VALUES
     (null, "Porcentagem de uso de RAM do processo", "%");
 
 
+update Metrica set nome = "Quantidade de Requisições http", unidadeMedida = "int" where idMetrica = 13;
+
 create table Parametro(
 	fk_Servidor int,
     foreign key (fk_Servidor) references Servidor(idServidor),
@@ -68,6 +70,34 @@ create table Leitura(
     situacao char(1) DEFAULT 'n',
     componente varchar(45),
     primary key (fkServidor, fkMetrica, dataLeitura, componente)
+);
+
+create table Processo(
+	data_Leitura datetime,
+    nome varchar(40),
+    pid char(5),
+    usoCpu varchar(20),
+    usoRam varchar(20),
+    fkServidor int,
+    foreign key (fkServidor) references Servidor(idServidor),
+    primary key (data_Leitura, nome, pid, fkServidor)
+);
+
+
+create table Permissao_Processo(
+	idPermissao varchar(36) primary key,
+    nome varchar(40),
+    permissao Boolean,
+    fkServidor int,
+    foreign key (fkServidor) references Servidor(idServidor)
+);
+
+create table Aplicacao(
+	idAplicacao varchar(36) primary key, 
+	nome varchar(45),
+	url varchar(60) unique,
+    fkServidor int,
+    foreign key (fkServidor) references Servidor(idServidor)
 );
 
 create view visualizacaoMensal as 
@@ -215,7 +245,7 @@ select dataLeitura as horario, componente as nome,  valor_leitura as pid,
 (select valor_leitura from Leitura where fkServidor = 1 and fkMetrica = 14 and componente = nome order by dataLeitura desc limit 1) as uso_Ram
 from Leitura where fkServidor = 1 and fkMetrica = 12 order by dataLeitura desc limit 10;
 select * from processo;
-
+drop view processo;
 
 select * from Parametro;
 select * from Servidor;
@@ -238,6 +268,8 @@ insert into Parametro values (1, 5);
 insert into Parametro values (1, 6);
 insert into Parametro values (1, 7);
 insert into Parametro values (1, 8);
+
+
 -- Configurar para o java carregar o csv
 SET GLOBAL local_infile=1;
 SHOW GLOBAL VARIABLES LIKE 'local_infile';
