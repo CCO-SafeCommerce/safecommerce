@@ -77,6 +77,21 @@
                                         
                                                     </div>
                                                     </div>
+
+                                                    <hr class="mx-n3">
+                                        
+                                                    <div class="row align-items-center py-3">
+                                                    <div class="col-md-3 ps-5">
+                                        
+                                                        <h6 class="mb-0">CPF</h6>
+                                        
+                                                    </div>
+                                                    <div class="col-md-9 pe-5">
+                                        
+                                                    <input onkeyup="mascaraCPF(event)" id="cpf_input" type="text" class="form-control form-control-lg" placeholder="023.234.234-99" maxlength="14" />
+                                        
+                                                    </div>
+                                                    </div>
                                         
                                                     <hr class="mx-n3">
                                         
@@ -138,9 +153,38 @@
 <script>
     const indexPage = false;
 
+    function mascaraCPF(evento) {
+        if (evento.key == 'Backspace') {
+            return;
+        }
+
+        var cpf = cpf_input.value.replace(/\D/g, '');
+        var cpfMascarado = ''
+        var marcador = 0
+
+        if (cpf.length >= 3) {
+            cpfMascarado = cpf[0] + cpf[1] + cpf[2] + "."
+            marcador = 3
+
+            if (cpf.length >= 6) {
+                cpfMascarado += cpf[3] + cpf[4] + cpf[5] + "."
+                marcador = 6
+
+                if (cpf.length >= 9) {
+                    cpfMascarado += cpf[6] + cpf[7] + cpf[8] + "-"
+                    marcador = 9
+                }
+            }
+        }
+
+        cpfMascarado += cpf.substring(marcador)
+        cpf_input.value = cpfMascarado
+    }
+
     function registerUser() {
         var nameVar = name_input.value;
         var emailVar = email_input.value;
+        var cpfVar = cpf_input.value;
         var passwdVar = passwd_input.value;
         var confirmPasswdVar = confirm_passwd_input.value;
         var idAdminVar = sessionStorage.ID_USUARIO;
@@ -170,6 +214,22 @@
                 denyButtonText: 'OK'
             });
             return;
+        }
+
+        var validacaoCPF = validarCPF(cpfVar);
+
+        if (validacaoCPF != 'OK') {
+            Swal.fire({
+                title: 'Erro',
+                text: validacaoCPF,
+                icon: 'error',
+                showConfirmButton: false,
+                showDenyButton: true,
+                denyButtonText: 'OK'
+            });
+            return;
+        } else {
+            cpfVar = cpfVar.replaceAll('.','').replace('-','')
         }
 
         if (passwdVar.length < 8) {
@@ -204,6 +264,7 @@
             body: JSON.stringify({
                 nameServer: nameVar,
                 emailServer: emailVar,
+                cpfServer: cpfVar,
                 passwdServer: passwdVar,
                 idAdminServer: idAdminVar,
                 idCompanyServer: idCompanyVar,
@@ -224,6 +285,7 @@
 
                 name_input.value = '';
                 email_input.value = '';
+                cpfVar.value = '';
                 passwd_input.value = '';
                 confirm_passwd_input.value = '';
             } else {
@@ -237,7 +299,4 @@
     }
 
     getData(indexPage);
-    setInterval(() => {
-        getData(indexPage)
-    }, 5000)
 </script>

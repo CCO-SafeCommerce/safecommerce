@@ -43,7 +43,13 @@
                   <div class="container h-100">
                     <div class="row d-flex justify-content-center align-items-center h-100">
                       <div class="col-xl-9">                                    
-                        <h1 class="text-gray-800 mb-4">Definir parâmetros de coleta</h1>
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h1 class="h3 mb-0 text-gray-800">Definir parâmetros de coleta</h1>
+                            <!-- <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                              <i class="bi bi-file-earmark-text"></i>
+                                Informações sobre métricas
+                            </a> -->
+                        </div>
                                     
                         <div class="card">
                           <div class="card-body">
@@ -80,6 +86,13 @@
                                 <input class="form-check-input switchMetrica" type="checkbox" role="switch" id="switchMetrica#4">
                               </div>
                             </div>
+
+                            <div class="row align-items-center py-3 form-check form-switch">
+                              <div class="row ps-5">
+                                <label class="form-check-label" for="switchMetrica#11">Temperatura da CPU</label>                                   
+                                <input class="form-check-input switchMetrica" type="checkbox" role="switch" id="switchMetrica#11">
+                              </div>
+                            </div>
                                     
                             <hr class="mx-n3">
                                     
@@ -107,7 +120,7 @@
                                     
                             <div class="row align-items-start">
                               <div class="col-md-3 ps-5">
-                                <h5 class="mb-0">Dados da Disco</h5>
+                                <h5 class="mb-0">Dados do Disco</h5>
                               </div>
                             </div>
                             
@@ -136,6 +149,28 @@
                               <div class="row ps-5">
                                 <label class="form-check-label" for="switchMetrica#10">Escrito pelo Disco</label>                                   
                                 <input class="form-check-input switchMetrica" type="checkbox" role="switch" id="switchMetrica#10">
+                              </div>
+                            </div>
+
+                            <hr class="mx-n3">
+                                    
+                            <div class="row align-items-start">
+                              <div class="col-md-4 ps-5">
+                                <h5 class="mb-0">Dados Especializados</h5>
+                              </div>
+                            </div>
+
+                            <div class="row align-items-center py-3 form-check form-switch">
+                              <div class="row ps-5">
+                                <label class="form-check-label" for="switchMetrica#12">Processos</label>                                   
+                                <input class="form-check-input switchMetrica" type="checkbox" role="switch" id="switchMetrica#12">
+                              </div>
+                            </div>
+
+                            <div class="row align-items-center py-3 form-check form-switch">
+                              <div class="row ps-5">
+                                <label class="form-check-label" for="switchMetrica#13">Aplicações</label>                                   
+                                <input class="form-check-input switchMetrica" type="checkbox" role="switch" id="switchMetrica#13">
                               </div>
                             </div>
                             
@@ -176,7 +211,16 @@
 
   function definirMetricas() {
     parametrosAtuais.forEach(p => {
-      document.getElementById(`switchMetrica#${p}`).checked = true;
+      switch (p) {
+        case 13:
+        case 14:
+        case 15:
+          document.getElementById(`switchMetrica#13`).checked = true;
+          break;      
+        default:
+          document.getElementById(`switchMetrica#${p}`).checked = true;
+          break;
+      }      
     })
   }
 
@@ -224,7 +268,18 @@
       if (switchMetrica.checked) {
         var idMetrica = switchMetrica.id.slice(switchMetrica.id.indexOf('#')+1,switchMetrica.id.length)
 
-        parametrosNovos.push(Number(idMetrica))
+        switch (Number(idMetrica)) {
+          case 13:
+          case 14:
+          case 15:
+            parametrosNovos.push(13)
+            parametrosNovos.push(14)
+            parametrosNovos.push(15)
+            break;        
+          default:
+            parametrosNovos.push(Number(idMetrica))
+            break;
+        }        
       }
     }
 

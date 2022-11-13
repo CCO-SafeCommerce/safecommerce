@@ -34,7 +34,7 @@ function cadastrar(req, res) {
                     });
 
                     bcrypt.hash(senhaAdmin, 8).then(function (hash) {
-                        usuarioModel.cadastrar(nomeAdmin, emailAdmin, hash, resultado[0].idEmpresa, null)
+                        usuarioModel.cadastrar(nomeAdmin, emailAdmin, null, hash, resultado[0].idEmpresa, null)
                         .then( function (_) {
                             enviarEmail(emailAdmin, senhaAdmin, email)
                             console.log("Usuário cadastrado com sucesso!")

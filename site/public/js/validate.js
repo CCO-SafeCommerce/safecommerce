@@ -16,6 +16,24 @@ function validarCNPJ(cnpj) {
     return resultado;
 }
 
+function validarCPF(cpf) {
+    var resultado = 'OK';
+  
+    if (cpf == undefined) {
+        resultado = 'CPF está indefinido';
+    } else if (cpf == '') {
+        resultado = 'CPF é obrigatório';
+    } else if (cpf.length != 14) {
+        //CPF da erro ao colocar apenas o valor sem pontos e barras
+        resultado = 'CPF deve ter 11 caracteres';
+    } else if ((cpf[3] != '.') || (cpf[7] != '.') || (cpf[11] != '-')) {
+        // 456.783.912-00
+        resultado = 'CPF inválido';
+    }
+  
+    return resultado;
+}
+
 function validarSenha(senha) {
     var resultado = 'OK';
   

@@ -46,7 +46,11 @@
                             <div class="col-md-12 mt-lg-4 mt-4">
                                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800">Visão Geral</h1>
-                                </div>
+                                    <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                                        <i class="bi bi-cloud-plus"></i>
+                                        Cadastrar servidor
+                                    </a>
+                                </div>                                
                             </div>
 
                             <!-- Cards -->
@@ -125,7 +129,7 @@
     }
 
     function getStatusElement(ultimoRegistro) {
-        if (getStatus(ultimoRegistro)) {
+        if (!getStatus(ultimoRegistro)) {
             return `
                 <i class="bi bi-exclamation-triangle-fill text-danger"></i> Offline
             `
@@ -272,7 +276,7 @@
         myChartSO.update()
 
         var offline = data.filter(s => {
-            if (getStatus(s.ultimoRegistro)) {
+            if (!getStatus(s.ultimoRegistro)) {
                 return s
             }
         }).length

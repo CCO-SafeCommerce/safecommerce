@@ -85,6 +85,7 @@ function entrar(req, res) {
 function cadastrar(req, res) {
     var nome = req.body.nameServer;
     var email = req.body.emailServer;
+    var cpf = req.body.cpfServer;
     var senha = req.body.passwdServer;
     var idAdmin = req.body.idAdminServer;
     var idEmpresa = req.body.idCompanyServer;
@@ -93,6 +94,8 @@ function cadastrar(req, res) {
         res.status(400).send("Seu nome está undefined!");
     } else if (email == undefined) {
         res.status(400).send("Seu email está undefined!");
+    } else if (cpf == undefined) {
+        res.status(400).send("Seu cpf está undefined!");
     } else if (senha == undefined) {
         res.status(400).send("Sua senha está undefined!");
     } else if (idAdmin == undefined) {
@@ -105,7 +108,7 @@ function cadastrar(req, res) {
             if (isEmailEmUso.length == 0) {
                 bcrypt.hash(senha, 8)
                 .then(function (hash) {
-                    usuarioModel.cadastrar(nome, email, hash, idEmpresa, idAdmin)
+                    usuarioModel.cadastrar(nome, email, cpf, hash, idEmpresa, idAdmin)
                     .then(function (resultado) {
                         console.log(resultado)
                         res.json(resultado);    

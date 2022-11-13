@@ -116,9 +116,9 @@
             return;
         }
 
-        cnpj = cnpj_ipt.value.replace(/\D/g, '');
-        cnpjMascarado = ''
-        marcador = 0
+        var cnpj = cnpj_ipt.value.replace(/\D/g, '');
+        var cnpjMascarado = ''
+        var marcador = 0
 
         if (cnpj.length >= 2) {
             cnpjMascarado = cnpj[0] + cnpj[1] + "."

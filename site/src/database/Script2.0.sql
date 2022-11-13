@@ -1,5 +1,4 @@
 CREATE DATABASE safecommerce;
-
 USE safecommerce;
 
 create table Empresa(
@@ -8,16 +7,23 @@ create table Empresa(
     cnpj char(14) unique
 );
 
+INSERT INTO Empresa VALUES (null,'Americanas','00776574000156');
+
 create table Usuario(
 	idUsuario int primary key auto_increment,
     nome varchar(45),
 	email varchar(45) unique,
+    cpf char(11) unique,
 	senha varchar(65),
 	fkUsuario int,
     foreign key (fkUsuario) references Usuario(idUsuario),
     fkEmpresa int,
     foreign key (fkEmpresa) references Empresa(idEmpresa)
 );
+
+INSERT INTO Usuario 
+	VALUES (null,'Admin Americanas','admin-americanas@safecommerce.com','59015195072','$2b$08$7gr/7.BAK4wWNG5XHSeZAuGYQioR75X4.3C3GuGpAE9UpiQU7cReq',null,1),
+    (null,'Fernando Miranda','fernando.miranda@infra.americanas.com','00523065000','$2b$08$3rCRv5XuiCp9cK1OfrxKQ.F4CAD4CWj8NQ2HP1l/ufhSQYzUAoAs6',1,1);
 
 create table Servidor(
 	idServidor int primary key auto_increment,
@@ -28,6 +34,8 @@ create table Servidor(
     foreign key (fkEmpresa) references Empresa(idEmpresa)
 );
 
+INSERT INTO Servidor VALUES (null,'Dell PowerEdge T150', 'Linux', '98:83:89:EC:DB:2C',1);
+
 create table Metrica(
 	idMetrica int primary key auto_increment,
     nome varchar(45),
@@ -35,23 +43,21 @@ create table Metrica(
 );
 
 INSERT INTO Metrica VALUES 
-	(null, "Porcentagem de uso da CPU", "%"),
-	(null, "Quatidade de CPU logica","vCPU"),
-	(null, "Porcentagem de uso da CPU por core","%"),
-	(null, "Frequência de uso da CPU", "MHz"),
-	(null, "Total de Memoria RAM", "GB"),
-	(null, "Porcentagem de uso da Memoria RAM", "%"),
-	(null, "Total de Disco", "GB"),
-	(null, "Porcentagem de uso de Disco", "%"),
-	(null, "Lido pelo Disco", "ms"),
-	(null, "Escrito pelo Disco", "ms"),
-    (null, "Temperatura CPU", "ºC"),
-    (null, "PID", "Number"),
-    (null, "Porcentagem de uso de CPU do processo", "%"),
-    (null, "Porcentagem de uso de RAM do processo", "%");
-
-
-update Metrica set nome = "Quantidade de Requisições http", unidadeMedida = "int" where idMetrica = 13;
+	(null, "Porcentagem de uso da CPU", "%"), #1
+	(null, "Quantidade de CPU logica","vCPU"), #2
+	(null, "Porcentagem de uso da CPU por core","%"), #3
+	(null, "Frequência de uso da CPU", "MHz"), #4
+	(null, "Total de Memoria RAM", "GB"), #5
+	(null, "Porcentagem de uso da Memoria RAM", "%"), #6
+	(null, "Total de Disco", "GB"), #7
+	(null, "Porcentagem de uso de Disco", "%"), #8
+	(null, "Lido pelo Disco", "ms"), #9
+	(null, "Escrito pelo Disco", "ms"), #10
+    (null, "Temperatura da CPU", "ºC"), #11
+    (null, "Processos", null), #12
+    (null, "Quantidade requisições HTTP", "HTTP Request"), #13
+    (null, "Status requisições HTTP", "Inteiro"), #14
+    (null, "Tempo médio de resposta HTTP", "ms"); #15
 
 create table Parametro(
 	fk_Servidor int,
@@ -59,6 +65,9 @@ create table Parametro(
     fk_Metrica int,
     foreign key (fk_Metrica) references Metrica(idMetrica)
 );
+
+INSERT INTO Parametro 
+	VALUES (1,1), (1,2), (1,5), (1,6), (1,7), (1,8), (1,12);
 
 create table Leitura(
 	fkServidor int,
@@ -73,19 +82,20 @@ create table Leitura(
 );
 
 create table Processo(
-	data_Leitura datetime,
-    nome varchar(40),
-    pid char(5),
-    usoCpu varchar(20),
-    usoRam varchar(20),
-    fkServidor int,
+	fkServidor int,
     foreign key (fkServidor) references Servidor(idServidor),
-    primary key (data_Leitura, nome, pid, fkServidor)
+    pid int,
+	dataLeitura datetime,
+    nome varchar(40),    
+    usoCpu decimal(5,2),
+    situacaoCpu char(1) DEFAULT 'n',
+    usoRam decimal(5,2),
+    situacaoRam char(1) DEFAULT 'n',
+    primary key (dataLeitura, nome, pid, fkServidor)
 );
 
-
 create table Permissao_Processo(
-	idPermissao varchar(36) primary key,
+	idPermissao int primary key auto_increment,
     nome varchar(40),
     permissao Boolean,
     fkServidor int,
@@ -93,46 +103,12 @@ create table Permissao_Processo(
 );
 
 create table Aplicacao(
-	idAplicacao varchar(36) primary key, 
+	idAplicacao int primary key auto_increment, 
 	nome varchar(45),
 	url varchar(60) unique,
     fkServidor int,
     foreign key (fkServidor) references Servidor(idServidor)
 );
-
-create view visualizacaoMensal as 
-select 
-	month(Leitura.dataLeitura) as "mes",
-	day(Leitura.dataLeitura) as "dia" ,
-	hour(Leitura.dataLeitura) as "hora",
-	Leitura.componente,
-	Leitura.valor_leitura,
-	Metrica.nome as "nome",
-	Metrica.unidadeMedida,
-	Servidor.idServidor 
-from Leitura, Metrica, Servidor 
-where Leitura.dataLeitura  between current_date()-30 and current_date() 
-and Leitura.fkServidor = Servidor.idServidor 
-and Leitura.fkMetrica = Metrica.idMetrica 
-ORDER BY Leitura.dataLeitura;
-select * from visualizacaoMensal;
-
-create view visualizacaoSemanal as 
-select
-	month(Leitura.dataLeitura) as "mes" ,
-	day(Leitura.dataLeitura) as "dia" ,
-	hour(Leitura.dataLeitura) as "hora",
-	Leitura.componente,
-	Metrica.nome as "nome",
-	Leitura.valor_leitura,
-	Metrica.unidadeMedida,
-	Servidor.idServidor 
-from Leitura, Metrica, Servidor 
-where Leitura.dataLeitura  between current_date()-7 and current_date() 
-and Leitura.fkServidor = Servidor.idServidor 
-and Leitura.fkMetrica = Metrica.idMetrica 
-ORDER BY Leitura.dataLeitura;
-select * from visualizacaoSemanal;
 
 create view visaoGeralServidores as
 select 
@@ -147,128 +123,159 @@ select
     (select dataLeitura from Leitura where fkServidor = s.idServidor order by dataLeitura desc limit 1) as 'ultimoRegistro'
 from Servidor s;
 
-select * from visaoGeralServidores;
-
 create view leituraCPU as 
 select 
-	m.idMetrica,
+	l.fkMetrica,
     l.dataLeitura as "horario",
     l.valor_leitura as "valor",
-	s.idServidor
-from Leitura as l  
-inner join Metrica as m on l.fkMetrica = m.idMetrica
-inner join Servidor as s on l.fkServidor = s.idServidor 
-where m.idMetrica = 1 and m.idMetrica = 1;
-select * from leituraCPU;
-
+	l.fkServidor
+from Leitura as l 
+where l.fkMetrica = 1;
 
 create view leituraCoreCPU as 
 select 
-	m.idMetrica,
+	l.fkMetrica,
     l.dataLeitura as "horario",
     l.valor_leitura as "valor",
-	s.idServidor
+    l.componente as "core",
+	l.fkServidor
 from Leitura as l  
-inner join Metrica as m on l.fkMetrica = m.idMetrica
-inner join Servidor as s on l.fkServidor = s.idServidor 
-where m.idMetrica = 3 and m.idMetrica = 3;
-select * from leituraCoreCPU;
-
+where l.fkMetrica = 3;
 
 create view leituraFreq as 
-select
-	m.idMetrica,
+select 
+	l.fkMetrica,
     l.dataLeitura as "horario",
     l.valor_leitura as "valor",
-	s.idServidor
-from Leitura as l  
-inner join Metrica as m on l.fkMetrica = m.idMetrica
-inner join Servidor as s on l.fkServidor = s.idServidor 
-where m.idMetrica = 4 and m.idMetrica = 4;
-select * from leituraFreq;
-
+	l.fkServidor
+from Leitura as l 
+where l.fkMetrica = 4;
 
 create view leituraRAM as 
-select
-	m.idMetrica, 
+select 
+	l.fkMetrica,
     l.dataLeitura as "horario",
     l.valor_leitura as "valor",
-	s.idServidor
-from Leitura as l  
-inner join Metrica as m on l.fkMetrica = m.idMetrica
-inner join Servidor as s on l.fkServidor = s.idServidor 
-where m.idMetrica = 6 and m.idMetrica = 6;
-select * from leituraRAM;
-
+	l.fkServidor
+from Leitura as l 
+where l.fkMetrica = 6;
 
 create view leituraDisco as 
-select
-	m.idMetrica,
+select 
+	l.fkMetrica,
     l.dataLeitura as "horario",
     l.valor_leitura as "valor",
-	s.idServidor
-from Leitura as l  
-inner join Metrica as m on l.fkMetrica = m.idMetrica
-inner join Servidor as s on l.fkServidor = s.idServidor 
-where m.idMetrica = 8 and m.idMetrica = 8;
-select * from leituraDisco;
+	l.fkServidor
+from Leitura as l 
+where l.fkMetrica = 8;
 
 create view leituraLDisco as 
-select
-	m.idMetrica,
+select 
+	l.fkMetrica,
     l.dataLeitura as "horario",
     l.valor_leitura as "valor",
-	s.idServidor
-from Leitura as l  
-inner join Metrica as m on l.fkMetrica = m.idMetrica
-inner join Servidor as s on l.fkServidor = s.idServidor 
-where m.idMetrica = 9 and m.idMetrica = 9;
-select * from leituraLDisco;
-
+	l.fkServidor
+from Leitura as l 
+where l.fkMetrica = 9;
 
 create view leituraEDisco as 
-select
-	m.idMetrica,
+select 
+	l.fkMetrica,
     l.dataLeitura as "horario",
     l.valor_leitura as "valor",
-	s.idServidor
-from Leitura as l  
-inner join Metrica as m on l.fkMetrica = m.idMetrica
-inner join Servidor as s on l.fkServidor = s.idServidor 
-where m.idMetrica = 10 and m.idMetrica = 10;
-select * from leituraEDisco;
+	l.fkServidor
+from Leitura as l 
+where l.fkMetrica = 10;
 
+create view leituraTemperatura as
+select 
+	l.fkMetrica,
+    l.dataLeitura as "horario",
+    l.valor_leitura as "valor",
+	l.fkServidor
+from Leitura as l 
+where l.fkMetrica = 11;
+	
+create view leituraHTTPRequest as
+select 
+	l.fkMetrica,
+    l.dataLeitura as "horario",
+    l.valor_leitura as "valor",
+	l.fkServidor
+from Leitura as l 
+where l.fkMetrica = 13;
 
-create view processo as
-select dataLeitura as horario, componente as nome,  valor_leitura as pid,
-(select valor_leitura from Leitura where fkServidor = 1 and fkMetrica = 13 and componente = nome order by dataLeitura desc limit 1) as uso_Cpu,  
-(select valor_leitura from Leitura where fkServidor = 1 and fkMetrica = 14 and componente = nome order by dataLeitura desc limit 1) as uso_Ram
-from Leitura where fkServidor = 1 and fkMetrica = 12 order by dataLeitura desc limit 10;
-select * from processo;
-drop view processo;
+create view leituraHTTPStatus as
+select 
+	l.fkMetrica,
+    l.dataLeitura as "horario",
+    l.valor_leitura as "valor",
+	l.fkServidor
+from Leitura as l 
+where l.fkMetrica = 14;
 
-select * from Parametro;
-select * from Servidor;
-select * from Leitura;
-select * from Metrica;
-select * from Usuario;
+create view leituraHTTPResponse as
+select 
+	l.fkMetrica,
+    l.dataLeitura as "horario",
+    l.valor_leitura as "valor",
+	l.fkServidor
+from Leitura as l 
+where l.fkMetrica = 15;
 
+create view leituraHTTP as
+select
+	a.idAplicacao,
+    l.dataLeitura as 'horario',
+    (select 
+		valor_leitura 
+	from Leitura 
+	where 
+		Leitura.dataLeitura = l.dataLeitura 
+		and Leitura.fkMetrica = 13
+        and Leitura.fkServidor = l.fkServidor
+        and Leitura.componente = a.nome) as 'resquest',
+	(select 
+		valor_leitura 
+	from Leitura 
+	where 
+		Leitura.dataLeitura = l.dataLeitura 
+		and Leitura.fkMetrica = 14
+        and Leitura.fkServidor = l.fkServidor
+        and Leitura.componente = a.nome) as 'status',
+	(select 
+		valor_leitura 
+	from Leitura 
+	where 
+		Leitura.dataLeitura = l.dataLeitura 
+		and Leitura.fkMetrica = 15
+        and Leitura.fkServidor = l.fkServidor
+        and Leitura.componente = a.nome) as 'response',
+    l.fkServidor
+from Leitura as l
+inner join Aplicacao as a on a.fkServidor = l.fkServidor;
 
-INSERT INTO Empresa VALUES(null, "SafeCommerce", "02302100000106");
-INSERT INTO Usuario VALUES (null, "Gabriel","gabriel@duarte.com","gabriel123",null,1);
-INSERT INTO Servidor VALUES (null, "Servidor Exemplo", "Linux", "98:83:89:EC:DB:2C",1);
-
-SELECT * FROM Usuario;
-SELECT * FROM Parametro;
-insert into Parametro values (1, 1);
-INSERT INTO Parametro VALUES (1, 2);
-insert into Parametro values (1, 3);
-insert into Parametro values (1, 4);
-insert into Parametro values (1, 5);
-insert into Parametro values (1, 6);
-insert into Parametro values (1, 7);
-insert into Parametro values (1, 8);
-
+create view situacaoLeitura as
+select
+	l.fkMetrica,
+    l.componente,
+    (select 
+		count(*) 
+	from Leitura 
+    where 
+		Leitura.fkMetrica = l.fkMetrica 
+        and Leitura.situacao = 'a'
+        and Leitura.fkServidor = l.fkServidor) as 'qtdAvisos',
+	(select 
+		count(*) 
+	from Leitura 
+    where 
+		Leitura.fkMetrica = l.fkMetrica 
+        and Leitura.situacao = 'e'
+        and Leitura.fkServidor = l.fkServidor) as 'qtdEmergencias',
+    l.fkServidor
+from Leitura as l
+where l.fkMetrica in (1,3,4,6,8,9,10,11);
 
 -- Configurar para o java carregar o csv
 SET GLOBAL local_infile=1;
