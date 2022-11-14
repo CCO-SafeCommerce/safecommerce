@@ -58,26 +58,32 @@
                     <div class="container-fluid px-lg-4">
                         <div class="row">
                             <div class="col-md-12 mt-lg-4 mt-4">
-                                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                <div class="d-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800" id="server_title">Servidor</h1>
                                     <div class="row justify-content-around">
-                                        <div class="col">
-                                            <a id="aEditar" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                                        <div class="col d-none d-md-flex">
+                                            <a id="aEditar" class="d-none d-md-inline-block btn btn-sm btn-primary shadow-sm text-light">
                                                 <i class="bi bi-pencil-square"></i>
                                                 Editar
                                             </a>
                                         </div>
-                                        <div class="col">
-                                            <a id="aParametros" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                                        <div class="col d-none d-md-flex">
+                                            <a id="aParametros" class="d-none d-md-inline-block btn btn-sm btn-primary shadow-sm text-light">
                                                 <i class="bi bi-list-task"></i>
                                                 Alterar parâmetros de coleta
                                             </a>
                                         </div>
-                                        <div class="col">
-                                            <button id="btnExcluir" type="button" class="btn btn-danger btn-sm">
+                                        <div class="col d-none d-md-flex">
+                                            <button id="btnExcluir" type="button" class="d-none d-md-inline-block btn btn-danger btn-sm">
                                                 <i class="bi bi-trash-fill"></i>
                                                 Excluir    
                                             </button>
+                                        </div>
+                                        <div class="col d-md-none">
+                                            <a onclick="handleControle()" class="d-inline-block d-md-none btn btn-sm btn-primary shadow-sm text-light">
+                                                <i class="bi bi-list-task"></i>
+                                                Controle
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -404,7 +410,7 @@
                     var aba = document.getElementById(`abaMetrica#${item}`)
 
                     if (aba) {
-                        aba.style.display = 'none'
+                        aba.style.display = 'block'
                     }
                     break;
             }
@@ -444,9 +450,10 @@
     getData(indexPage);
     getURLParams();
 
-    // setInterval(() => {
-    //     obterParametros()
-    // }, 5000)
+    setInterval(() => {
+        obterParametros()
+        getData(indexPage)
+    }, 5000)
 
     function deleteServer(idServer) {
         Swal.fire({
@@ -489,6 +496,32 @@
                         });
                     }
                 })
+            }
+        })
+    }
+
+    function handleControle() {
+        Swal.fire({
+            title: 'Controle do Servidor',
+            input: 'select',
+            inputOptions: {
+                'editar': 'Editar Servidor',
+                'monitoramento': 'Alterar parâmetros de coleta',
+                'excluir': 'Excluir Servidor'
+            },
+            inputPlaceholder: 'Selecione uma ação',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#6BF178'
+        }).then(({ value: option }) => {
+            if (option == 'editar') {
+                window.location = `./editarServidor.html?idServer=${selectedServer}`
+
+            } else if (option == 'monitoramento') {
+                window.location = `./parametros.html?idServer=${selectedServer}`
+
+            } else if (option == 'excluir') {
+                deleteServer(selectedServer)
             }
         })
     }
