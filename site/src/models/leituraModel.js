@@ -20,7 +20,7 @@ function obterDadosCPU(idServidor) {
 function obterDadosCPUCore(idServidor) {
     console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterDadosCPUCore(): ", idServidor);
     
-    var instruction = `SELECT valor, horario FROM leituraCoreCPU where idServidor = ${idServidor} order by horario desc limit 20;`
+    var instruction = `SELECT valor, horario, core FROM leituraCoreCPU where idServidor = ${idServidor} order by horario desc limit 20;`
    
     return database.execute(instruction);
 }

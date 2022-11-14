@@ -22,8 +22,8 @@ create table Usuario(
 );
 
 INSERT INTO Usuario 
-	VALUES (null,'Admin Americanas','admin-americanas@safecommerce.com','59015195072','$2b$08$7gr/7.BAK4wWNG5XHSeZAuGYQioR75X4.3C3GuGpAE9UpiQU7cReq',null,1),
-    (null,'Fernando Miranda','fernando.miranda@infra.americanas.com','00523065000','$2b$08$3rCRv5XuiCp9cK1OfrxKQ.F4CAD4CWj8NQ2HP1l/ufhSQYzUAoAs6',1,1);
+	VALUES (null,'Admin Americanas','admin-americanas@safecommerce.com','59015195072','$2b$08$7gr/7.BAK4wWNG5XHSeZAuGYQioR75X4.3C3GuGpAE9UpiQU7cReq',null,1), # americanas#safecommerce
+    (null,'Fernando Miranda','fernando.miranda@infra.americanas.com','00523065000','$2b$08$3rCRv5XuiCp9cK1OfrxKQ.F4CAD4CWj8NQ2HP1l/ufhSQYzUAoAs6',1,1); # fernando1234
 
 create table Servidor(
 	idServidor int primary key auto_increment,
@@ -105,7 +105,7 @@ create table Permissao_Processo(
 create table Aplicacao(
 	idAplicacao int primary key auto_increment, 
 	nome varchar(45),
-	url varchar(60) unique,
+	url varchar(60),
     fkServidor int,
     foreign key (fkServidor) references Servidor(idServidor)
 );
@@ -279,6 +279,5 @@ where l.fkMetrica in (1,3,4,6,8,9,10,11);
 
 -- Configurar para o java carregar o csv
 SET GLOBAL local_infile=1;
-SHOW GLOBAL VARIABLES LIKE 'local_infile';
 
 
