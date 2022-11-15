@@ -78,7 +78,7 @@ create table Leitura(
     foreign key (fkMetrica) references Metrica(idMetrica),
 	dataLeitura datetime,
     valor_leitura varchar(45),
-    situacao char(1) DEFAULT 'n',
+    situacao char(1) DEFAULT 'n', -- ('n' = Normal, 'a' = Alerta, 'e' = Emergencia)
     componente varchar(45),
     primary key (fkServidor, fkMetrica, dataLeitura, componente)
 );
@@ -107,7 +107,7 @@ create table Permissao_Processo(
 create table Aplicacao(
 	idAplicacao int primary key auto_increment, 
 	nome varchar(45),
-	url varchar(60),
+    porta int,
     fkServidor int,
     foreign key (fkServidor) references Servidor(idServidor)
 );
@@ -203,7 +203,7 @@ select
 	l.fkMetrica,
     l.dataLeitura as 'horario',
     l.valor_leitura as 'valor',
-	l.componente as 'enderecoURL',
+	l.componente as 'aplicacao',
 	l.fkServidor
 from Leitura as l
 where l.fkMetrica = 13;
