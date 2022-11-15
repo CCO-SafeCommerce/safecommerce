@@ -47,19 +47,19 @@ create table Metrica(
 
 INSERT INTO Metrica 
     (nome, unidadeMedida) VALUES 
-	('Porcentagem de uso da CPU', '%'), --1
-	('Quantidade de CPU logica','vCPU'), --2
-	('Porcentagem de uso da CPU por core','%'), --3
-	('Frequência de uso da CPU', 'MHz'), --4
-	('Total de Memoria RAM', 'GB'), --5
-	('Porcentagem de uso da Memoria RAM', '%'), --6
-	('Total de Disco', 'GB'), --7
-	('Porcentagem de uso de Disco', '%'), --8
-	('Lido pelo Disco', 'ms'), --9
-	('Escrito pelo Disco', 'ms'), --10
-    ('Temperatura da CPU', '°C'), --11
-    ('Processos', null), --12
-    ('Quantidade de conexões ativas', 'TCP'); --13
+	('Porcentagem de uso da CPU', '%'), -- 1
+	('Quantidade de CPU logica','vCPU'), -- 2
+	('Porcentagem de uso da CPU por core','%'), -- 3
+	('Frequência de uso da CPU', 'MHz'), -- 4
+	('Total de Memoria RAM', 'GB'), -- 5
+	('Porcentagem de uso da Memoria RAM', '%'), -- 6
+	('Total de Disco', 'GB'), -- 7
+	('Porcentagem de uso de Disco', '%'), -- 8
+	('Lido pelo Disco', 'ms'), -- 9
+	('Escrito pelo Disco', 'ms'), -- 10
+    ('Temperatura da CPU', '°C'), -- 11
+    ('Processos', null), -- 12
+    ('Quantidade de conexões ativas', 'TCP'); -- 13
 
 create table Parametro(
 	fk_Servidor int,
@@ -232,5 +232,3 @@ where l.fkMetrica in (1,3,4,6,8,9,10,11);
 
 -- Configurar para o java carregar o csv
 SET GLOBAL local_infile=1;
-
-
