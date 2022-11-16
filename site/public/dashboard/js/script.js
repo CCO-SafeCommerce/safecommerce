@@ -176,6 +176,14 @@ function getData(index) {
                 })
 
                 if(index) {
+                    if (json.length > 0) {
+                        document.getElementById('divNoContent').style.display = 'none'
+                        document.getElementById('cards_servers').style.display = 'flex'
+                    } else {
+                        document.getElementById('divNoContent').style.display = 'flex'
+                        document.getElementById('cards_servers').style.display = 'none'
+                    }
+
                     setTable(json);
                     deleteTable(remover);
                     lidarGraficos(json)

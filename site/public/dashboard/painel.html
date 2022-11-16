@@ -55,20 +55,11 @@
 
                             <!-- Cards -->
                             <div class="col-md-12">                                
-                                <div class="col-md-12 mt-4 margin-table">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="d-md-flex align-items-center"></div>
-                                            <div>
-                                                <h4 class="card-title">Servidores cadastrados</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                                <div class="col-md-12 mt-4 margin-table">                                                                
                                     <div class="table-responsive">
-                                        <table class="table v-middle">
-                                            <thead>
-                                                <tr class="bg-light">
+                                        <table class="table table-striped table-hover v-middle">
+                                            <thead class="bg-white">
+                                                <tr>
                                                     <th class="border-top-0">Status</th>
                                                     <th class="border-top-0">Modelo</th>
                                                     <th class="border-top-0">Sistema Operacional</th>
@@ -82,6 +73,14 @@
                                             </tbody>
                                         </table>
                                     </div>
+                                    <div id="divNoContent" class="row justify-content-center align-items-center" style="display: none;">
+                                        <div class="card col-4 ">
+                                            <img src="../assets/no-content.svg" class="card-img-top" alt="Nenhum retorno foi encontrado">
+                                            <div class="card-body">
+                                                <h2 class="card-title text-center fs-4">Nenhum servidor foi encontrada</h2>
+                                            </div>
+                                        </div>
+                                    </div>                                    
                                 </div>
                                 <div id="cards_servers" class="row justify-content-evenly align-items-center">
                                     <div class="col-sm-3">

@@ -47,7 +47,7 @@
                                         <div class="col-xl-9">
                                             <div class="d-flex align-items-center justify-content-between mb-4">
                                                 <h1 class="h3 mb-0 text-gray-800">Editar Servidor</h1>
-                                                <a class="d-inline-block mt-0 mt-sm-10 btn btn-sm btn-primary shadow-sm text-light">
+                                                <a id="aMonitoramento" class="d-inline-block mt-0 mt-sm-10 btn btn-sm btn-primary shadow-sm text-light">
                                                   <i class="bi bi-file-earmark-text"></i>
                                                     Monitoramento
                                                 </a>
@@ -107,6 +107,7 @@
     function setPage() {
         var inputModelo = document.getElementById('model_input')
         var inputSO = document.getElementById('so_input')
+        var aMonitoramento = document.getElementById('aMonitoramento')
         var params = new URLSearchParams(window.location.search)
         var idServidor = params.get('idServer')
 
@@ -122,6 +123,7 @@
 
             inputModelo.value = servidor.modelo;
             inputSO.value = servidor.so;
+            aMonitoramento.href = `./parametros.html?idServer=${servidor.idServidor}`;
         } else {
             window.location.href = './painel.html'
         }

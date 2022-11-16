@@ -330,23 +330,42 @@
                             </div>
 
                             <!-- 13: Aplicações -->
-                            <div class="accordion-item" id="abaMetrica#12" style="display: none">
-                                <h2 class="accordion-header" id="headingTwelve">
+                            <div class="accordion-item" id="abaMetrica#13" style="display: none">
+                                <h2 class="accordion-header" id="headingThirteen">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseTwelve" aria-expanded="false" aria-controls="collapseTwelve">
+                                        data-bs-target="#collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen">
                                         Aplicações
                                     </button>
                                 </h2>
-                                <div id="collapseTwelve" class="accordion-collapse collapse" aria-labelledby="headingTwelve"
+                                <div id="collapseThirteen" class="accordion-collapse collapse" aria-labelledby="headingThirteen"
                                     data-bs-parent="#accordionExample">
                                     <div class="accordion-body bodyCanvas">
                                         <!-- <canvas id="processos" class="chartjs-render-monitor lineChart"></canvas> -->
-                                        <p>Você não possui aplicações configuradas para monitoramento. Defina as aplicações <a id="aAplicacoes" class="link-primary">aqui!</a></p>
+                                        <div id="divNoContent#13" class="card border-0 md-4">
+                                            <div class="row align-items-center">
+                                              <div class="col-4">
+                                                <img src="../assets/no-content.svg" class="img-fluid rounded-start" alt="Nenhum retorno foi encontrado">
+                                              </div>
+                                              <div class="col-8">
+                                                <div class="card-body">
+                                                    <p class="card-text">Você não possui aplicações configuradas para monitoramento. Defina as aplicações <a id="aAplicacoes" class="link-primary">aqui!</a></p>
+                                                </div>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>                                                                            
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        
+                        <div id="divNoContent" class="row justify-content-center align-items-center" style="display: none;">
+                            <div class="card col-4 ">
+                                <img src="../assets/no-content.svg" class="card-img-top" alt="Nenhum retorno foi encontrado">
+                                <div class="card-body">
+                                    <h2 class="card-title text-center fs-4">Nenhuma parâmetro de monitoramento</h2>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- Fim do conteudo da página -->
@@ -419,7 +438,7 @@
 
             linkEditar.href = `./editarServidor.html?idServer=${servidor.idServidor}`
             linkParametros.href = `./parametros.html?idServer=${servidor.idServidor}`
-            linkAplicacoes.href = `./parametros.html?idServer=${servidor.idServidor}`
+            linkAplicacoes.href = `./aplicacoes.html?idServer=${servidor.idServidor}`
             btnExcluir.addEventListener('click', () => {
                 deleteServer(servidor.idServidor)
             });
@@ -441,7 +460,6 @@
             resposta.json().then(parametros => {
                 console.log(parametros)
 
-
                 var adicionar = parametros.filter(p => {
                     if (!parametrosAtuais.includes(p)) {
                         return p;
@@ -460,9 +478,16 @@
                     }
                 })
 
+                
                 lidarEsconder(remover)
                 lidarExibir(adicionar)
                 lidarAtualizar(atualizar)
+
+                if (parametros.length > 0) {
+                    document.getElementById('divNoContent').style.display = 'none'
+                } else {
+                    document.getElementById('divNoContent').style.display = 'flex'
+                }
 
                 parametrosAtuais = parametros
             })

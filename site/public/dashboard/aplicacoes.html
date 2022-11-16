@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SafeCommerce | Aplicações</title>
+
+    <!-- Icon -->
+    <link rel="icon" href="./assets/images/logo-icon.png">
+
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!-- style -->
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/painel.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js" integrity="sha512-F+u8eWHrfY8Xw9BLzZ8rG/0wIvs0y+JyRJrXjp3VjtFPylAEEGwKbua5Ip/oiVhaTDaDs4eU2Xtsxjs/9ag2bQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body onresize="responsive()" onload="responsive(), validateSession()">
+
+    <div id="wrapper">
+        <div id="overlay">
+        </div>
+        <!-- barra lateral -->
+        <my-sidebar></my-sidebar>
+        <!-- Fim barra lateral  -->
+
+        <!-- Barra de navegação -->
+        <div id="page-content-wrapper">
+            <div id="content">
+                <div class="container-fluid p-0 px-lg-0 px-md-0">
+                    <my-navbar></my-navbar>
+                    <!-- Fim da barra de navegação -->
+
+                    <!-- Conteudo da página -->
+                    <div class="container-fluid px-lg-4">
+                        <div class="row">
+                            <div class="col-md-12 mt-lg-4 mt-4">
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <h1 class="h3 mb-0 text-gray-800">Aplicações</h1>
+                                    <a class="d-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                                        <i class="bi bi-plus-circle"></i>
+                                        Cadastrar aplicação
+                                    </a>
+                                </div>                                
+                            </div>
+
+                            <!-- Cards -->
+                            <div class="col-md-12">                                
+                                <div class="col-md-12 mt-4 margin-table">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover v-middle">
+                                            <thead class="bg-white">
+                                                <tr>
+                                                    <th class="border-top-0">Id</th>
+                                                    <th class="border-top-0">Servidor</th>                                                  
+                                                    <th class="border-top-0">Nome</th>
+                                                    <th class="border-top-0">Porta</th>
+                                                    <th class="border-top-0">Remover</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="app_table">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div id="divNoContent" class="row justify-content-center align-items-center" style="display: none;">
+                                        <div class="card col-4 ">
+                                            <img src="../assets/no-content.svg" class="card-img-top" alt="Nenhum retorno foi encontrado">
+                                            <div class="card-body">
+                                                <h2 class="card-title text-center fs-4">Nenhuma aplicação foi encontrada</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>                                  
+                        </div>
+                    </div>
+                </div>
+                <!-- Fim do conteudo da página -->
+
+                <!-- Footer -->
+                <my-footer></my-footer>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="./js/main.js"></script>
+<script src="./js/script.js"></script>
+
+</html>
+<script>
+    const indexPage = false;
+
+    document.getElementById('menu-painel').classList.add('active');
+    document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;
+    var serverTable = document.getElementById("server_table");
+
+    getData(indexPage)
+    setInterval(() => {
+        getData(indexPage)
+    }, 10000)
+</script>

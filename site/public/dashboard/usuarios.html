@@ -54,19 +54,10 @@
                             <!-- Cards -->
                             <div class="col-md-12">                                
                                 <div class="col-md-12 mt-4 margin-table">
-                                    <div class="card">
-                                        <div class="card-body">
-                                            <div class="d-md-flex align-items-center"></div>
-                                            <div>
-                                                <h4 class="card-title">Usuários cadastrados</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div class="table-responsive">
-                                        <table class="table v-middle">
-                                            <thead>
-                                                <tr class="bg-light">
+                                        <table class="table table-striped table-hover v-middle">
+                                            <thead class="bg-white">
+                                                <tr>
                                                     <th class="border-top-0">Id</th>
                                                     <th class="border-top-0">Nome</th>
                                                     <th class="border-top-0">CPF</th>
@@ -98,6 +89,7 @@
 <script>
     const indexPage = false;
     var usuarios = []
+    var idUsuarioAtual = sessionStorage.idUsuario;
 
     document.getElementById('menu-painel').classList.add('active');
     document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;
@@ -139,7 +131,7 @@
                 if (!trUsuario) {
                     var deletarUsuario = ''
 
-                    if (data[i].fkUsuario != null) {
+                    if (data[i].fkUsuario != null && data[i].idUsuario != idUsuarioAtual) {
                         deletarUsuario = `
                             <button onclick="deleteUser(${data[i].idUsuario})" type="button" class="btn btn-outline-danger btn-sm">
                                 <i class="bi bi-trash-fill"></i>
