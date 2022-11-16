@@ -70,7 +70,7 @@
                                         <div class="col d-none d-md-flex">
                                             <a id="aParametros" class="d-none d-md-inline-block btn btn-sm btn-primary shadow-sm text-light">
                                                 <i class="bi bi-list-task"></i>
-                                                Alterar parâmetros de coleta
+                                                Alterar monitoramento
                                             </a>
                                         </div>
                                         <div class="col d-none d-md-flex">
@@ -151,6 +151,34 @@
                            
                         </div>
 
+                        <div class="row">
+                            <div class="col-md-12 mt-lg-4 mt-4">
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <h1 class="h3 mb-0 text-gray-800" id="server_title">Monitoramento</h1>
+                                    <div class="row justify-content-around">
+                                        <div class="col d-none d-md-flex">
+                                            <a id="aEditar" class="d-none d-md-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                                                <i class="bi bi-clock-history"></i>
+                                                Histórico
+                                            </a>
+                                        </div>
+                                        <div class="col d-flex">
+                                            <a id="aParametros" class="d-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                                                <i class="bi bi-clipboard2-data"></i>
+                                                Análitico
+                                            </a>
+                                        </div>
+                                        <div class="col d-md-none">
+                                            <a onclick="handleVisao()" class="d-inline-block d-md-none btn btn-sm btn-primary shadow-sm text-light">
+                                                <i class="bi bi-window-split"></i>
+                                                Visão
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                         
+                        </div>
+
                         <!-- Tabelas de Métricas -->
                         <div class="accordion" id="accordionExample">
                             <!-- 1: Porcentagem de uso da CPU -->
@@ -163,7 +191,7 @@
                                 </h2>
                                 <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
                                     data-bs-parent="#accordionExample">
-                                    <div class="accordion-body bodyCanvas">
+                                    <div class="accordion-body bodyCanvas col">
                                         <canvas id="cpuPercent" class="chartjs-render-monitor lineChart"></canvas>
                                     </div>
                                 </div>
@@ -181,7 +209,7 @@
                                 <div id="collapseThree" class="accordion-collapse collapse"
                                     aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                                     <div class="accordion-body bodyCanvas">
-                                        <canvas id="qtdCpuCore" class="chartjs-render-monitorlineChart"></canvas>
+                                        <canvas id="qtdCpuCore" class="chartjs-render-monitor lineChart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -198,7 +226,7 @@
                                 <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
                                     data-bs-parent="#accordionExample">
                                     <div class="accordion-body bodyCanvas">
-                                        <canvas id="frequencyCpu" class="chartjs-render-monitorlineChart"></canvas>
+                                        <canvas id="frequencyCpu" class="chartjs-render-monitor lineChart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -214,7 +242,7 @@
                                 <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
                                     data-bs-parent="#accordionExample">
                                     <div class="accordion-body bodyCanvas">
-                                        <canvas id="ramPercent" class="chartjs-render-monitorlineChart"></canvas>
+                                        <canvas id="ramPercent" class="chartjs-render-monitor lineChart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -231,7 +259,7 @@
                                 <div id="collapseEight" class="accordion-collapse collapse"
                                     aria-labelledby="headingEight" data-bs-parent="#accordionExample">
                                     <div class="accordion-body bodyCanvas">
-                                        <canvas id="diskPercent" class="chartjs-render-monitorlineChart"></canvas>
+                                        <canvas id="diskPercent" class="chartjs-render-monitor lineChart"></canvas>                                        
                                     </div>
                                 </div>
                             </div>
@@ -248,7 +276,7 @@
                                 <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine"
                                     data-bs-parent="#accordionExample">
                                     <div class="accordion-body bodyCanvas">
-                                        <canvas id="diskRead" class="chartjs-render-monitorlineChart"></canvas>
+                                        <canvas id="diskRead" class="chartjs-render-monitor lineChart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -264,11 +292,61 @@
                                 <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen"
                                     data-bs-parent="#accordionExample">
                                     <div class="accordion-body bodyCanvas">
-                                        <canvas id="diskWrite" class="chartjs-render-monitorlineChart"></canvas>
+                                        <canvas id="diskWrite" class="chartjs-render-monitor lineChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 11: Temperatura da CPU -->
+                            <div class="accordion-item" id="abaMetrica#11" style="display: none">
+                                <h2 class="accordion-header" id="headingEleven">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
+                                        Temperatura da CPU
+                                    </button>
+                                </h2>
+                                <div id="collapseEleven" class="accordion-collapse collapse" aria-labelledby="headingEleven"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body bodyCanvas">
+                                        <canvas id="temperature" class="chartjs-render-monitor lineChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 12: Processos -->
+                            <div class="accordion-item" id="abaMetrica#12" style="display: none">
+                                <h2 class="accordion-header" id="headingTwelve">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseTwelve" aria-expanded="false" aria-controls="collapseTwelve">
+                                        Processos
+                                    </button>
+                                </h2>
+                                <div id="collapseTwelve" class="accordion-collapse collapse" aria-labelledby="headingTwelve"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body bodyCanvas">
+                                        <canvas id="processos" class="chartjs-render-monitor lineChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 13: Aplicações -->
+                            <div class="accordion-item" id="abaMetrica#12" style="display: none">
+                                <h2 class="accordion-header" id="headingTwelve">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseTwelve" aria-expanded="false" aria-controls="collapseTwelve">
+                                        Aplicações
+                                    </button>
+                                </h2>
+                                <div id="collapseTwelve" class="accordion-collapse collapse" aria-labelledby="headingTwelve"
+                                    data-bs-parent="#accordionExample">
+                                    <div class="accordion-body bodyCanvas">
+                                        <!-- <canvas id="processos" class="chartjs-render-monitor lineChart"></canvas> -->
+                                        <p>Você não possui aplicações configuradas para monitoramento. Defina as aplicações <a id="aAplicacoes" class="link-primary">aqui!</a></p>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
                     </div>
                 </div>
                 <!-- Fim do conteudo da página -->
@@ -337,9 +415,11 @@
             var linkParametros = document.getElementById('aParametros')
             var linkEditar = document.getElementById('aEditar')
             var btnExcluir = document.getElementById('btnExcluir')
+            var linkAplicacoes = document.getElementById('aAplicacoes')
 
             linkEditar.href = `./editarServidor.html?idServer=${servidor.idServidor}`
             linkParametros.href = `./parametros.html?idServer=${servidor.idServidor}`
+            linkAplicacoes.href = `./parametros.html?idServer=${servidor.idServidor}`
             btnExcluir.addEventListener('click', () => {
                 deleteServer(servidor.idServidor)
             });
@@ -506,7 +586,7 @@
             input: 'select',
             inputOptions: {
                 'editar': 'Editar Servidor',
-                'monitoramento': 'Alterar parâmetros de coleta',
+                'monitoramento': 'Alterar monitoramento',
                 'excluir': 'Excluir Servidor'
             },
             inputPlaceholder: 'Selecione uma ação',

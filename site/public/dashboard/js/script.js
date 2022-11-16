@@ -1,11 +1,26 @@
 var btnRegisterUser = document.getElementById('btn_registerUser')
 
 const paletaCores = [
-    'rgb(220, 61, 37)',
-    'rgb(236, 148, 132)',
-    'rgb(28, 60, 154)',
-    'rgb(79, 101, 168)',
-    'rgb(132, 37, 20)'
+    "#FF370D",
+    "#FA7500",
+    "#FF9E0D",
+    "#E84C00",
+    "#F50600",
+    "#FF7600",
+    "#E8520C",
+    "#FAB000",
+    "#F5340C",
+    "#F5DE0C",
+    "#F5330C",
+    "#DE0500",
+    "#DE8600",
+    "#F5770C",
+    "#FDB60D",
+    "#DE4600",
+    "#FFB70D",
+    "#E8A917",
+    "#FF8519",
+    "#FFCF0D",
 ]
 
 //sessão

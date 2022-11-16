@@ -42,9 +42,9 @@
                     <div class="container-fluid px-lg-4">
                         <div class="row">
                             <div class="col-md-12 mt-lg-4 mt-4">
-                                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                <div class="d-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800">Usuários</h1>
-                                    <a href="./cadastroUsuario.html" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                                    <a href="./cadastroUsuario.html" class="d-inline-block btn btn-sm btn-primary shadow-sm text-light">
                                         <i class="bi bi-person-plus-fill"></i>
                                         Cadastrar novo usuário
                                     </a>
@@ -97,6 +97,7 @@
 </html>
 <script>
     const indexPage = false;
+    var usuarios = []
 
     document.getElementById('menu-painel').classList.add('active');
     document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;
@@ -111,6 +112,13 @@
             },
         }).then(resposta => {
             resposta.json().then(json => {
+                var remover = usuarios.filter(u => {                    
+                    if(json.filter(ds => ds.idUsuario == u.idUsuario).length == 0) {
+                      return u
+                    }
+                })
+
+                removerUsuarios(remover)
                 renderizarUsuarios(json)
             })
         })
@@ -123,45 +131,67 @@
             userTable.innerHTML = '';
         } else {
             for (let i in data) {
-                var deletarUsuario = ''
-
-                if (data[i].fkUsuario != null) {
-                    deletarUsuario = `
-                        <button onclick="deleteUser(${data[i].idUsuario})" type="button" class="btn btn-outline-danger btn-sm">
-                            <i class="bi bi-trash-fill"></i>
-                            Remover
-                        </ button>
-                    `
-                }
-
+                var trUsuario = document.getElementById(`trUsuario#${data[i].idUsuario}`)
+                
                 var cpf = data[i].cpf
                 cpf = `${cpf.substring(0,3)}.${cpf.substring(3,6)}.${cpf.substring(6,9)}-${cpf.substring(9,11)}`;
 
-                userTable.innerHTML += `
-                    <tr>
-                        <td>
-                            ${data[i].idUsuario}
-                        </td>
+                if (!trUsuario) {
+                    var deletarUsuario = ''
 
-                        <td>
-                            ${data[i].nome}
-                        </td>
+                    if (data[i].fkUsuario != null) {
+                        deletarUsuario = `
+                            <button onclick="deleteUser(${data[i].idUsuario})" type="button" class="btn btn-outline-danger btn-sm">
+                                <i class="bi bi-trash-fill"></i>
+                                Remover
+                            </ button>
+                        `
+                    }
 
-                        <td>
-                            ${cpf}
-                        </td>
+                    userTable.innerHTML += `
+                        <tr id="trUsuario#${data[i].idUsuario}">
+                            <td>
+                                ${data[i].idUsuario}
+                            </td>
 
-                        <td>
-                            ${data[i].email}
-                        </td>
+                            <td id="tdNome#${data[i].idUsuario}">
+                                ${data[i].nome}
+                            </td>
 
-                        <td>
-                            ${deletarUsuario}
-                        </td>
-                    </tr>
-                `
+                            <td id="tdCPF#${data[i].idUsuario}">
+                                ${cpf}
+                            </td>
+
+                            <td id="tdEmail#${data[i].idUsuario}">
+                                ${data[i].email}
+                            </td>
+
+                            <td>
+                                ${deletarUsuario}
+                            </td>
+                        </tr>
+                    `
+                } else {
+                    var tdNome = document.getElementById(`tdNome#${data[i].idUsuario}`)
+                    var tdEmail = document.getElementById(`tdEmail#${data[i].idUsuario}`)
+                    var tdCPF = document.getElementById(`tdCPF#${data[i].idUsuario}`)
+
+                    tdNome.innerText = data[i].nome
+                    tdEmail.innerText = data[i].email
+                    tdCPF.innerText = data[i].cpf
+                }                
             }
         }
+    }
+
+    function removerUsuarios(itensParaRemover) {
+        itensParaRemover.forEach(item => {
+            var trUsuario = document.getElementById(`trUsuario#${item.idUsuario}`)
+
+            if (trUsuario) {
+                trUsuario.parentNode.removeChild(trUsuario)
+            }
+        });
     }
 
     function deleteUser(idServer) {
@@ -213,5 +243,6 @@
     obterUsuarios();
     setInterval(() => {
         getData(indexPage)
-    })
+        obterUsuarios()
+    }, 10000)
 </script>

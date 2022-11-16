@@ -44,9 +44,9 @@
                     <div class="container-fluid px-lg-4">
                         <div class="row">
                             <div class="col-md-12 mt-lg-4 mt-4">
-                                <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                                <div class="d-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800">Visão Geral</h1>
-                                    <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                                    <a class="d-inline-block btn btn-sm btn-primary shadow-sm text-light">
                                         <i class="bi bi-cloud-plus"></i>
                                         Cadastrar servidor
                                     </a>
@@ -83,7 +83,7 @@
                                         </table>
                                     </div>
                                 </div>
-                                <div id="cards_servers" class="row justify-content-evenly">
+                                <div id="cards_servers" class="row justify-content-evenly align-items-center">
                                     <div class="col-sm-3">
                                         <div class="card" style="width: 320px">
                                             <div class="card-body">
@@ -254,7 +254,7 @@
     getData(indexPage)
     setInterval(() => {
         getData(indexPage)
-    }, 5000)
+    }, 10000)
 </script>
 <script>
     function lidarGraficos(data) {

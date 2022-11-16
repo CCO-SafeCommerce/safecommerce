@@ -56,8 +56,8 @@ class myNavbar extends HTMLElement {
                         </form>
                     </div>
                 </li>
-                <li class="nav-item icon"><a href="#" class="nav-link"><i class="bi bi-bell-fill"></i></a></li>
-                <li class="nav-item icon"><a href="#" class="nav-link"><i class="bi bi-envelope-fill"></i></a></li>
+                <li class="nav-item icon"><a target="_black" href="https://app.slack.com/client/T03UCM7CF32/C03U61A72PR?selected_team_id=T03UCM7CF32" class="nav-link"><i class="bi bi-bell-fill"></i></a></li>
+                <li class="nav-item icon"><a target="_blank" href="https://safe-commercefr.atlassian.net/jira/software/projects/SAF/boards/1" class="nav-link"><i class="bi bi-tools"></i></a></li>
                 <li class="nav-item icon" id="dropdown"><a href="#" class="nav-link dropdown-toggle" role="button">
                     <span class="mr-2 d-none d-lg-inline text-gray-600 small" id="company_name">Empresa</span>
                     <span class="bi bi-person-circle img-profile"></span>

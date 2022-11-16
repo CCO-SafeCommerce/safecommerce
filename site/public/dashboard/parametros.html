@@ -44,18 +44,18 @@
                     <div class="row d-flex justify-content-center align-items-center h-100">
                       <div class="col-xl-9">                                    
                         <div class="d-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800">Definir parâmetros de coleta</h1>
-                            <!-- <a class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                            <h1 class="h3 mb-0 text-gray-800">Definir monitoramento</h1>
+                            <a class="d-inline-block btn btn-sm btn-primary shadow-sm text-light">
                               <i class="bi bi-file-earmark-text"></i>
                                 Informações sobre métricas
-                            </a> -->
+                            </a>
                         </div>
                                     
                         <div class="card">
                           <div class="card-body">
                             <div class="row align-items-start">
                               <div class="col-md-3 ps-5">
-                                <h5 class="mb-0">Dados da CPU</h5>
+                                <h5 class="mb-0">Processador</h5>
                               </div>
                             </div>
                             
@@ -98,7 +98,7 @@
                                     
                             <div class="row align-items-start">
                               <div class="col-md-3 ps-5">
-                                <h5 class="mb-0">Dados da RAM</h5>
+                                <h5 class="mb-0">Memória</h5>
                               </div>
                             </div>
                             
@@ -120,7 +120,7 @@
                                     
                             <div class="row align-items-start">
                               <div class="col-md-3 ps-5">
-                                <h5 class="mb-0">Dados do Disco</h5>
+                                <h5 class="mb-0">Disco</h5>
                               </div>
                             </div>
                             
@@ -156,7 +156,7 @@
                                     
                             <div class="row align-items-start">
                               <div class="col-md-4 ps-5">
-                                <h5 class="mb-0">Dados Especializados</h5>
+                                <h5 class="mb-0">Especializados</h5>
                               </div>
                             </div>
 
@@ -211,12 +211,7 @@
 
   function definirMetricas() {
     parametrosAtuais.forEach(p => {
-      switch (p) {
-        case 13:
-        case 14:
-        case 15:
-          document.getElementById(`switchMetrica#13`).checked = true;
-          break;      
+      switch (p) {     
         default:
           document.getElementById(`switchMetrica#${p}`).checked = true;
           break;
@@ -269,13 +264,6 @@
         var idMetrica = switchMetrica.id.slice(switchMetrica.id.indexOf('#')+1,switchMetrica.id.length)
 
         switch (Number(idMetrica)) {
-          case 13:
-          case 14:
-          case 15:
-            parametrosNovos.push(13)
-            parametrosNovos.push(14)
-            parametrosNovos.push(15)
-            break;        
           default:
             parametrosNovos.push(Number(idMetrica))
             break;
@@ -306,9 +294,6 @@
         return p;
       }
     })
-
-    console.log(adicionar);
-    console.log(remover);
 
     fetch('/parametros/atualizar', {
       method: 'PUT',
@@ -344,7 +329,4 @@
   }
 
   getData(indexPage);
-  setInterval(() => {
-    getData(indexPage)
-  }, 5000)
 </script>
