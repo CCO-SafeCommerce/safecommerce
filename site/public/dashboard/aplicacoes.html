@@ -13,6 +13,7 @@
     <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
 
     <!-- style -->
@@ -46,11 +47,28 @@
                             <div class="col-md-12 mt-lg-4 mt-4">
                                 <div class="d-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800">Aplicações</h1>
-                                    <a class="d-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                                    <a class="d-inline-block btn btn-sm btn-primary shadow-sm text-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                         <i class="bi bi-plus-circle"></i>
                                         Cadastrar aplicação
                                     </a>
-                                </div>                                
+                                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                          <div class="modal-content">
+                                            <div class="modal-header">
+                                              <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                              ...
+                                            </div>
+                                            <div class="modal-footer">
+                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                              <button type="button" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                </div>                                                                                         
                             </div>
 
                             <!-- Cards -->
@@ -61,13 +79,33 @@
                                             <thead class="bg-white">
                                                 <tr>
                                                     <th class="border-top-0">Id</th>
-                                                    <th class="border-top-0">Servidor</th>                                                  
                                                     <th class="border-top-0">Nome</th>
                                                     <th class="border-top-0">Porta</th>
-                                                    <th class="border-top-0">Remover</th>
+                                                    <th class="border-top-0">Status</th>
+                                                    <th class="border-top-0">Demanda</th>
+                                                    <th class="border-top-0">Ações</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="app_table">
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>SafeCommerce</td>
+                                                    <td>3333</td>
+                                                    <td>LISTEN</td>
+                                                    <td>20</td>
+                                                    <td>
+                                                        <div class="btn-group btn-group-sm" role="group">
+                                                            <button type="button" class="btn btn-primary pe-3">
+                                                                <i class="bi bi-pencil-square me-md-1"></i> 
+                                                                Editar
+                                                            </button>
+                                                            <button type="button" class="btn btn-outline-danger">
+                                                                <i class="bi bi-trash-fill me-md-1"></i>
+                                                                Remover
+                                                            </button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -101,9 +139,38 @@
 
     document.getElementById('menu-painel').classList.add('active');
     document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;
-    var serverTable = document.getElementById("server_table");
+    var appTable = document.getElementById("app_table");
+
+    function getURLParams() {
+        var params = new URLSearchParams(window.location.search)
+        var idServidor = params.get('idServer')
+
+        if (idServidor != null) {
+            selectedServer = idServidor
+            var servers = JSON.parse(sessionStorage.SERVERS)
+
+            var servidor = servers.find(s => {
+                if (s.idServidor == idServidor) {
+                    return s
+                }
+            })
+
+            if (!servidor){
+                window.location = './painel.html'
+            }
+
+            obterAplicacoes()
+        } else {
+            window.location = './painel.html'
+        }
+    }
+
+    function obterAplicacoes() {
+        
+    }
 
     getData(indexPage)
+    getURLParams()
     setInterval(() => {
         getData(indexPage)
     }, 10000)
