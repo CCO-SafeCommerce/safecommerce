@@ -119,6 +119,25 @@ function obterDadosRDisk(req,res) {
         });
     }
 }
+function obterDadosTemperatura(req,res) {
+    var id = req.params.idServidor
+
+    if (id == undefined) {
+        res.status(400).send("Id do Servidor está undefined!");
+    } else {
+        leituraModel.obterDadosTemperatura(id).then(function (resultado) {
+            res.json(resultado);
+
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log(
+                "\nHouve um erro ao realizar o cadastro! Erro: ",
+                erro.sqlMessage
+            );
+            res.status(500).json(erro.sqlMessage);
+        });
+    }
+}
 
 function obterDadosWDisk(req,res) {
     var id = req.params.idServidor
@@ -147,5 +166,6 @@ module.exports = {
     obterDadosRam,
     obterDadosDisk,
     obterDadosRDisk,
-    obterDadosWDisk
+    obterDadosWDisk,
+    obterDadosTemperatura
 }
