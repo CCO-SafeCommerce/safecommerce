@@ -19,10 +19,12 @@
     <!-- style -->
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/painel.css">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js" integrity="sha512-F+u8eWHrfY8Xw9BLzZ8rG/0wIvs0y+JyRJrXjp3VjtFPylAEEGwKbua5Ip/oiVhaTDaDs4eU2Xtsxjs/9ag2bQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 
 <body onresize="responsive()" onload="responsive(), validateSession()">
@@ -47,27 +49,43 @@
                             <div class="col-md-12 mt-lg-4 mt-4">
                                 <div class="d-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800">Aplicações</h1>
-                                    <a class="d-inline-block btn btn-sm btn-primary shadow-sm text-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    <a onclick="modalCadastrar()" class="d-inline-block btn btn-sm btn-primary shadow-sm text-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                         <i class="bi bi-plus-circle"></i>
                                         Cadastrar aplicação
                                     </a>
+
+                                    <!-- Modal de cadastro de aplicações -->
                                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
+                                        <div class="modal-dialog modal-dialog-centered">
                                           <div class="modal-content">
                                             <div class="modal-header">
-                                              <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                              <h1 class="modal-title fs-5" id="lblModal">Cadastrar Aplicações</h1>
                                               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                              ...
+                                                <div class="row mb-3">
+                                                    <label for="txtNome" class="col-sm-2 col-form-label">Nome</label>
+                                                    <div class="col-sm-10">
+                                                      <input type="text" class="form-control" id="txtNome">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label for="selPorta" class="form-label col-sm-2 col-form-label">Porta</label>
+                                                    <div class="col">
+                                                        <select id="selPorta" class="form-select js-example-responsive" style="width: 100%;">
+                                                            <option value="-1" selected>Escolha uma porta para monitorar</option>
+                                                        </select>
+                                                    </div>
+                                                </div>                                                
                                             </div>
                                             <div class="modal-footer">
-                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                              <button type="button" class="btn btn-primary">Save changes</button>
+                                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                              <button id="btnCadastrar" type="button" class="btn btn-primary" onclick="cadastrar()">Cadastrar</button>
+                                              <button id="btnEditar" type="button" class="btn btn-primary" onclick="editar()">Salvar</button>
                                             </div>
                                           </div>
                                         </div>
-                                    </div>
+                                    </div>                                                                        
                                 </div>                                                                                         
                             </div>
 
@@ -136,10 +154,67 @@
 </html>
 <script>
     const indexPage = false;
+    var selectedServer = 0;
+    var aplicacoes = []
 
     document.getElementById('menu-painel').classList.add('active');
     document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;
     var appTable = document.getElementById("app_table");
+
+    $(document).ready(function() {
+        $('#selPorta').select2({
+            dropdownParent: $('#exampleModal'),
+            tags: true,
+            placeholder: { id: -1, text: 'Escolha uma porta' }
+        });
+    });
+
+    function modalCadastrar() {
+        var title = document.getElementById('lblModal')
+        var btnCadastrar = document.getElementById('btnCadastrar')
+        var btnEditar = document.getElementById('btnEditar')
+
+        title.innerText = 'Cadastrar Aplicação'
+        btnCadastrar.style.display = 'inline-block'
+        btnEditar.style.display = 'none'
+    }
+
+    function cadastrar() {
+        var nomeAplicacao = txtNome.value;
+        var porta = Number(selPorta.value);
+
+        fetch(`/aplicacoes/cadastrar`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idServidor: selectedServer,
+                nomeAplicacao: nomeAplicacao,
+                portaAplicacao: porta
+            })
+        }).then(resposta => {
+            if (resposta.ok) {
+                Swal.fire({
+                    title: 'Suceso',
+                    text: 'Aplicação cadastrada realizado com sucesso',
+                    icon: 'success',
+                    timer: 1750,
+                    timerProgressBar: true,
+                    confirmButtonColor: '#34e269',
+                });
+
+                txtNome.value = '';
+                selPorta.value = '';
+
+                obterAplicacoes()
+            } else {
+                throw ("Houve um erro ao tentar realizar o cadastro!");
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+    }
 
     function getURLParams() {
         var params = new URLSearchParams(window.location.search)
