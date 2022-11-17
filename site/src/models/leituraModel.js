@@ -8,7 +8,14 @@ function limparHistoricoServidor(idServidor) {
     `;
     return database.execute(instruction);
 }
+function obterDadosTemperatura(idServidor){
+    console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterDadosCPU(): ", idServidor);
 
+    var instruction = `SELECT valor, horario, situacao FROM leituraTemp where fkServidor = ${idServidor} order by horario desc limit 20;`
+   
+    return database.execute(instruction);
+
+}
 function obterDadosCPU(idServidor) {
     console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterDadosCPU(): ", idServidor);
 
@@ -73,5 +80,6 @@ module.exports = {
     obterDadosRam,
     obterDadosDisk,
     obterDadosRDisk,
-    obterDadosWDisk
+    obterDadosWDisk,
+    obterDadosTemperatura
 }

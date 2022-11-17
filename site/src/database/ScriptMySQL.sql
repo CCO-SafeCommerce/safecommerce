@@ -134,6 +134,17 @@ select
 from Leitura as l 
 where l.fkMetrica = 1;
 
+create view leituraTemp as 
+select 
+	l.fkMetrica,
+    l.dataLeitura as 'horario',
+    l.valor_leitura as 'valor',
+	l.fkServidor,
+    l.situacao as 'situacao'
+from Leitura as l 
+where l.fkMetrica = 11;
+
+
 create view leituraCoreCPU as 
 select 
 	l.fkMetrica,

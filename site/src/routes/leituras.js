@@ -25,4 +25,8 @@ router.get("/obterDadosWDisk/:idServidor", (req,res)=>{
     leituraController.obterDadosWDisk(req, res);
 })
 
+router.get("/obterDadosTemperatura/:idServidor", (req,res)=>{
+    leituraController.obterDadosTemperatura(req,res);
+})
+
 module.exports = router;
