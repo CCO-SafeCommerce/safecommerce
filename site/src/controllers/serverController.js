@@ -4,7 +4,6 @@ const leituraModel = require("../models/leituraModel");
 
 function getServers(req, res) {
     var idCompany = req.body.idCompanyServer;
-
     serverModel.getServers(idCompany)
         .then(
             function(result) {

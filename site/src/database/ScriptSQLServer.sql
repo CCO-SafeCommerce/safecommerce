@@ -117,6 +117,7 @@ SELECT
 	s.idServidor,
 	s.modelo,
 	s.so,
+	S.fkEmpresa,
 	s.enderecoMac,
 	(select top 1 valor_leitura from Leitura where fkServidor = s.idServidor and fkMetrica = 2 order by dataLeitura desc) as 'qtdCPU',
 	(select top 1 valor_leitura from Leitura where fkServidor = s.idServidor and fkMetrica = 5 order by dataLeitura desc) as 'qtdRAM',
