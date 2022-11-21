@@ -22,9 +22,6 @@
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 
 <body onresize="responsive()" onload="responsive(), validateSession()">
@@ -66,15 +63,13 @@
                                                 <div class="row mb-3">
                                                     <label for="txtNome" class="col-sm-2 col-form-label">Nome</label>
                                                     <div class="col-sm-10">
-                                                      <input type="text" class="form-control" id="txtNome">
+                                                      <input type="text" class="form-control" id="txtNome" placeholder="Ex: Banco de Dados Principal">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-3">
                                                     <label for="selPorta" class="form-label col-sm-2 col-form-label">Porta</label>
                                                     <div class="col">
-                                                        <select id="selPorta" class="form-select js-example-responsive" style="width: 100%;">
-                                                            <option value="-1" selected>Escolha uma porta para monitorar</option>
-                                                        </select>
+                                                        <input id="selPorta" type="number" max="65535" min="1" placeholder="Informe uma porta válida (1-65535)" class="form-control">
                                                     </div>
                                                 </div>                                                
                                             </div>
@@ -96,7 +91,6 @@
                                         <table class="table table-striped table-hover v-middle">
                                             <thead class="bg-white">
                                                 <tr>
-                                                    <th class="border-top-0">Id</th>
                                                     <th class="border-top-0">Nome</th>
                                                     <th class="border-top-0">Porta</th>
                                                     <th class="border-top-0">Status</th>
@@ -105,25 +99,6 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="app_table">
-                                                <tr>
-                                                    <td>1</td>
-                                                    <td>SafeCommerce</td>
-                                                    <td>3333</td>
-                                                    <td>LISTEN</td>
-                                                    <td>20</td>
-                                                    <td>
-                                                        <div class="btn-group btn-group-sm" role="group">
-                                                            <button type="button" class="btn btn-primary pe-3">
-                                                                <i class="bi bi-pencil-square me-md-1"></i> 
-                                                                Editar
-                                                            </button>
-                                                            <button type="button" class="btn btn-outline-danger">
-                                                                <i class="bi bi-trash-fill me-md-1"></i>
-                                                                Remover
-                                                            </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
@@ -155,19 +130,12 @@
 <script>
     const indexPage = false;
     var selectedServer = 0;
+    var selectedEditApp = 0;
     var aplicacoes = []
 
     document.getElementById('menu-painel').classList.add('active');
     document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;
     var appTable = document.getElementById("app_table");
-
-    $(document).ready(function() {
-        $('#selPorta').select2({
-            dropdownParent: $('#exampleModal'),
-            tags: true,
-            placeholder: { id: -1, text: 'Escolha uma porta' }
-        });
-    });
 
     function modalCadastrar() {
         var title = document.getElementById('lblModal')
@@ -179,9 +147,60 @@
         btnEditar.style.display = 'none'
     }
 
+    function modalEditar(selectedApp) {
+        var title = document.getElementById('lblModal')
+        var btnCadastrar = document.getElementById('btnCadastrar')
+        var btnEditar = document.getElementById('btnEditar')
+        var txtNome = document.getElementById('txtNome')
+        var selPorta = document.getElementById('selPorta')
+
+        var app = aplicacoes.find(app => {
+            if (app.idAplicacao == selectedApp) {
+                return app;
+            }
+        })
+
+        title.innerText = 'Editar Aplicação'
+        btnEditar.style.display = 'inline-block'
+        btnCadastrar.style.display = 'none'
+        txtNome.value = app.nome
+        selPorta.value = app.porta
+        selectedEditApp = selectedApp
+    }
+
     function cadastrar() {
         var nomeAplicacao = txtNome.value;
         var porta = Number(selPorta.value);
+
+        if (porta < 1 || porta > 65535) {
+            Swal.fire({
+                title: 'Erro',
+                text: 'Porta informada está fora do intervalo válido (1-65535). Verifique a disponibilidade da porta',
+                icon: 'error',
+                showConfirmButton: false,
+                showDenyButton: true,
+                denyButtonText: 'OK'
+            });
+            return;
+        }
+
+        var appJaExistente = aplicacoes.find(app => {
+            if (app.porta == porta) {
+                return app
+            }
+        })
+
+        if (appJaExistente) {
+            Swal.fire({
+                title: 'Erro',
+                text: 'A porta informada já possui uma aplicação que já está sendo monitorada',
+                icon: 'error',
+                showConfirmButton: false,
+                showDenyButton: true,
+                denyButtonText: 'OK'
+            });
+            return;
+        }
 
         fetch(`/aplicacoes/cadastrar`, {
             method: "POST",
@@ -191,6 +210,73 @@
             body: JSON.stringify({
                 idServidor: selectedServer,
                 nomeAplicacao: nomeAplicacao,
+                portaAplicacao: porta
+            })
+        }).then(resposta => {
+            if (resposta.ok) {
+                Swal.fire({
+                    title: 'Suceso',
+                    text: 'Aplicação cadastrada realizado com sucesso',
+                    icon: 'success',
+                    timer: 1750,
+                    timerProgressBar: true,
+                    confirmButtonColor: '#34e269',
+                });
+
+                txtNome.value = '';
+                selPorta.value = '';
+
+                obterAplicacoes()
+            } else {
+                throw ("Houve um erro ao tentar realizar o cadastro!");
+            }
+        }).catch(function (resposta) {
+            console.log(`#ERRO: ${resposta}`);
+        });
+    }
+
+    function editar() {
+        var nome = txtNome.value
+        var porta = Number(selPorta.value);
+
+        if (porta < 1 || porta > 65535) {
+            Swal.fire({
+                title: 'Erro',
+                text: 'Porta informada está fora do intervalo válido (1-65535). Verifique a disponibilidade da porta',
+                icon: 'error',
+                showConfirmButton: false,
+                showDenyButton: true,
+                denyButtonText: 'OK'
+            });
+            return;
+        }
+
+        var appJaExistente = aplicacoes.find(app => {
+            if (app.porta == porta && app.idAplicacao != selectedEditApp) {
+                return app
+            }
+        })
+
+        if (appJaExistente) {
+            Swal.fire({
+                title: 'Erro',
+                text: 'A porta informada já possui uma aplicação que já está sendo monitorada',
+                icon: 'error',
+                showConfirmButton: false,
+                showDenyButton: true,
+                denyButtonText: 'OK'
+            });
+            return;
+        }
+
+        fetch(`/aplicacoes/editar`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idAplicacao: selectedEditApp,
+                nomeAplicacao: nome,
                 portaAplicacao: porta
             })
         }).then(resposta => {
@@ -241,12 +327,130 @@
     }
 
     function obterAplicacoes() {
-        
+        fetch(`/aplicacoes/monitorando/${selectedServer}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        }).then(resposta => {
+            resposta.json().then(json => {
+                var remover = aplicacoes.filter(app => {                    
+                    if(json.filter(jsonApp => jsonApp.idAplicacao == app.idAplicacao).length == 0) {
+                      return app
+                    }
+                })
+
+                lidarExibicao(json)
+                lidarRemover(remover)
+
+                if (json.length > 0) {
+                    document.getElementById('divNoContent').style.display = 'none'
+                } else {
+                    document.getElementById('divNoContent').style.display = 'flex'
+                }
+
+                aplicacoes = json
+            });
+        })
+    }
+
+    function lidarExibicao(itens) {
+        itens.forEach(item => {
+            var isRenderizado = document.getElementById(`trApp#${item.idAplicacao}`)
+
+            if (isRenderizado) {
+                var tdNome = document.getElementById(`tdNome#${item.idAplicacao}`)
+                var tdPorta = document.getElementById(`tdPorta#${item.idAplicacao}`)
+                var tdEstado = document.getElementById(`tdEstado#${item.idAplicacao}`)
+                var tdDemanda = document.getElementById(`tdDemanda#${item.idAplicacao}`)
+
+                tdNome.innerText = item.nome
+                tdPorta.innerText = item.porta
+                tdEstado.innerText = item.demanda > 0 ? 'LISTEN' : '---'
+                tdDemanda.innerText = item.demanda
+            } else {
+                appTable.innerHTML += `
+                    <tr id="trApp#${item.idAplicacao}">
+                        <td id="tdNome#${item.idAplicacao}">${item.nome}</td>
+                        <td id="tdPorta#${item.idAplicacao}">${item.porta}</td>
+                        <td id="tdEstado#${item.idAplicacao}">${item.demanda > 0 ? 'LISTEN' : '---'}</td>
+                        <td id="tdDemanda#${item.idAplicacao}">${item.demanda}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button  data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="modalEditar(${item.idAplicacao})" type="button" class="btn btn-primary pe-3">
+                                    <i class="bi bi-pencil-square me-md-1"></i> 
+                                    Editar
+                                </button>
+                                <button onclick="deleteApp(${item.idAplicacao})" type="button" class="btn btn-outline-danger">
+                                    <i class="bi bi-trash-fill me-md-1"></i>
+                                    Remover
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `
+            }
+        });
+    }
+
+    function lidarRemover(itens) {
+        itens.forEach(item => {
+            var elemento = document.getElementById(`trApp#${item.idAplicacao}`)
+            if (elemento) {
+                elemento.parentNode.removeChild(elemento)
+            }
+        })
+    }
+
+    function deleteApp(idAplicacao) {
+        Swal.fire({
+            title: 'Excluir Aplicação',
+            icon: 'warning',
+            text: 'Tem certeza que deseja excluir aplicação?',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#dc3545',
+            confirmButtonText: 'Remover',
+            focusConfirm: false,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                fetch(`/aplicacoes/${idAplicacao}`, {
+                    method: 'DELETE',
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }).then(response => {
+                    if (response.ok) {
+                        Swal.fire({
+                            title: 'Suceso',
+                            text: 'Aplicação excluída com sucesso',
+                            icon: 'success',
+                            timer: 1500,
+                            timerProgressBar: true,
+                            confirmButtonColor: '#6BF178',
+                            willClose: () => {
+                                window.location.reload()
+                            }
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Erro',
+                            text: 'Houve um erro ao excluir a aplicação',
+                            icon: 'error',
+                            showConfirmButton: false,
+                            showDenyButton: true,
+                            denyButtonText: 'OK'
+                        });
+                    }
+                })
+            }
+        })
     }
 
     getData(indexPage)
     getURLParams()
     setInterval(() => {
         getData(indexPage)
+        obterAplicacoes()
     }, 10000)
 </script>

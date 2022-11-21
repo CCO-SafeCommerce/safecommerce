@@ -28,14 +28,6 @@
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/servidores.css">
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <script src="./js/graficos/percentCPU.js"></script>
-    <script src="./js/graficos/percentCPUperCore.js"></script>
-    <script src="./js/graficos/freqCPU.js"></script>
-    <script src="./js/graficos/percentRAM.js"></script>
-    <script src="./js/graficos/percentDisco.js"></script>
-    <script src="./js/graficos/discoReadMs.js"></script>
-    <script src="./js/graficos/discoWriteMs.js"></script>
 </head>
 
 <body onresize="responsive()" onload="responsive(), validateSession()">
@@ -156,19 +148,19 @@
                                 <div class="d-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800" id="server_title">Monitoramento</h1>
                                     <div class="row justify-content-around">
-                                        <div class="col d-none">
-                                            <a id="aHistory" class="d-none d-md-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                                        <div class="col d-none d-md-flex">
+                                            <a id="aEditar" class="d-none d-md-inline-block btn btn-sm btn-primary shadow-sm text-light">
                                                 <i class="bi bi-clock-history"></i>
                                                 Histórico
                                             </a>
                                         </div>
                                         <div class="col d-flex">
-                                            <a id="aAnalytics" class="d-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                                            <a id="aParametros" class="d-inline-block btn btn-sm btn-primary shadow-sm text-light">
                                                 <i class="bi bi-clipboard2-data"></i>
                                                 Análitico
                                             </a>
                                         </div>
-                                        <div class="col d-none">
+                                        <div class="col d-md-none">
                                             <a onclick="handleVisao()" class="d-inline-block d-md-none btn btn-sm btn-primary shadow-sm text-light">
                                                 <i class="bi bi-window-split"></i>
                                                 Visão
@@ -178,191 +170,11 @@
                                 </div>
                             </div>                         
                         </div>
-
-                        <!-- Tabelas de Métricas -->
-                        <div class="accordion" id="accordionExample">
-                            <!-- 1: Porcentagem de uso da CPU -->
-                            <div class="accordion-item" id="abaMetrica#1" style="display: none">
-                                <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                                        Porcentagem de uso da CPU
-                                    </button>
-                                </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
-                                    data-bs-parent="#accordionExample">
-                                    <div class="accordion-body bodyCanvas col">
-                                        <canvas id="cpuPercent" class="chartjs-render-monitor lineChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 3: Porcentagem de uso da CPU por core -->
-                            <div class="accordion-item" id="abaMetrica#3" style="display: none">
-                                <h2 class="accordion-header" id="headingThree">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseThree" aria-expanded="false"
-                                        aria-controls="collapseThree">
-                                        Porcentagem de uso da CPU por core
-                                    </button>
-                                </h2>
-                                <div id="collapseThree" class="accordion-collapse collapse"
-                                    aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body bodyCanvas">
-                                        <canvas id="qtdCpuCore" class="chartjs-render-monitor lineChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 4: Frequência de uso da CPU -->
-                            <div class="accordion-item" id="abaMetrica#4" style="display: none">
-                                <h2 class="accordion-header" id="headingFour">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseFour" aria-expanded="false"
-                                        aria-controls="collapseFour">
-                                        Frequência de uso da CPU
-                                    </button>
-                                </h2>
-                                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
-                                    data-bs-parent="#accordionExample">
-                                    <div class="accordion-body bodyCanvas">
-                                        <canvas id="frequencyCpu" class="chartjs-render-monitor lineChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 6: Porcentagem de uso da Memória RAM -->
-                            <div class="accordion-item" id="abaMetrica#6" style="display: none">
-                                <h2 class="accordion-header" id="headingSix">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                                        Porcentagem de uso da Memória RAM
-                                    </button>
-                                </h2>
-                                <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
-                                    data-bs-parent="#accordionExample">
-                                    <div class="accordion-body bodyCanvas">
-                                        <canvas id="ramPercent" class="chartjs-render-monitor lineChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 8: Porcentagem de uso de Disco -->
-                            <div class="accordion-item" id="abaMetrica#8" style="display: none">
-                                <h2 class="accordion-header" id="headingEight">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseEight" aria-expanded="false"
-                                        aria-controls="collapseEight">
-                                        Porcentagem de uso de Disco
-                                    </button>
-                                </h2>
-                                <div id="collapseEight" class="accordion-collapse collapse"
-                                    aria-labelledby="headingEight" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body bodyCanvas">
-                                        <canvas id="diskPercent" class="chartjs-render-monitor lineChart"></canvas>                                        
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 9: Lido pelo Disco -->
-                            <div class="accordion-item" id="abaMetrica#9" style="display: none">
-                                <h2 class="accordion-header" id="headingNine">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseNine" aria-expanded="false"
-                                        aria-controls="collapseNine">
-                                        Lido pelo Disco
-                                    </button>
-                                </h2>
-                                <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine"
-                                    data-bs-parent="#accordionExample">
-                                    <div class="accordion-body bodyCanvas">
-                                        <canvas id="diskRead" class="chartjs-render-monitor lineChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 10: Escrito pelo Disco -->
-                            <div class="accordion-item" id="abaMetrica#10" style="display: none">
-                                <h2 class="accordion-header" id="headingTen">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseTen" aria-expanded="false" aria-controls="collapseTen">
-                                        Escrito pelo Disco
-                                    </button>
-                                </h2>
-                                <div id="collapseTen" class="accordion-collapse collapse" aria-labelledby="headingTen"
-                                    data-bs-parent="#accordionExample">
-                                    <div class="accordion-body bodyCanvas">
-                                        <canvas id="diskWrite" class="chartjs-render-monitor lineChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 11: Temperatura da CPU -->
-                            <div class="accordion-item" id="abaMetrica#11" style="display: none">
-                                <h2 class="accordion-header" id="headingEleven">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
-                                        Temperatura da CPU
-                                    </button>
-                                </h2>
-                                <div id="collapseEleven" class="accordion-collapse collapse" aria-labelledby="headingEleven"
-                                    data-bs-parent="#accordionExample">
-                                    <div class="accordion-body bodyCanvas">
-                                        <canvas id="temperature" class="chartjs-render-monitor lineChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 12: Processos -->
-                            <div class="accordion-item" id="abaMetrica#12" style="display: none">
-                                <h2 class="accordion-header" id="headingTwelve">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseTwelve" aria-expanded="false" aria-controls="collapseTwelve">
-                                        Processos
-                                    </button>
-                                </h2>
-                                <div id="collapseTwelve" class="accordion-collapse collapse" aria-labelledby="headingTwelve"
-                                    data-bs-parent="#accordionExample">
-                                    <div class="accordion-body bodyCanvas">
-                                        <canvas id="processos" class="chartjs-render-monitor lineChart"></canvas>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- 13: Aplicações -->
-                            <div class="accordion-item" id="abaMetrica#13" style="display: none">
-                                <h2 class="accordion-header" id="headingThirteen">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen">
-                                        Aplicações
-                                    </button>
-                                </h2>
-                                <div id="collapseThirteen" class="accordion-collapse collapse" aria-labelledby="headingThirteen"
-                                    data-bs-parent="#accordionExample">
-                                    <div class="accordion-body bodyCanvas">
-                                        <!-- <canvas id="processos" class="chartjs-render-monitor lineChart"></canvas> -->
-                                        <div id="divNoContent#13" class="card border-0 md-4">
-                                            <div class="row align-items-center">
-                                              <div class="col-md-4">
-                                                <img src="../assets/no-content.svg" class="img-fluid rounded-start" alt="Nenhum retorno foi encontrado">
-                                              </div>
-                                              <div class="col-8">
-                                                <div class="card-body">
-                                                    <p class="card-text">Você não possui aplicações configuradas para monitoramento. Defina as aplicações <a id="aAplicacoes" class="link-primary">aqui!</a></p>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>                                                                            
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <div id="divNoContent" class="row justify-content-center align-items-center" style="display: none;">
                             <div class="card col-4 ">
                                 <img src="../assets/no-content.svg" class="card-img-top" alt="Nenhum retorno foi encontrado">
                                 <div class="card-body">
-                                    <h2 class="card-title text-center fs-4">Nenhuma parâmetro de monitoramento</h2>
+                                    <h2 class="card-title text-center fs-4">Nenhuma visão análitica pode ser gerada</h2>
                                 </div>
                             </div>
                         </div>
@@ -403,14 +215,6 @@
         valorRAM.innerText = `${Number(servidor.qtdRAM).toFixed()} GB`
         valorDisco.innerText = `${Number(servidor.qtdDisco).toFixed()} GB`
         qtdVCPU = servidor.qtdCPU ? servidor.qtdCPU : 0
-
-        criarGraficoPercentCPU()
-        criarGraficoPercentCPUperCore()
-        criarGraficoFreqCPU()
-        criarGraficoPercentRAM()
-        criarGraficoPercentDisco()
-        criarGraficoDiscoReadMs()
-        criarGraficoDiscoWriteMs()
     }
 
     function getURLParams() {
@@ -435,12 +239,10 @@
             var linkEditar = document.getElementById('aEditar')
             var btnExcluir = document.getElementById('btnExcluir')
             var linkAplicacoes = document.getElementById('aAplicacoes')
-            var linkAplicacoes = document.getElementById('aAnalytics')
 
             linkEditar.href = `./editarServidor.html?idServer=${servidor.idServidor}`
             linkParametros.href = `./parametros.html?idServer=${servidor.idServidor}`
             linkAplicacoes.href = `./aplicacoes.html?idServer=${servidor.idServidor}`
-            linkAplicacoes.href = `./analytics.html?idServer=${servidor.idServidor}`
             btnExcluir.addEventListener('click', () => {
                 deleteServer(servidor.idServidor)
             });
@@ -480,11 +282,6 @@
                     }
                 })
 
-                
-                lidarEsconder(remover)
-                lidarExibir(adicionar)
-                lidarAtualizar(atualizar)
-
                 if (parametros.length > 0) {
                     document.getElementById('divNoContent').style.display = 'none'
                 } else {
@@ -494,71 +291,12 @@
                 parametrosAtuais = parametros
             })
         })
-    }
-
-    function lidarEsconder(itensParaEsconder) {
-        itensParaEsconder.forEach(item => {
-            switch (item) {
-                default:
-                    var aba = document.getElementById(`abaMetrica#${item}`)
-
-                    if (aba) {
-                        aba.style.display = 'none'
-                    }
-                    break;
-            }
-        })
-    }
-
-    function lidarExibir(itensParaExibir) {        
-        itensParaExibir.forEach(item => {        
-            switch (item) {
-                default:
-                    var aba = document.getElementById(`abaMetrica#${item}`)
-
-                    if (aba) {
-                        aba.style.display = 'block'
-                    }
-                    break;
-            }
-        })
-
-        lidarAtualizar(itensParaExibir)
-    }
-
-    function lidarAtualizar(itensParaAtualizar) {
-        itensParaAtualizar.forEach(item => {
-            switch (item) {
-                case 1:
-                    obterDadosPercentCPU(selectedServer)
-                    break;
-                case 3:
-                    obterDadosPercentCPUperCore(selectedServer)
-                    break;
-                case 4:
-                    obterDadosFreqCPU(selectedServer)
-                    break;
-                case 6:
-                    obterDadosPercentRAM(selectedServer)
-                    break;
-                case 8:
-                    obterDadosPercentDisco(selectedServer)
-                    break;
-                case 9:
-                    obterDadosDiscoReadMs(selectedServer)
-                    break;
-                case 10:
-                    obterDadosDiscoWriteMs(selectedServer)
-                    break;
-            }
-        })
-    }
+    }    
 
     getData(indexPage);
     getURLParams();
 
     setInterval(() => {
-        obterParametros()
         getData(indexPage)
     }, 5000)
 
