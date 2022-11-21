@@ -30,6 +30,8 @@
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script src="./js/graficos/percentCPU.js"></script>
+
+    <script src="./js/graficos/temperatura.js"></script>
     <script src="./js/graficos/percentCPUperCore.js"></script>
     <script src="./js/graficos/freqCPU.js"></script>
     <script src="./js/graficos/percentRAM.js"></script>
@@ -409,6 +411,7 @@
         criarGraficoFreqCPU()
         criarGraficoPercentRAM()
         criarGraficoPercentDisco()
+        criarGraficoTemperatura()
         criarGraficoDiscoReadMs()
         criarGraficoDiscoWriteMs()
     }
@@ -549,6 +552,9 @@
                     break;
                 case 10:
                     obterDadosDiscoWriteMs(selectedServer)
+                    break;
+                case 11:
+                    obterDadosTempCPU(selectedServer)
                     break;
             }
         })

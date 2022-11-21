@@ -26,12 +26,12 @@ const mySqlConfig = {
     password: `sptech`
 };
 
-function execute(instrucao) {
+function execute(queryMySql, queryAzure = queryMySql) {
     // VERIFICA A VARIÁVEL DE AMBIENTE SETADA EM app.js
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         return new Promise(function (resolve, reject) {
             sql.connect(sqlServerConfig).then(function () {
-                return sql.query(instrucao);
+                return sql.query(queryAzure);
             }).then(function (resultados) {
                 console.log(resultados);
                 resolve(resultados.recordset);
@@ -47,7 +47,7 @@ function execute(instrucao) {
         return new Promise(function (resolve, reject) {
             var conexao = mysql.createConnection(mySqlConfig);
             conexao.connect();
-            conexao.query(instrucao, function (erro, resultados) {
+            conexao.query(queryMySql, function (erro, resultados) {
                 conexao.end();
                 if (erro) {
                     reject(erro);

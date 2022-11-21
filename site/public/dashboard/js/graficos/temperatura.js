@@ -1,7 +1,8 @@
-var freqCPUChart = {}
+var tempCPUChart = {}
 
 function criarGraficoTemperatura() {
-    const dadosFreq = {
+    console.log("CAHEIMS")
+    const dadosTemp = {
         labels: [],
         datasets: [{
             label: 'Temperatura da CPU',
@@ -11,9 +12,9 @@ function criarGraficoTemperatura() {
         }]
     };
 
-    const configFreq = {
+    const configTemp = {
         type: 'line',
-        data: dadosFreq,
+        data: dadosTemp,
         options: {
             animation: {
                 duration: 0
@@ -27,22 +28,24 @@ function criarGraficoTemperatura() {
         }
     };
 
-    freqCPUChart = new Chart(
+    tempCPUChart = new Chart(
         document.getElementById('temperature'),
-        configFreq
+        configTemp
     );
 }
 
-function obterDadosFreqCPU(idServidor) {
+function obterDadosTempCPU(idServidor) {
+    console.log("Etntrou")
     fetch(`/leituras/obterDadosTemperatura/${idServidor}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
         }
     }).then(function (response) {
+        console.log("PEGUEI FAMILISA")
         if (response.ok) {
             response.json().then(function (resposta) {
-                plotarGraficoTemperatura(resposta, freqCPUChart);
+                plotarGraficoTemperatura(resposta, tempCPUChart);
             });
         } else {
             console.error('Nenhum dado encontrado ou erro na API');
@@ -55,6 +58,7 @@ function obterDadosFreqCPU(idServidor) {
 }
 
 function plotarGraficoTemperatura(resposta, grafico) {
+    console.log("TO TENTANDO")
     for (i = resposta.length -1; i >= 0; i--) {
 
         if (grafico.data.datasets[0].data.length > 30 && grafico.data.labels.length > 30) {
