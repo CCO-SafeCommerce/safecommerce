@@ -158,6 +158,12 @@
                                 <div class="d-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800" id="server_title">Monitoramento</h1>
                                     <div class="row justify-content-around">
+                                        <div class="col d-flex">
+                                            <a id="aEspecializado" onclick="especializado()" class="d-inline-block btn btn-sm btn-primary shadow-sm text-light" style="display: none;">
+                                                <i class="bi bi-boxes"></i>
+                                                Especializados
+                                            </a>
+                                        </div>
                                         <div class="col d-none">
                                             <a id="aHistory" class="d-none d-md-inline-block btn btn-sm btn-primary shadow-sm text-light">
                                                 <i class="bi bi-clock-history"></i>
@@ -329,35 +335,7 @@
                                         <canvas id="processos" class="chartjs-render-monitor lineChart"></canvas>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- 13: Aplicações -->
-                            <div class="accordion-item" id="abaMetrica#13" style="display: none">
-                                <h2 class="accordion-header" id="headingThirteen">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseThirteen" aria-expanded="false" aria-controls="collapseThirteen">
-                                        Aplicações
-                                    </button>
-                                </h2>
-                                <div id="collapseThirteen" class="accordion-collapse collapse" aria-labelledby="headingThirteen"
-                                    data-bs-parent="#accordionExample">
-                                    <div class="accordion-body bodyCanvas">
-                                        <!-- <canvas id="processos" class="chartjs-render-monitor lineChart"></canvas> -->
-                                        <div id="divNoContent#13" class="card border-0 md-4">
-                                            <div class="row align-items-center">
-                                              <div class="col-md-4">
-                                                <img src="../assets/no-content.svg" class="img-fluid rounded-start" alt="Nenhum retorno foi encontrado">
-                                              </div>
-                                              <div class="col-8">
-                                                <div class="card-body">
-                                                    <p class="card-text">Você não possui aplicações configuradas para monitoramento. Defina as aplicações <a id="aAplicacoes" class="link-primary">aqui!</a></p>
-                                                </div>
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>                                                                            
-                                    </div>
-                                </div>
+                            </div>                            
                             </div>
                         </div>
                         <div id="divNoContent" class="row justify-content-center align-items-center" style="display: none;">
@@ -437,15 +415,13 @@
             var linkParametros = document.getElementById('aParametros')
             var linkEditar = document.getElementById('aEditar')
             var btnExcluir = document.getElementById('btnExcluir')
-            var linkAplicacoes = document.getElementById('aAplicacoes')
-            var linkAplicacoes = document.getElementById('aAnalytics')
+            var linkAnalytics = document.getElementById('aAnalytics')
 
             linkEditar.href = `./editarServidor.html?idServer=${servidor.idServidor}`
             linkParametros.href = `./parametros.html?idServer=${servidor.idServidor}`
-            linkAplicacoes.href = `./aplicacoes.html?idServer=${servidor.idServidor}`
-            linkAplicacoes.href = `./analytics.html?idServer=${servidor.idServidor}`
+            linkAnalytics.href = `./analytics.html?idServer=${servidor.idServidor}`
             btnExcluir.addEventListener('click', () => {
-                deleteServer(servidor.idServidor)
+            deleteServer(servidor.idServidor)
             });
 
             setPage(servidor)
@@ -502,6 +478,18 @@
     function lidarEsconder(itensParaEsconder) {
         itensParaEsconder.forEach(item => {
             switch (item) {
+                case 12:
+                    if (!parametrosAtuais.includes(13)) {
+                        var aEspecializado = document.getElementById('aEspecializado')
+                        aEspecializado.style.display = 'none';
+                    }
+                    break;
+                case 13:
+                    if (!parametrosAtuais.includes(12)) {
+                        var aEspecializado = document.getElementById('aEspecializado')
+                        aEspecializado.style.display = 'none';
+                    }
+                    break;
                 default:
                     var aba = document.getElementById(`abaMetrica#${item}`)
 
@@ -516,6 +504,11 @@
     function lidarExibir(itensParaExibir) {        
         itensParaExibir.forEach(item => {        
             switch (item) {
+                case 12:
+                case 13:
+                    var aEspecializado = document.getElementById('aEspecializado')
+                    aEspecializado.style.display = 'inline-block';
+                    break;
                 default:
                     var aba = document.getElementById(`abaMetrica#${item}`)
 
@@ -637,5 +630,34 @@
                 deleteServer(selectedServer)
             }
         })
+    }
+
+    function especializado() {
+        var opcoesEspecilizadas = {}
+
+        if (parametrosAtuais.includes(12)) {
+            Object.assign(opcoesEspecilizadas, { 'processos': "Processos" })
+        }
+
+        if (parametrosAtuais.includes(13)) {
+            Object.assign(opcoesEspecilizadas, { 'aplicacoes': "Aplicações" })
+        }
+
+        Swal.fire({
+            title: 'Métricas especializadas',
+            input: 'select',
+            inputOptions: opcoesEspecilizadas,
+            inputPlaceholder: 'Selecione uma métrica para visualizar',
+            showCancelButton: true,
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#6BF178'
+        }).then(({ value: option }) => {
+            if (option == 'processos') {
+                window.location = `./processos.html?idServer=${selectedServer}`
+            } else if (option == 'aplicacoes') {
+                window.location = `./aplicacoes.html?idServer=${selectedServer}`
+
+            }
+        }) 
     }
 </script>
