@@ -23,6 +23,8 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 
 <body onresize="responsive()" onload="responsive(), validateSession()">
@@ -70,7 +72,32 @@
                                                 <div class="row mb-3">
                                                     <label for="selPorta" class="form-label col-sm-2 col-form-label">Porta</label>
                                                     <div class="col">
-                                                        <input id="selPorta" type="number" max="65535" min="1" placeholder="Informe uma porta válida (1-65535)" class="form-control">
+                                                        <select id="selPorta" class="form-select" style="width: 100%">
+                                                            <option value="-1" selected>Informe uma porta válida (1-65536)</option>
+                                                            <option value="22">22 - SSH</option>
+                                                            <option value="25">25 - SMTP</option>
+                                                            <option value="66">66 - Oracle SQL*NET</option>
+                                                            <option value="80">80 - HTTP</option>
+                                                            <option value="443">443 - HTTPS</option>
+                                                            <option value="587">587 - SMTP</option>
+                                                            <option value="1433">1433 - SQL Server</option>
+                                                            <option value="2376">2376 - Docker REST API (SSL)</option>
+                                                            <option value="3000">3000 - Ruby On Rails</option>
+                                                            <option value="3000">3000 - React</option>
+                                                            <option value="3006">3006 - MySQL</option>
+                                                            <option value="4200">4200 - Angular</option>
+                                                            <option value="5000">5000 - ASP.NET Core</option>
+                                                            <option value="5000">5000 - Flask</option>
+                                                            <option value="5432">5432 - PostgreSQL</option>
+                                                            <option value="6379">6379 - Redis</option>
+                                                            <option value="6443">6443 - Kubernetes</option>
+                                                            <option value="8000">8000 - Django</option>
+                                                            <option value="8000">8000 - DynamoDB</option>
+                                                            <option value="8080">8080 - Jira</option>
+                                                            <option value="8080">8080 - Apache Tomcat</option>
+                                                            <option value="8080">8080 - HTTP</option>
+                                                            <option value="8443">8443 - Apache Tomcat SSL</option>
+                                                        </select>
                                                     </div>
                                                 </div>                                                
                                             </div>
@@ -138,6 +165,17 @@
     document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;
     var appTable = document.getElementById("app_table");
 
+    $(document).ready(function() {
+        $('#selPorta').select2({
+            dropdownParent: $('#exampleModal'),
+            placeholder: {
+                id: '-1',
+                text: 'Informe uma porta válida (1-65536)'
+            },
+            tags: true
+        });
+    });
+
     function modalCadastrar() {
         var title = document.getElementById('lblModal')
         var btnCadastrar = document.getElementById('btnCadastrar')
@@ -173,7 +211,7 @@
         var nomeAplicacao = txtNome.value;
         var porta = Number(selPorta.value);
 
-        if (porta < 1 || porta > 65535) {
+        if (porta < 1 || porta > 65536) {
             Swal.fire({
                 title: 'Erro',
                 text: 'Porta informada está fora do intervalo válido (1-65535). Verifique a disponibilidade da porta',

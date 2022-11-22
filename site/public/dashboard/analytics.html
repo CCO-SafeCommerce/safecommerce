@@ -53,122 +53,10 @@
                                 <div class="d-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800" id="server_title">Servidor</h1>
                                     <div class="row justify-content-around">
-                                        <div class="col d-none d-md-flex">
-                                            <a id="aEditar" class="d-none d-md-inline-block btn btn-sm btn-primary shadow-sm text-light">
-                                                <i class="bi bi-pencil-square"></i>
-                                                Editar
-                                            </a>
-                                        </div>
-                                        <div class="col d-none d-md-flex">
-                                            <a id="aParametros" class="d-none d-md-inline-block btn btn-sm btn-primary shadow-sm text-light">
-                                                <i class="bi bi-list-task"></i>
-                                                Alterar monitoramento
-                                            </a>
-                                        </div>
-                                        <div class="col d-none d-md-flex">
-                                            <button id="btnExcluir" type="button" class="d-none d-md-inline-block btn btn-danger btn-sm">
-                                                <i class="bi bi-trash-fill"></i>
-                                                Excluir    
-                                            </button>
-                                        </div>
-                                        <div class="col d-md-none">
-                                            <a onclick="handleControle()" class="d-inline-block d-md-none btn btn-sm btn-primary shadow-sm text-light">
-                                                <i class="bi bi-list-task"></i>
-                                                Controle
-                                            </a>
-                                        </div>
+                                        
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6 mb-4 card-size">
-                                <div class="card border-left-primary shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs text-color font-weight-bold text-uppercase mb-1">Sistema Operacional</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="valorSO">valor</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="bi bi-pc-display-horizontal"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6 mb-4 card-size">
-                                <div class="card border-left-primary shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-uppercase mb-1">CPUS</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="valorCPU">valor</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="bi bi-cpu"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6 mb-4 card-size">
-                                <div class="card border-left-primary shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-uppercase mb-1">RAM</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="valorRAM">valor</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="bi bi-memory"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-md-6 mb-4 card-size">
-                                <div class="card border-left-primary shadow h-100 py-2">
-                                    <div class="card-body">
-                                        <div class="row no-gutters align-items-center">
-                                            <div class="col mr-2">
-                                                <div class="text-xs font-weight-bold text-uppercase mb-1">Disco</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="valorDisco">valor</div>
-                                            </div>
-                                            <div class="col-auto">
-                                                <i class="bi bi-disc"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                           
-                        </div>
-
-                        <div class="row">
-                            <div class="col-md-12 mt-lg-4 mt-4">
-                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                    <h1 class="h3 mb-0 text-gray-800" id="server_title">Monitoramento</h1>
-                                    <div class="row justify-content-around">
-                                        <div class="col d-none d-md-flex">
-                                            <a id="aEditar" class="d-none d-md-inline-block btn btn-sm btn-primary shadow-sm text-light">
-                                                <i class="bi bi-clock-history"></i>
-                                                Histórico
-                                            </a>
-                                        </div>
-                                        <div class="col d-flex">
-                                            <a id="aParametros" class="d-inline-block btn btn-sm btn-primary shadow-sm text-light">
-                                                <i class="bi bi-clipboard2-data"></i>
-                                                Análitico
-                                            </a>
-                                        </div>
-                                        <div class="col d-md-none">
-                                            <a onclick="handleVisao()" class="d-inline-block d-md-none btn btn-sm btn-primary shadow-sm text-light">
-                                                <i class="bi bi-window-split"></i>
-                                                Visão
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>                         
+                            </div>                    
                         </div>
                         <div id="divNoContent" class="row justify-content-center align-items-center" style="display: none;">
                             <div class="card col-4 ">
@@ -203,18 +91,9 @@
     function setPage(servidor) {
         var serverTitle = document.getElementById('server_title')
         var titlePage = document.getElementById('title_page')
-        var valorSO = document.getElementById('valorSO')
-        var valorCPU = document.getElementById('valorCPU')
-        var valorRAM = document.getElementById('valorRAM')
-        var valorDisco = document.getElementById('valorDisco')  
 
         serverTitle.innerText = servidor.modelo;
-        titlePage.innerHTML = `SafeCommerce | ${servidor.modelo}`;        
-        valorSO.innerText = servidor.so;
-        valorCPU.innerText = `${servidor.qtdCPU ? servidor.qtdCPU : 0}`
-        valorRAM.innerText = `${Number(servidor.qtdRAM).toFixed()} GB`
-        valorDisco.innerText = `${Number(servidor.qtdDisco).toFixed()} GB`
-        qtdVCPU = servidor.qtdCPU ? servidor.qtdCPU : 0
+        titlePage.innerHTML = `SafeCommerce | ${servidor.modelo}`;
     }
 
     function getURLParams() {
@@ -234,18 +113,6 @@
             if(!servidor){
                 window.location = './painel.html'
             }
-
-            var linkParametros = document.getElementById('aParametros')
-            var linkEditar = document.getElementById('aEditar')
-            var btnExcluir = document.getElementById('btnExcluir')
-            var linkAplicacoes = document.getElementById('aAplicacoes')
-
-            linkEditar.href = `./editarServidor.html?idServer=${servidor.idServidor}`
-            linkParametros.href = `./parametros.html?idServer=${servidor.idServidor}`
-            linkAplicacoes.href = `./aplicacoes.html?idServer=${servidor.idServidor}`
-            btnExcluir.addEventListener('click', () => {
-                deleteServer(servidor.idServidor)
-            });
 
             setPage(servidor)
             obterParametros()
@@ -299,75 +166,4 @@
     setInterval(() => {
         getData(indexPage)
     }, 5000)
-
-    function deleteServer(idServer) {
-        Swal.fire({
-            title: 'Excluir servidor',
-            icon: 'warning',
-            text: 'Tem certeza que deseja excluir servidor?',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            confirmButtonColor: '#dc3545',
-            confirmButtonText: 'Remover',
-            focusConfirm: false,
-        }).then((result) => {
-            if (result.isConfirmed) {
-                fetch(`/servers/${idServer}`, {
-                    method: 'DELETE',
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                }).then(response => {
-                    if (response.ok) {
-                        Swal.fire({
-                            title: 'Suceso',
-                            text: 'Servidor excluído com sucesso',
-                            icon: 'success',
-                            timer: 1500,
-                            timerProgressBar: true,
-                            confirmButtonColor: '#6BF178',
-                            willClose: () => {
-                                window.location.href = './painel.html'
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'Erro',
-                            text: 'Houve um erro ao excluir o servidor',
-                            icon: 'error',
-                            showConfirmButton: false,
-                            showDenyButton: true,
-                            denyButtonText: 'OK'
-                        });
-                    }
-                })
-            }
-        })
-    }
-
-    function handleControle() {
-        Swal.fire({
-            title: 'Controle do Servidor',
-            input: 'select',
-            inputOptions: {
-                'editar': 'Editar Servidor',
-                'monitoramento': 'Alterar monitoramento',
-                'excluir': 'Excluir Servidor'
-            },
-            inputPlaceholder: 'Selecione uma ação',
-            showCancelButton: true,
-            cancelButtonText: 'Cancelar',
-            confirmButtonColor: '#6BF178'
-        }).then(({ value: option }) => {
-            if (option == 'editar') {
-                window.location = `./editarServidor.html?idServer=${selectedServer}`
-
-            } else if (option == 'monitoramento') {
-                window.location = `./parametros.html?idServer=${selectedServer}`
-
-            } else if (option == 'excluir') {
-                deleteServer(selectedServer)
-            }
-        })
-    }
 </script>
