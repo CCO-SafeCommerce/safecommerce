@@ -15,7 +15,7 @@ router.put('/editar', function (req, res) {
     aplicacaoController.editar(req, res)
 })
 
-router.delete('/:idAplicacao', function (req, res) {
+router.delete('/:idAplicacao&:componente', function (req, res) {
     aplicacaoController.deletar(req,res)
 })
 

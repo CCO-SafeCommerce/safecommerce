@@ -1,4 +1,5 @@
 const aplicacaoModel = require('../models/aplicacaoModel')
+const leituraModel = require('../models/leituraModel');
 
 function cadastrar(req, res) {
     var fkServidor = req.body.idServidor
@@ -74,13 +75,25 @@ function editar(req, res) {
 
 function deletar(req, res) {
     var idAplicacao = req.params.idAplicacao;
+    var componente = req.params.componente;
 
     if (idAplicacao == null) {
-        res.status(403).send("Id do Servidor está indefinido")
+        res.status(403).send("Id da Aplicação está indefinido")
+    } else if (componente == null) {
+        res.status(403).send("Componente está indefinido")
     } else {
-        aplicacaoModel.deletar(idAplicacao).then(resposta => {
-            console.log(resposta)
-            res.json(resposta)
+        aplicacaoModel.deletar(idAplicacao).then(_ => {
+            leituraModel.limparHistoricoAplicacao(componente).then(resultado => {
+                console.log(resultado)
+                res.json(resultado)
+            }).catch(function (erro) {
+                console.log(erro);
+                console.log(
+                    "\nHouve um erro ao realizar o cadastro da empresa! Erro: ",
+                    erro.sqlMessage
+                );
+                res.status(500).json(erro.sqlMessage);
+            })
         }).catch(function (erro) {
             console.log(erro);
             console.log(

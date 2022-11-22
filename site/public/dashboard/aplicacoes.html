@@ -22,6 +22,7 @@
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 </head>
 
 <body onresize="responsive()" onload="responsive(), validateSession()">
@@ -110,7 +111,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>                                
+                                </div>                                                               
                             </div>                                  
                         </div>
                     </div>
@@ -226,6 +227,11 @@
                 txtNome.value = '';
                 selPorta.value = '';
 
+                var elemento = document.getElementById('#exampleModal')
+                var modal = bootstrap.Modal.getInstance(elemento)
+                modal.hide()
+
+
                 obterAplicacoes()
             } else {
                 throw ("Houve um erro ao tentar realizar o cadastro!");
@@ -292,6 +298,10 @@
 
                 txtNome.value = '';
                 selPorta.value = '';
+
+                var elemento = document.getElementById('#exampleModal')
+                var modal = bootstrap.Modal.getInstance(elemento)
+                modal.hide()
 
                 obterAplicacoes()
             } else {
@@ -367,14 +377,14 @@
                 tdNome.innerText = item.nome
                 tdPorta.innerText = item.porta
                 tdEstado.innerText = item.demanda > 0 ? 'LISTEN' : '---'
-                tdDemanda.innerText = item.demanda
+                tdDemanda.innerText = item.demanda ? item.demanda : 0
             } else {
                 appTable.innerHTML += `
                     <tr id="trApp#${item.idAplicacao}">
                         <td id="tdNome#${item.idAplicacao}">${item.nome}</td>
                         <td id="tdPorta#${item.idAplicacao}">${item.porta}</td>
                         <td id="tdEstado#${item.idAplicacao}">${item.demanda > 0 ? 'LISTEN' : '---'}</td>
-                        <td id="tdDemanda#${item.idAplicacao}">${item.demanda}</td>
+                        <td id="tdDemanda#${item.idAplicacao}">${item.demanda ? item.demanda : 0}</td>
                         <td>
                             <div class="btn-group btn-group-sm" role="group">
                                 <button  data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="modalEditar(${item.idAplicacao})" type="button" class="btn btn-primary pe-3">
@@ -414,7 +424,14 @@
             focusConfirm: false,
         }).then((result) => {
             if (result.isConfirmed) {
-                fetch(`/aplicacoes/${idAplicacao}`, {
+                var app = aplicacoes.find(app => {
+                    if (app.idAplicacao == idAplicacao) {
+                        return app;
+                    }
+                })
+
+
+                fetch(`/aplicacoes/${idAplicacao}&${app.nome}:${app.porta}`, {
                     method: 'DELETE',
                     headers: {
                         "Content-Type": "application/json"

@@ -13,6 +13,7 @@ function obterDadosTemperatura(idServidor){
 
     var instruction = `SELECT valor, horario, situacao FROM leituraTemp where fkServidor = ${idServidor} order by horario desc limit 20;`
     var instructionAzure = `SELECT TOP 20 valor, horario, situacao FROM leituraTemperatura where fkServidor = ${idServidor} order by horario desc;`
+
     return database.execute(instruction, instructionAzure);
 
 }
@@ -21,6 +22,7 @@ function obterDadosCPU(idServidor) {
 
     var instruction = `SELECT valor, horario FROM leituraCPU where fkServidor = ${idServidor} order by horario desc limit 20;`
     var instructionAzure = `SELECT TOP 20 valor, horario FROM leituraCPU where fkServidor = ${idServidor} order by horario desc;`
+
     return database.execute(instruction, instructionAzure);
 }
 
@@ -64,16 +66,24 @@ function obterDadosRDisk(idServidor) {
     console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterDadosRDisk(): ", idServidor);
 
     var instruction = `SELECT valor, horario FROM leituraLDisco where fkServidor = ${idServidor} order by horario desc limit 20;`
-    var instruction = `SELECT TOP 20 valor, horario FROM leituraLDisco where fkServidor = ${idServidor} order by horario desc;`
+    var instructionAzure = `SELECT TOP 20 valor, horario FROM leituraLDisco where fkServidor = ${idServidor} order by horario desc;`
    
-    return database.execute(instruction);
+    return database.execute(instruction, instructionAzure);
 }
 
 function obterDadosWDisk(idServidor) {
     console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterDadosWDisk(): ", idServidor);
 
     var instruction = `SELECT valor, horario FROM leituraEDisco where fkServidor = ${idServidor} order by horario desc limit 20;`
-    var instruction = `SELECT TOP 20 valor, horario FROM leituraEDisco where fkServidor = ${idServidor} order by horario desc;`
+    var instructionAzure = `SELECT TOP 20 valor, horario FROM leituraEDisco where fkServidor = ${idServidor} order by horario desc;`
+   
+    return database.execute(instruction, instructionAzure);
+}
+
+function limparHistoricoAplicacao(componente) {
+    console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function limparHistoricoAplicacao(): ", componente);
+
+    var instruction = `DELETE FROM Leitura WHERE componente = '${componente}' AND fkMetrica = 13;`    
    
     return database.execute(instruction);
 }
@@ -87,5 +97,6 @@ module.exports = {
     obterDadosDisk,
     obterDadosRDisk,
     obterDadosWDisk,
-    obterDadosTemperatura
+    obterDadosTemperatura,
+    limparHistoricoAplicacao
 }
