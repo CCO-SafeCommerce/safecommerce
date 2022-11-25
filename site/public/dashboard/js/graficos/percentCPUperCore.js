@@ -7,12 +7,12 @@ function defineDataset(){
     var datasets = [];
 
     for(let i = 0; i < qtdVCPU; i++){
-        datasets.append([{
-            labels: `Core ${i + 1}`,
+        datasets.push({
+            label: `Core ${i + 1}`,
             backgroundColor: cores[i],
             borderColor: cores[i],
             data: []
-        }])
+        })
     }
 
     return datasets;
@@ -64,15 +64,25 @@ function obterDadosPercentCPUperCore(idServidor) {
 function plotarGraficoPercentCPUperCore(resposta, grafico) {
     for (i = resposta.length -1; i >= 0; i--) {
         if (grafico.data.datasets[0].data.length > 30 && grafico.data.labels.length > 30) {
-            grafico.data.datasets.forEach(grafico => {
-                grafico.data.datasets[i].data.shift()
+            grafico.data.datasets.forEach(dataset => {
+                dataset.data.shift()
             });
             grafico.data.labels.shift();
         }
-        var dataN = new Date(resposta[i].horario)
-        var dataS = `${dataN.getHours()}:${dataN.getMinutes()}`
-        grafico.data.datasets[0].data.push(resposta[i].valor);
-        grafico.data.labels.push(dataS);
+
+        var numCore = Number(resposta[i].core.split(' ')[1])
+        var linhaExiste = grafico.data.datasets.findIndex(dataset => {
+            if (dataset.label == `Core ${numCore}`) {
+                return linhaExiste
+            }
+        })
+
+        if (linhaExiste >= 0) {
+            grafico.data.datasets[linhaExiste].data.push(resposta[i].valor)
+        }
     }
+    var dataN = new Date(resposta[0].horario)
+    var dataS = `${dataN.getHours()}:${dataN.getMinutes()}`
+    grafico.data.labels.push(dataS);
     grafico.update()
 }
