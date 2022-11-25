@@ -1,15 +1,28 @@
 var percentCPUperCoreChart = {}
+var qtdVCPU = 0
+
+function defineDataset(){
+    var cores = ["#F5DE0C", "#E8A917", "#FFCF0D", "#FF9E0D", "#F5770C", "#FAB000", "#DE8600", "#DE4600", "#F5340C", "#DE0500", "#F5330C", "#FA7500", "#FDB60D", "#FF8519", "#E8520C", "#F50600", "#FF7600", "#FFB70D", "#FF370D", "#E84C00"];
+
+    var datasets = [];
+
+    for(let i = 0; i < qtdVCPU; i++){
+        datasets.append([{
+            labels: `Core ${i + 1}`,
+            backgroundColor: cores[i],
+            borderColor: cores[i],
+            data: []
+        }])
+    }
+
+    return datasets;
+}
 
 function criarGraficoPercentCPUperCore() {
+    const datasets = defineDataset()
     const dadosCpuCore = {
         labels: [],
-        datasets: [{
-                label: 'Core de CPU: 1',
-                backgroundColor: '#dc3e1d',
-                borderColor: '#dc3e1d',
-                data: [],
-            },
-        ]
+        datasets:datasets 
     };
 
     const configCpuCore = {
@@ -51,6 +64,9 @@ function obterDadosPercentCPUperCore(idServidor) {
 function plotarGraficoPercentCPUperCore(resposta, grafico) {
     for (i = resposta.length -1; i >= 0; i--) {
         if (grafico.data.datasets[0].data.length > 30 && grafico.data.labels.length > 30) {
+            grafico.data.datasets.forEach(grafico => {
+                grafico.data.datasets[i].data.shift()
+            });
             grafico.data.labels.shift();
         }
         var dataN = new Date(resposta[i].horario)
