@@ -21,7 +21,7 @@ function criarGraficoFreqCPU() {
             scales: {
                 y: {
                     min: 0,
-                    max: 100,
+                    max: 10,
                 }
             }
         }
@@ -42,6 +42,7 @@ function obterDadosFreqCPU(idServidor) {
     }).then(function (response) {
         if (response.ok) {
             response.json().then(function (resposta) {
+                console.log(resposta)
                 plotarGraficoFreqCPU(resposta, freqCPUChart);
             });
         } else {
@@ -56,15 +57,16 @@ function obterDadosFreqCPU(idServidor) {
 
 function plotarGraficoFreqCPU(resposta, grafico) {
     for (i = resposta.length -1; i >= 0; i--) {
-
         if (grafico.data.datasets[0].data.length > 30 && grafico.data.labels.length > 30) {
             grafico.data.datasets[0].data.shift();
             grafico.data.labels.shift();
         }
+       
         var dataN = new Date(resposta[i].horario)
         var dataS = `${dataN.getHours()}:${dataN.getMinutes()}`
-        grafico.data.datasets[0].data.push(resposta[i].valor);
+        grafico.data.datasets[0].data.push(resposta[i].valor/1000000000);
         grafico.data.labels.push(dataS);
+        console.log(grafico.data.datasets[0].data)
     }
     grafico.update()
 }

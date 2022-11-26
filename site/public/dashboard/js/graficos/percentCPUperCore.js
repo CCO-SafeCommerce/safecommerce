@@ -51,6 +51,7 @@ function obterDadosPercentCPUperCore(idServidor) {
         if (response.ok) {
             response.json().then(function (resposta) {
                 plotarGraficoPercentCPUperCore(resposta, percentCPUperCoreChart);
+                console.log(resposta)
             });
         } else {
             console.error('Nenhum dado encontrado ou erro na API');
@@ -62,6 +63,7 @@ function obterDadosPercentCPUperCore(idServidor) {
 }
 
 function plotarGraficoPercentCPUperCore(resposta, grafico) {
+    console.log(resposta)
     for (i = resposta.length -1; i >= 0; i--) {
         if (grafico.data.datasets[0].data.length > 30 && grafico.data.labels.length > 30) {
             grafico.data.datasets.forEach(dataset => {
