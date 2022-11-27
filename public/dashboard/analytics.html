@@ -53,13 +53,26 @@
                                 <div class="d-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800" id="server_title">Servidor</h1>
                                     <div class="row justify-content-around">
-                                        
+                                        <div class="col d-flex">
+                                            <button onclick="" class="btn btn-sm btn-primary shadow-sm text-light">
+                                                <i class="bi bi-arrow-clockwise"></i>
+                                                Recarregar
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>                    
                         </div>
-                        <div id="divNoContent" class="row justify-content-center align-items-center" style="display: none;">
-                            <div class="card col-4 ">
+                        <div id="divAnalytic#AppsDemandCor" class="card">
+                            <div class="card-header">
+                                <h6 class="card-title">Correlação entre demanda de aplicações e uso de hardware</h6>
+                            </div>
+                            <div class="card-body bodyCanvas">
+                                <canvas id="appsDemandCorChart" class="chartjs-render-monitor lineChart"></canvas>
+                            </div>                         
+                        </div>
+                        <div id="divNoContent" class="row justify-content-center align-items-center">
+                            <div class="card col-8 col-sm-6 col-md-4">
                                 <img src="../assets/no-content.svg" class="card-img-top" alt="Nenhum retorno foi encontrado">
                                 <div class="card-body">
                                     <h2 class="card-title text-center fs-4">Nenhuma visão análitica pode ser gerada</h2>
@@ -84,7 +97,8 @@
 <script>
     const indexPage = false;
     var selectedServer = 0;
-    var parametrosAtuais = [];
+
+    var appsDemandCorChart =  {}
 
     document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;      
 
@@ -129,36 +143,33 @@
             },
         }).then(function (resposta) {
             resposta.json().then(parametros => {
-                console.log(parametros)
-
-                var adicionar = parametros.filter(p => {
-                    if (!parametrosAtuais.includes(p)) {
-                        return p;
-                    }
-                })
-
-                var atualizar = parametros.filter(p => {
-                    if (parametrosAtuais.includes(p)) {
-                        return p;
-                    }
-                })
-
-                var remover = parametrosAtuais.filter(p => {
-                    if (!parametros.includes(p)) {
-                        return p;
-                    }
-                })
-
-                if (parametros.length > 0) {
-                    document.getElementById('divNoContent').style.display = 'none'
-                } else {
-                    document.getElementById('divNoContent').style.display = 'flex'
-                }
-
-                parametrosAtuais = parametros
+                plotarGraficoAppsDemandCor()
             })
         })
-    }    
+    }
+
+    function plotarGraficoAppsDemandCor() {        
+        const ctx = document.getElementById('appsDemandCorChart');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+            datasets: [{
+                label: '# of Votes',
+                data: [12, 19, 3, 5, 2, 3],
+                borderWidth: 1
+            }]
+            },
+            options: {
+            scales: {
+                y: {
+                beginAtZero: true
+                }
+            }
+            }
+        });
+    }
 
     getData(indexPage);
     getURLParams();
