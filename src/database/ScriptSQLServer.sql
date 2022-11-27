@@ -1,6 +1,3 @@
-CREATE DATABASE safecommerce;
-USE safecommerce;
-
 CREATE TABLE Empresa (
 	idEmpresa int primary key identity(1,1),
 	nome varchar(45),

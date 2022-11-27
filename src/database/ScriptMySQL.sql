@@ -1,5 +1,5 @@
-CREATE DATABASE safecommerce;
-USE safecommerce;
+CREATE DATABASE safecommmerce;
+USE safecommmerce;
 
 create table Empresa(
 	idEmpresa int primary key auto_increment,

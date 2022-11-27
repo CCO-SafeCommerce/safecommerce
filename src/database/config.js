@@ -22,7 +22,7 @@ var sqlServerConfig = {
 const mySqlConfig = {
     host: `localhost`,
     user: `aluno`,
-    database: `safecommerce`,
+    database: `safecommmerce`,
     password: `sptech`
 };
 
