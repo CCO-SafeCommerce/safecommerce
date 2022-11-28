@@ -63,7 +63,7 @@ function plotarGraficoDiscoReadMs(resposta, grafico) {
         }
         var dataN = new Date(resposta[i].horario)
         var dataS = `${dataN.getHours()}:${dataN.getMinutes()}`
-        grafico.data.datasets[0].data.push(resposta[i].valor);
+        grafico.data.datasets[0].data.push(resposta[i].valor / Math.pow(10,9));
         grafico.data.labels.push(dataS);
     }
     grafico.update()

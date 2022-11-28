@@ -8,6 +8,19 @@ function limparHistoricoServidor(idServidor) {
     `;
     return database.execute(instruction);
 }
+
+function obterDadosUsoCpuDia(idServidor){
+    var instruction = `SELECT valor, horario, situacao FROM leituraTemp where fkServidor = ${idServidor} order by horario desc limit 20;`
+    var instructionAzure = `SELECT AVG(CAST(valor as FLOAT)) as 'valor', datepart(day, horario) as 'dia', datepart(month, horario) as 'mes', datepart(year, horario) as 'ano' FROM leituraCPU 
+    where fkServidor = ${idServidor}
+        group by datepart(day, horario),
+		datepart(month, horario),
+		datepart(year, horario)
+        order by datepart(day, horario) desc`
+
+    return database.execute(instruction, instructionAzure);
+}
+
 function obterDadosTemperatura(idServidor){
     console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterDadosCPU(): ", idServidor);
 
@@ -17,6 +30,22 @@ function obterDadosTemperatura(idServidor){
     return database.execute(instruction, instructionAzure);
 
 }
+function obterDadosTemperaturaDia(idServidor){
+    console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterDadosCPU(): ", idServidor);
+
+    var instruction = `SELECT valor, horario, situacao FROM leituraTemp where fkServidor = ${idServidor} order by horario desc limit 20;`
+    var instructionAzure = `SELECT TOP 5 AVG(CAST(valor as FLOAT)) as 'valor', datepart(day, horario) as 'dia', datepart(month, horario) as 'mes', datepart(year, horario) as 'ano' FROM leituraTemperatura 
+    where fkServidor = ${idServidor} 
+        group by datepart(day, horario),
+		datepart(month, horario),
+		datepart(year, horario)
+        order by datepart(day, horario) desc`
+
+    return database.execute(instruction, instructionAzure);
+
+}
+
+
 function obterDadosCPU(idServidor) {
     console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterDadosCPU(): ", idServidor);
 
@@ -40,6 +69,19 @@ function obterDadosFreq(idServidor) {
     
     var instruction = `SELECT valor, horario FROM leituraFreq where fkServidor = ${idServidor} order by horario desc limit 20;`
     var instructionAzure = `SELECT TOP 20 valor, horario FROM leituraFreq where fkServidor = ${idServidor} order by horario desc;`
+   
+    return database.execute(instruction, instructionAzure);
+}
+function obterDadosFreqDia(idServidor) {
+    console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterDadosFreq(): ", idServidor);
+    
+    var instruction = `SELECT valor, horario FROM leituraFreq where fkServidor = ${idServidor} order by horario desc limit 20;`
+    var instructionAzure = `SELECT TOP 5 AVG(CAST(valor as FLOAT)) as 'valor', datepart(day, horario) as 'dia', datepart(month, horario) as 'mes', datepart(year, horario) as 'ano' FROM leituraFreq 
+    where fkServidor = ${idServidor}
+        group by datepart(day, horario),
+		datepart(month, horario),
+		datepart(year, horario)
+        order by datepart(day, horario) desc`
    
     return database.execute(instruction, instructionAzure);
 }
@@ -98,5 +140,8 @@ module.exports = {
     obterDadosRDisk,
     obterDadosWDisk,
     obterDadosTemperatura,
-    limparHistoricoAplicacao
+    limparHistoricoAplicacao,
+    obterDadosTemperaturaDia,
+    obterDadosFreqDia,
+    obterDadosUsoCpuDia
 }

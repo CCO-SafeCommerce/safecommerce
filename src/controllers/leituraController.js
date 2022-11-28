@@ -20,6 +20,27 @@ function obterDadosCPU(req,res) {
     }
 }
 
+function obterDadosUsoCpuDia(req,res) {
+
+    var id = req.params.idServidor
+
+    if (id == undefined) {
+        res.status(400).send("Id do Servidor está undefined!");
+    } else {
+        leituraModel.obterDadosUsoCpuDia(id).then(function (resultado) {
+            res.json(resultado);
+
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log(
+                "\nHouve um erro ao realizar o cadastro! Erro: ",
+                erro.sqlMessage
+            );
+            res.status(500).json(erro.sqlMessage);
+        });
+    }
+}
+
 function obterDadosCPUCore(req,res) {
     var id = req.params.idServidor
 
@@ -59,6 +80,27 @@ function obterDadosFreq(req,res) {
         });
     }
 }
+
+function obterDadosFreqDia(req,res) {
+    var id = req.params.idServidor
+
+    if (id == undefined) {
+        res.status(400).send("Id do Servidor está undefined!");
+    } else {
+        leituraModel.obterDadosFreqDia(id).then(function (resultado) {
+            res.json(resultado);
+
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log(
+                "\nHouve um erro ao realizar o cadastro! Erro: ",
+                erro.sqlMessage
+            );
+            res.status(500).json(erro.sqlMessage);
+        });
+    }
+}
+
 
 function obterDadosRam(req,res) {
     var id = req.params.idServidor
@@ -119,6 +161,8 @@ function obterDadosRDisk(req,res) {
         });
     }
 }
+
+
 function obterDadosTemperatura(req,res) {
     var id = req.params.idServidor
 
@@ -126,6 +170,25 @@ function obterDadosTemperatura(req,res) {
         res.status(400).send("Id do Servidor está undefined!");
     } else {
         leituraModel.obterDadosTemperatura(id).then(function (resultado) {
+            res.json(resultado);
+
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log(
+                "\nHouve um erro ao realizar o cadastro! Erro: ",
+                erro.sqlMessage
+            );
+            res.status(500).json(erro.sqlMessage);
+        });
+    }
+}
+function obterDadosTemperaturaDia(req,res) {
+    var id = req.params.idServidor
+
+    if (id == undefined) {
+        res.status(400).send("Id do Servidor está undefined!");
+    } else {
+        leituraModel.obterDadosTemperaturaDia(id).then(function (resultado) {
             res.json(resultado);
 
         }).catch(function (erro) {
@@ -167,5 +230,8 @@ module.exports = {
     obterDadosDisk,
     obterDadosRDisk,
     obterDadosWDisk,
-    obterDadosTemperatura
+    obterDadosTemperatura,
+    obterDadosTemperaturaDia,
+    obterDadosFreqDia,
+    obterDadosUsoCpuDia
 }

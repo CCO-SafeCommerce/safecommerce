@@ -27,6 +27,7 @@
     <!-- style -->
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/servidores.css">
+    <script src="./js/analytics/tempFreq.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
@@ -71,6 +72,25 @@
                                 <canvas id="appsDemandCorChart" class="chartjs-render-monitor lineChart"></canvas>
                             </div>                         
                         </div>
+
+                        <div id="divAnalytic#tempFreq" class="card">
+                            <div class="card-header">
+                                <h6 class="card-title">Correlação entre Temperatura da CPU e Frequência da CPU</h6>
+                            </div>
+                            <div class="card-body bodyCanvas">
+                                <canvas id="tempFreq" class="chartjs-render-monitor lineChart"></canvas>
+                            </div>                         
+                        </div>
+
+                        <div id="divAnalytic#tempUso" class="card">
+                            <div class="card-header">
+                                <h6 class="card-title">Correlação entre Temperatura da CPU e Uso da CPU</h6>
+                            </div>
+                            <div class="card-body bodyCanvas">
+                                <canvas id="tempUso" class="chartjs-render-monitor lineChart"></canvas>
+                            </div>                         
+                        </div>
+                        
                         <div id="divNoContent" class="row justify-content-center align-items-center">
                             <div class="card col-8 col-sm-6 col-md-4">
                                 <img src="../assets/no-content.svg" class="card-img-top" alt="Nenhum retorno foi encontrado">
@@ -144,6 +164,8 @@
         }).then(function (resposta) {
             resposta.json().then(parametros => {
                 plotarGraficoAppsDemandCor()
+                criarGraficoTempXFreq(selectedServer)
+                criarGraficoTempXUso(selectedServer)
             })
         })
     }
