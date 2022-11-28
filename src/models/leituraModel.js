@@ -16,7 +16,7 @@ function obterDadosUsoCpuDia(idServidor){
         group by datepart(day, horario),
 		datepart(month, horario),
 		datepart(year, horario)
-        order by datepart(day, horario) desc`
+        order by datepart(day, horario) asc`
 
     return database.execute(instruction, instructionAzure);
 }
@@ -39,7 +39,7 @@ function obterDadosTemperaturaDia(idServidor){
         group by datepart(day, horario),
 		datepart(month, horario),
 		datepart(year, horario)
-        order by datepart(day, horario) desc`
+        order by datepart(day, horario) asc`
 
     return database.execute(instruction, instructionAzure);
 
@@ -81,7 +81,7 @@ function obterDadosFreqDia(idServidor) {
         group by datepart(day, horario),
 		datepart(month, horario),
 		datepart(year, horario)
-        order by datepart(day, horario) desc`
+        order by datepart(day, horario) asc`
    
     return database.execute(instruction, instructionAzure);
 }
