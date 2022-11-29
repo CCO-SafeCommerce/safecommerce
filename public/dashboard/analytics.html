@@ -27,8 +27,10 @@
     <!-- style -->
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/servidores.css">
-    <script src="./js/analytics/tempFreq.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="./js/analytics/tempFreq.js"></script>
+    <script src="./js/analytics/appsCorHW.js"></script>
 </head>
 
 <body onresize="responsive()" onload="responsive(), validateSession()">
@@ -70,7 +72,25 @@
                             </div>
                             <div class="card-body bodyCanvas">
                                 <canvas id="appsDemandCorChart" class="chartjs-render-monitor lineChart"></canvas>
-                            </div>                         
+                            </div>
+                            <hr class="border border-2 opacity-50">
+                            <div class="card-body">
+                                <div class="card w-75 mx-auto">
+                                    <div class="card-header">Previsão de uso de hardware com base na demanda</div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="txtDemandaEsperada" class="form-label">Conexões simultâneas esperadas</label>
+                                            <input type="number" class="form-control" min="0" id="txtDemandaEsperada" placeholder="Ex: 200">
+                                        </div>
+                                        <div class="mb-3 div-btn-register">
+                                            <button onclick="forecastAppCorHW()" type="button" class="btn btn-primary">Calcular previsão</button>
+                                        </div>
+                                    </div>
+                                    <div id="divPrevisaoUsoHWCorApp" class="card-footer" style="display: none;">
+                                        <p class="card-text">Uso de CPU por volta de 80%</p>
+                                    </div>
+                                </div>
+                            </div>                    
                         </div>
 
                         <div id="divAnalytic#tempFreq" class="card">
@@ -118,8 +138,6 @@
     const indexPage = false;
     var selectedServer = 0;
 
-    var appsDemandCorChart =  {}
-
     document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;      
 
     function setPage(servidor) {
@@ -163,34 +181,19 @@
             },
         }).then(function (resposta) {
             resposta.json().then(parametros => {
-                plotarGraficoAppsDemandCor()
-                criarGraficoTempXFreq(selectedServer)
-                criarGraficoTempXUso(selectedServer)
+                if (parametros.includes(11) && parametros.includes(4)) {
+                    criarGraficoTempXFreq(selectedServer)
+                }
+
+                if (parametros.includes(11) && parametros.includes(1)) {
+                    criarGraficoTempXUso(selectedServer)
+                }
+                
+                if (parametros.includes(13) && (parametros.includes(1) || parametros.includes(6))) {
+                    plotarGraficoAppsDemandCor(selectedServer)
+                }
             })
         })
-    }
-
-    function plotarGraficoAppsDemandCor() {        
-        const ctx = document.getElementById('appsDemandCorChart');
-
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                borderWidth: 1
-            }]
-            },
-            options: {
-            scales: {
-                y: {
-                beginAtZero: true
-                }
-            }
-            }
-        });
     }
 
     getData(indexPage);
