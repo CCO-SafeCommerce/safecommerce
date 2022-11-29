@@ -394,6 +394,53 @@
         criarGraficoDiscoWriteMs()
     }
 
+    async function teste(){
+      let res = await getLocation().then((res) => {
+        return res
+      })
+        console.log(res)
+        
+    }
+
+    async function getLocation(){
+        
+        await fetch(url).then((response) =>
+            response.json().then((json) => {
+                var params = new URLSearchParams(window.location.search)
+        var idServidor = params.get('idServer')
+       
+        if (idServidor != null) {
+            selectedServer = idServidor
+            var servers = JSON.parse(sessionStorage.SERVERS)
+
+            var servidor = servers.find(s => {
+                if (s.idServidor == idServidor) {
+                    return s
+                }
+            })
+        }
+        var ip = servidor.ipServidor
+        var apiKey = "1231525ddbe74309926041e22caf7f3b"
+        let url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apiKey}&ip=${ip}`;
+      
+
+            const output = `
+                ---------------------
+                Country: ${json.country_name}
+                State: ${json.state_prov}
+                City: ${json.city}
+                District: ${json.district}
+                Lat / Long: (${json.latitude}, ${json.longitude})
+                ---------------------
+                `;
+                cidade = json.city
+                return cidade
+            console.log(output);
+            })
+        );
+
+        
+    }
     function getURLParams() {
         var params = new URLSearchParams(window.location.search)
         var idServidor = params.get('idServer')
