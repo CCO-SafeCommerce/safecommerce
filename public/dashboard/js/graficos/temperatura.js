@@ -76,8 +76,6 @@ function criarGraficoTempXFreq(){
     );
 }
 
-
-
 function obterDadosTempCPU(idServidor) {
     
     fetch(`/leituras/obterDadosTemperatura/${idServidor}`, {
@@ -188,4 +186,30 @@ function plotarGraficoTemperaturaFrequencia(resposta, resposta1, grafico) {
        
     }
    
+}
+
+function monitorarParaAlertar(idServidor){
+    fetch(`/leituras/obterDadosTemperatura/${idServidor}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (response) {
+       
+        if (response.ok) {
+            response.json().then(function (resposta) {
+
+                //console.log(resposta[0].situacao)
+                if(resposta[0].situacao == "a"){
+                    console.log("fica esperto irmao")
+                }
+            
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+    .catch(function (error) {
+        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+    });
 }
