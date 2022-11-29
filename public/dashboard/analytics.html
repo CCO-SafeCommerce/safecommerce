@@ -110,6 +110,16 @@
                                 <canvas id="tempUso" class="chartjs-render-monitor lineChart"></canvas>
                             </div>                         
                         </div>
+
+                        <div id="divAnalytic#tempUso" class="card">
+                            <div class="card-header">
+                                <h6 class="card-title">Analise de Alertas e Emergencias</h6>
+                            </div>
+                            <div class="card-body bodyCanvas">
+                                <canvas id="chartAlerta" class="chartjs-render-monitor lineChart"></canvas>
+                                <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                            </div>                         
+                        </div>
                         
                         <div id="divNoContent" class="row justify-content-center align-items-center">
                             <div class="card col-8 col-sm-6 col-md-4">
@@ -122,7 +132,7 @@
                     </div>
                 </div>
                 <!-- Fim do conteudo da página -->
-
+                
                 <!-- Footer -->
                 <my-footer></my-footer>
             </div>
@@ -132,11 +142,14 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="./js/main.js"></script>
 <script src="./js/script.js"></script>
+<script src="./js/analytics/alertas.js"></script>
 
 </html>
 <script>
     const indexPage = false;
     var selectedServer = 0;
+
+    definirChartAlertas();
 
     document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;      
 
