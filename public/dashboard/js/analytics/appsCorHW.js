@@ -1,14 +1,17 @@
-var appCorHWData = []
+var modelosAppCorHw = {}
 
 function plotarGraficoAppsDemandCor(idServidor) {
-    fetch(`/leituras/apps-cor-hw/${idServidor}`, {
+    fetch(`/leituras/appCorHw/${idServidor}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
         }
     }).then(resposta => {
         resposta.json().then(json => {
-            appCorHWData = json
+            modelosAppCorHw = {
+                cpu: json.lrCPU,
+                ram: json.lrRAM
+            }
 
             const ctx = document.getElementById('appsDemandCorChart');
             
@@ -48,11 +51,11 @@ function plotarGraficoAppsDemandCor(idServidor) {
                 }
             }
 
-            json.forEach(registro => {
+            json.data.forEach(registro => {
                 datasetApp.data.push(registro.demanda)
                 datasetCPU.data.push(registro.usoCPU)
                 datasetRAM.data.push(registro.usoRAM)
-                config.labels.push(`${registro.ano}/${registro.mes}`)
+                config.data.labels.push(`${registro.ano}/${registro.mes}`)
             });
 
             config.data.datasets.push(datasetApp)
@@ -67,8 +70,27 @@ function plotarGraficoAppsDemandCor(idServidor) {
 
             new Chart(ctx, config);      
         });
-    })
+    }).catch((answer) => {
+        console.log(`Erro: ${answer}`);
+    });
 }
 
 function forecastAppCorHW() {
+    var demandaEsperada = Number(txtDemandaEsperada.value)
+    var pPrevisaoCPU = document.getElementById('pPrevisaoCPU')
+    var pPrevisaoRAM = document.getElementById('pPrevisaoRAM')
+
+    if (!!modelosAppCorHw.cpu) {
+        var previsaoCPU = demandaEsperada*modelosAppCorHw.cpu.slope + modelosAppCorHw.cpu.intercept
+
+        pPrevisaoCPU.innerText = `Para esta demanda previmos que o uso da CPU alcance: ${previsaoCPU.toFixed(2)}%`;
+    }
+
+    if (!!modelosAppCorHw.ram) {
+        var previsaoRAM = demandaEsperada*modelosAppCorHw.ram.slope + modelosAppCorHw.ram.intercept
+
+        pPrevisaoRAM.innerText = `Para esta demanda previmos que o uso da CPU alcance: ${previsaoRAM.toFixed(2)}%`;
+    }
+
+    document.getElementById('divPrevisaoUsoHWCorApp').style.display = 'inline-block'
 }

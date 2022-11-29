@@ -157,11 +157,7 @@ function getData(index) {
             idCompanyServer: idCompanyVar
         })
     }).then((answer) => {
-        console.log(answer);
-
         if(answer.ok) {
-            console.log("A requisição foi um sucesso!");
-
             answer.json().then(json => {
                 var data = []
                 

@@ -268,6 +268,44 @@ function obterDadosEmergencia(req,res){
     }
 }
 
+function appsCorHw(req, res) {
+    var idServidor = req.params.idServidor
+
+    if (idServidor == undefined) {
+        res.status(403).send('Id do Servidor está indefinido')
+    } else {
+        leituraModel.obterAppsCorHw(idServidor).then(resultado => {            
+            var xD = resultado.map(r => r.demanda);
+            var yCPU = resultado.map(r => r.usoCPU);
+            var yRAM = resultado.map(r => r.usoRAM);
+
+            var linearRegressionCPU = null;
+            var linearRegressionRAM = null;
+
+            if (yCPU.reduce((somatorio, atual) => somatorio + atual, 0) > 0) {
+                linearRegressionCPU = new SLR(xD, yCPU);
+            }
+
+            if (yCPU.reduce((somatorio, atual) => somatorio + atual, 0) > 0) {
+                linearRegressionRAM = new SLR(xD, yRAM);
+            }
+
+            res.json({
+                data: resultado,
+                lrCPU: linearRegressionCPU,
+                lrRAM: linearRegressionRAM
+            })
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log(
+                "\nHouve um erro ao realizar o cadastro! Erro: ",
+                erro.sqlMessage
+            );
+            res.status(500).json(erro.sqlMessage);
+        });
+    }
+}
+
 module.exports = {
     obterDadosCPU,
     obterDadosCPUCore,
@@ -281,5 +319,6 @@ module.exports = {
     obterDadosFreqDia,
     obterDadosUsoCpuDia,
     obterDadosAlerta,
-    obterDadosEmergencia
+    obterDadosEmergencia,
+    appsCorHw
 }

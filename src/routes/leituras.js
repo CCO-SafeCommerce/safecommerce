@@ -49,4 +49,8 @@ router.get("/obterDadosEmergencia", (req,res)=>{
     leituraController.obterDadosEmergencia(req,res);
 })
 
+router.get("/appCorHw/:idServidor", (req, res) => {
+    leituraController.appsCorHw(req,res);
+})
+
 module.exports = router;

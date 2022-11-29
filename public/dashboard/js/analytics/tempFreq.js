@@ -26,8 +26,6 @@ var labelsTempFreq = []
 var labelsTempUso = []
 
 function criarGraficoTempXFreq(idServidor){
-  
-
     const config = {
         type: 'line',
         data: {
@@ -62,7 +60,6 @@ function obterDadosTempCPUFreq(idServidor) {
             "Content-Type": "application/json"
         }
     }).then(function (response) {
-        console.log("PEGUEI FAMILISA")
         if (response.ok) {
             response.json().then(function (resposta) {
                 
@@ -77,7 +74,7 @@ function obterDadosTempCPUFreq(idServidor) {
                         response1.json().then(function (resposta1) {
                      
                             plotarGraficoTemperaturaFrequencia(resposta, resposta1, tempCPUFreq);
-                        console.log(resposta)                        });
+                        });
                     } else {
                         console.error('Nenhum dado encontrado ou erro na API');
                     }
@@ -99,7 +96,6 @@ function obterDadosTempCPUFreq(idServidor) {
 }
 
 function plotarGraficoTemperaturaFrequencia(resposta, resposta1, grafico) {
-    console.log("TO TENTANDO")
    
     for (i = 0; i < resposta.length ; i++) {
        // console.log(resposta[i].dia)
@@ -108,11 +104,9 @@ function plotarGraficoTemperaturaFrequencia(resposta, resposta1, grafico) {
         labelsTempFreq.push(data);
     }
     for (i = 0; i < resposta.length; i++) {
-        console.log(resposta1[i])
         datasetFreq.data.push(resposta1[i].valor/1000000000);
        
     }
-    console.log(datasetFreq)
     grafico.update();
    
 }
@@ -188,7 +182,6 @@ function obterDadosTempCpuUso(idServidor) {
 
 }
 function plotarGraficoTemperaturaUsoCpu(resposta, resposta1, grafico) {
-    console.log("TO TENTANDO")
   
     for (i = 0; i < resposta.length ; i++) {
       
@@ -196,16 +189,11 @@ function plotarGraficoTemperaturaUsoCpu(resposta, resposta1, grafico) {
         
     }
     for (i = 0; i < resposta1.length; i++) {
-        console.log(resposta1[i].valor)
         datasetUso.data.push(resposta1[i].valor);
         var data = `${resposta1[i].dia}/${resposta1[i].mes}/${resposta1[i].ano}`
       
         labelsTempUso.push(data);
     }
-    console.log(datasetUso)
-    console.log(datasetTemperatura)
-    console.log(labelsTempUso)
-
     grafico.update();
    
 }
