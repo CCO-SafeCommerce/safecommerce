@@ -133,7 +133,7 @@ function limparHistoricoAplicacao(componente) {
 function obterDadosAlerta(idServidor, componente){
     console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de  'Error: connect ECONNREFUSED', \n\t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterDadosAlerta(): ", idServidor, componente);
 
-    var instruction = `SELECT count(*) FROM Leitura WHERE fkServidor = ${idServidor} and componente = ${componente} and situacao = "a"`;
+    var instruction = `SELECT count(*) as quantidade_de_alertas FROM Leitura WHERE fkServidor = ${idServidor} and componente = '${componente}' and situacao = "a"`;
 
     return database.execute(instruction);
 }
@@ -141,7 +141,7 @@ function obterDadosAlerta(idServidor, componente){
 function obterDadosEmergencia(idServidor, componente){
     console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function limparHistoricoAplicacao(): ", componente)
 
-    var instruction = `SELECT count(*) FROM Leitura WHERE fkServidor = ${idServidor} and componente = ${componente} and situacao = "e"`;
+    var instruction = `SELECT count(*) as quantidade_de_emergencias FROM Leitura WHERE fkServidor = ${idServidor} and componente = '${componente}' and situacao = "e"`;
 
     return database.execute(instruction);
 }

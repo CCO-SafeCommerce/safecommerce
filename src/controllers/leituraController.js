@@ -246,6 +246,20 @@ function obterDadosAlerta(req,res){
     }
 }
 
+function obterMaiorAlertas(req,res){
+var id = req.query.idServidor
+
+if(id == undefined){
+    res.status(400).send("O id está undefined!");
+} else{
+    leituraModel.obterMaiorAlertas(id).then(function (resultado){
+        res.json(resultado);
+    }).catch(function (erro){
+        console.log(erro)
+    })
+}
+}
+
 function obterDadosEmergencia(req,res){
     var id = req.query.idServidor
     var componente = req.query.componente

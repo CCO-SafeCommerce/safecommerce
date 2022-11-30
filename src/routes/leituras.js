@@ -45,6 +45,10 @@ router.get("/obterDadosAlerta", (req,res)=>{
     leituraController.obterDadosAlerta(req,res);
 })
 
+router.get("/obterMaiorAlertas", (req,res)=>{
+    leituraController.obterMaiorAlertas(req,res);
+})
+
 router.get("/obterDadosEmergencia", (req,res)=>{
     leituraController.obterDadosEmergencia(req,res);
 })
