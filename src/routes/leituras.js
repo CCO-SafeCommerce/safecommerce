@@ -41,4 +41,16 @@ router.get("/obterDadosTemperaturaDia/:idServidor", (req,res)=>{
     leituraController.obterDadosTemperaturaDia(req,res);
 })
 
+router.get("/obterDadosAlerta", (req,res)=>{
+    leituraController.obterDadosAlerta(req,res);
+})
+
+router.get("/obterDadosEmergencia", (req,res)=>{
+    leituraController.obterDadosEmergencia(req,res);
+})
+
+router.get("/appCorHw/:idServidor", (req, res) => {
+    leituraController.appsCorHw(req,res);
+})
+
 module.exports = router;

@@ -27,8 +27,10 @@
     <!-- style -->
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/servidores.css">
-    <script src="./js/analytics/tempFreq.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script src="./js/analytics/tempFreq.js"></script>
+    <script src="./js/analytics/appsCorHW.js"></script>
 </head>
 
 <body onresize="responsive()" onload="responsive(), validateSession()">
@@ -70,7 +72,26 @@
                             </div>
                             <div class="card-body bodyCanvas">
                                 <canvas id="appsDemandCorChart" class="chartjs-render-monitor lineChart"></canvas>
-                            </div>                         
+                            </div>
+                            <hr class="border border-2 opacity-50">
+                            <div class="card-body">
+                                <div class="card w-75 mx-auto">
+                                    <div class="card-header">Previsão de uso de hardware com base na demanda</div>
+                                    <div class="card-body">
+                                        <div class="mb-3">
+                                            <label for="txtDemandaEsperada" class="form-label">Conexões simultâneas esperadas</label>
+                                            <input type="number" class="form-control" min="0" id="txtDemandaEsperada" placeholder="Ex: 200">
+                                        </div>
+                                        <div class="mb-3 div-btn-register">
+                                            <button onclick="forecastAppCorHW()" type="button" class="btn btn-primary">Calcular previsão</button>
+                                        </div>
+                                    </div>
+                                    <div id="divPrevisaoUsoHWCorApp" class="card-footer" style="display: none;">
+                                        <p id="pPrevisaoCPU" class="card-text">Uso de CPU por volta de 80%</p>
+                                        <p id="pPrevisaoRAM" class="card-text">Uso de CPU por volta de 80%</p>
+                                    </div>
+                                </div>
+                            </div>                    
                         </div>
 
                         <div id="divAnalytic#tempFreq" class="card">
@@ -90,6 +111,22 @@
                                 <canvas id="tempUso" class="chartjs-render-monitor lineChart"></canvas>
                             </div>                         
                         </div>
+
+                        <div id="divAnalytic#tempUso" class="card">
+                            <div class="card-header">
+                                <h6 class="card-title">Analise de Alertas e Emergencias</h6>
+                            </div>
+                            <div class="card-body bodyCanvas" id="divAertas">
+                                <div class="divAlertas">
+                                <div class="kpiAlerta" style="background-color: #DC3E1D;"><br> Peça com maior quantidade de Emergencias</div>
+                                <div class="kpiAlerta" style="background-color: #E87413;"><br> Media de Tempertura de Emergencias</div>
+                                <div class="kpiAlerta" style="background-color: #F25913;"><br> Peça com maior quantidade de Alertas</div>
+                                </div>
+                                <canvas id="chartAlerta" class="chartjs-render-monitor lineChart"></canvas>
+                                
+                                <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                            </div>                         
+                        </div>
                         
                         <div id="divNoContent" class="row justify-content-center align-items-center">
                             <div class="card col-8 col-sm-6 col-md-4">
@@ -102,7 +139,7 @@
                     </div>
                 </div>
                 <!-- Fim do conteudo da página -->
-
+                
                 <!-- Footer -->
                 <my-footer></my-footer>
             </div>
@@ -112,13 +149,16 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="./js/main.js"></script>
 <script src="./js/script.js"></script>
+<script src="./js/analytics/alertas.js">
+</script>
 
 </html>
 <script>
     const indexPage = false;
     var selectedServer = 0;
-
-    var appsDemandCorChart =  {}
+    
+  
+    
 
     document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;      
 
@@ -163,34 +203,19 @@
             },
         }).then(function (resposta) {
             resposta.json().then(parametros => {
-                plotarGraficoAppsDemandCor()
-                criarGraficoTempXFreq(selectedServer)
-                criarGraficoTempXUso(selectedServer)
+                if (parametros.includes(11) && parametros.includes(4)) {
+                    criarGraficoTempXFreq(selectedServer)
+                }
+
+                if (parametros.includes(11) && parametros.includes(1)) {
+                    criarGraficoTempXUso(selectedServer)
+                }
+                
+                if (parametros.includes(13) && (parametros.includes(1) || parametros.includes(6))) {
+                    plotarGraficoAppsDemandCor(selectedServer)
+                }
             })
         })
-    }
-
-    function plotarGraficoAppsDemandCor() {        
-        const ctx = document.getElementById('appsDemandCorChart');
-
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-            labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-            datasets: [{
-                label: '# of Votes',
-                data: [12, 19, 3, 5, 2, 3],
-                borderWidth: 1
-            }]
-            },
-            options: {
-            scales: {
-                y: {
-                beginAtZero: true
-                }
-            }
-            }
-        });
     }
 
     getData(indexPage);
@@ -199,4 +224,9 @@
     setInterval(() => {
         getData(indexPage)
     }, 5000)
+</script>
+
+<script>
+    definirChartAlertas();
+    plotarGraficoAlertas()
 </script>

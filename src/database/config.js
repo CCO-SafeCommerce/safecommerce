@@ -21,9 +21,9 @@ var sqlServerConfig = {
 // CONEXÃO DO MYSQL WORKBENCH (LOCAL) 
 const mySqlConfig = {
     host: `localhost`,
-    user: `aluno`,
+    user: `root`,
     database: `safecommmerce`,
-    password: `sptech`
+    password: `Vitor@2003`
 };
 
 function execute(queryMySql, queryAzure = queryMySql) {

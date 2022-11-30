@@ -66,7 +66,7 @@ function plotarGraficoFreqCPU(resposta, grafico) {
         var dataS = `${dataN.getHours()}:${dataN.getMinutes()}`
         grafico.data.datasets[0].data.push(resposta[i].valor/1000000000);
         grafico.data.labels.push(dataS);
-        console.log(grafico.data.datasets[0].data)
+       // console.log(grafico.data.datasets[0].data)
     }
     grafico.update()
 }
