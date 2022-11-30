@@ -48,27 +48,39 @@ function plotarGraficoAppsDemandCor(idServidor) {
 
             var config = {
                 type: 'bar',
-                data: {
-                    labels: [],
-                    datasets: []
-                },
+                data: { labels: [], datasets: [] },
                 options: {
-                    interaction: {
-                        intersect: false,
-                        mode: 'index',
-                    },
+                    interaction: { intersect: false, mode: 'index', },
                     responsive: true,
                     plugins: {
                         legend: { position: 'top' },
-                        title: { display: false },                        
+                        title: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: (tooltipItem) => {
+                                    var label = tooltipItem.dataset.label || '';
+
+                                    if (label) {
+                                        label += ': ';                                
+                                    }
+
+                                    if (tooltipItem.dataset.order != 2) {
+                                        label += `${Number(tooltipItem.parsed.y).toFixed(2)}%`
+                                    } else {
+                                        label += `${Number(tooltipItem.parsed.y).toFixed(2)}`
+                                    }
+
+                                    return label
+                                }
+                            }
+                        }                                   
                     },
                     scales: {
+                        x: { title: { display: true, text: 'Meses', } },
                         y: {
                             type: 'linear',
-                            position: 'left',
-                            ticks: {
-                                color: '#2c9fa3'
-                            },
+                            position: 'right',
+                            ticks: { color: '#2c9fa3' },
                             title: {
                                 display: true,
                                 text: 'Demanda de aplicações',
@@ -77,16 +89,11 @@ function plotarGraficoAppsDemandCor(idServidor) {
                         },
                         y2: {
                             type: 'linear',
-                            position: 'right',
+                            position: 'left',
                             min: 0,
                             max: 100,
-                            title: {
-                                display: true,
-                                text: '% de uso de Hardware'
-                            },
-                            grid: {
-                                drawOnChartArea: false
-                            }
+                            title: { display: true, text: '% de uso de Hardware' },
+                            grid: { drawOnChartArea: false }
                         }
                     }
                 }
