@@ -116,8 +116,14 @@
                             <div class="card-header">
                                 <h6 class="card-title">Analise de Alertas e Emergencias</h6>
                             </div>
-                            <div class="card-body bodyCanvas">
+                            <div class="card-body bodyCanvas" id="divAertas">
+                                <div class="divAlertas">
+                                <div class="kpiAlerta" style="background-color: #DC3E1D;"><br> Peça com maior quantidade de Emergencias</div>
+                                <div class="kpiAlerta" style="background-color: #E87413;"><br> Media de Tempertura de Emergencias</div>
+                                <div class="kpiAlerta" style="background-color: #F25913;"><br> Peça com maior quantidade de Alertas</div>
+                                </div>
                                 <canvas id="chartAlerta" class="chartjs-render-monitor lineChart"></canvas>
+                                
                                 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                             </div>                         
                         </div>
@@ -143,14 +149,16 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="./js/main.js"></script>
 <script src="./js/script.js"></script>
-<script src="./js/analytics/alertas.js"></script>
+<script src="./js/analytics/alertas.js">
+</script>
 
 </html>
 <script>
     const indexPage = false;
     var selectedServer = 0;
-
-    definirChartAlertas();
+    
+  
+    
 
     document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;      
 
@@ -216,4 +224,9 @@
     setInterval(() => {
         getData(indexPage)
     }, 5000)
+</script>
+
+<script>
+    definirChartAlertas();
+    plotarGraficoAlertas()
 </script>
