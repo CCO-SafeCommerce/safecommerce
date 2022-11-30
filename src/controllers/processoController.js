@@ -22,11 +22,11 @@ function obterProcessos(req,res) {
 
 function encerrarProcessos(req,res) {
     var pid = req.body.pid
-    var id = req.body.idServidor
+    var fkServidor = req.body.idServidor
     if (pid == undefined) {
         res.status(400).send("Pid do processo está undefined!");
     } else {
-        processoModel.encerrarProcessos(pid, id).then(function (resultado) {
+        processoModel.encerrarProcessos(fkServidor, pid).then(function (resultado) {
             res.json(resultado);
 
         }).catch(function (erro) {
