@@ -39,3 +39,19 @@
 canvas{
     margin: 0;
 }
+
+.divAlertas{
+ display: flex;
+ justify-content: space-around;
+ margin-bottom: 100px;
+ margin-top: 100px;
+}
+
+.kpiAlerta{
+    color: white;
+    font-size: 15px;
+    width: 200px;
+    text-align: center;
+    height: 150px;
+    border-radius: 10px;
+}

@@ -1,4 +1,7 @@
 // variaveis de alerta
+var idServidor = 0
+
+// const { obterDadosAlerta } = require("../../../../src/models/leituraModel")
 
 var alertaCPU = {}
 var alertaRAM = {}
@@ -31,7 +34,7 @@ function definirChartAlertas(){
             borderWidth: 1
           }]
       };
-  
+
       // config 
       const config = {
         type: 'bar',
@@ -44,12 +47,19 @@ function definirChartAlertas(){
           }
         }
       };
-  
+
       // render init block
       const chartAlerta = new Chart(
         document.getElementById('chartAlerta'),
         config
       );
+}
+
+function plotarGraficoAlertas(){
+    var componente = "CPU"
+    alertaCPU = obterDadosAlerta(idServidor, componente )
+
+    console.log(alertaCPU)
 }
 
 
@@ -93,4 +103,12 @@ function obterInformacaoEmergencia(idServidor, componente){
   .catch(function (error){
     console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
   });
+}
+
+function plotarGraficoAlertas(idServidor){
+    console.log()
+    var componente = "CPU"
+    alertaCPU =  obterInformacaoAlerta(idServidor, componente )
+
+    console.log(alertaCPU)
 }
