@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="title_page">SafeCommerce | Servidor </title>
+
+    <!-- Icon -->
+    <link rel="icon" href="./assets/images/logo-icon.png">
+
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
+    </script>
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+        integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+
+    <!-- style -->
+    <link rel="stylesheet" href="./css/main.css">
+    <link rel="stylesheet" href="./css/servidores.css">
+    <link rel="stylesheet" href="./css/processos.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+
+<body onresize="responsive()" onload="responsive(), validateSession()">
+
+    <div id="wrapper">
+        <div id="overlay">
+        </div>
+        <!-- barra lateral -->
+        <my-sidebar></my-sidebar>
+        <!-- Fim barra lateral  -->
+
+        <!-- Barra de navegação -->
+        <div id="page-content-wrapper">
+            <div id="content">
+                <div class="container-fluid p-0 px-lg-0 px-md-0">
+                    <my-navbar></my-navbar>
+                    <!-- Fim da barra de navegação -->
+
+                    <!-- Conteudo da página -->
+                    <div class="container-fluid px-lg-4">
+                        <div class="row">
+                            <div class="col-md-12 mt-lg-4 mt-4">
+                                <div class="d-flex align-items-center justify-content-between mb-4">
+                                    <h1 class="h3 mb-0 text-gray-800">Processos</h1>
+                                </div>
+                            </div>
+
+                            <!-- Cards -->
+                            <div class="col-md-12">
+                                <div class="col-md-12 mt-4 margin-table">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover v-middle">
+                                            <thead class="bg-white">
+                                                <tr>
+                                                    <div class="nome1">
+                                                        <th class="border-top-0" >Nome: <span id="nome1"></span></th>
+                                                    </div>
+                                                    <div class="pid">
+                                                        <th class="border-top-0" >PID <span id="pid1"></span></th>
+                                                    </div>
+                                                    <th class="border-top-0" >Uso de CPU <span id="cpu1"></span></th>
+                                                    <th class="border-top-0" >Uso de ram: <span id="ram1"></span></th>
+                                                    <th class="border-top-0" >
+                                                        <button onclick="encerrarProcessos(0)">Encerrar processo</button>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <table class="table table-striped table-hover v-middle">
+                                            <thead class="bg-white">
+                                                <tr>
+                                                    <th class="border-top-0" >Nome <span id="nome2"></span></th>
+                                                    <th class="border-top-0" >PID <span id="pid2"></span></th>
+                                                    <th class="border-top-0" >Uso de CPU <span id="cpu2"></span></th>
+                                                    <th class="border-top-0" >Uso de ram: <span id="ram2"></span></th>
+                                                    <th class="border-top-0" >
+                                                        <button onclick="encerrarProcessos(1)">Encerrar processo</button>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <table class="table table-striped table-hover v-middle">
+                                            <thead class="bg-white">
+                                                <tr>
+                                                    <th class="border-top-0" >Nome <span id="nome3"></span></th>
+                                                    <th class="border-top-0" >PID <span id="pid3"></span></th>
+                                                    <th class="border-top-0" >Uso de CPU <span id="cpu3"></span></th>
+                                                    <th class="border-top-0" >Uso de ram: <span id="ram3"></span></th>
+                                                    <th class="border-top-0" >
+                                                        <button onclick="encerrarProcessos(2)">Encerrar processo</button>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <table class="table table-striped table-hover v-middle">
+                                            <thead class="bg-white">
+                                                <tr>
+                                                    <th class="border-top-0" >Nome <span id="nome4"></span></th>
+                                                    <th class="border-top-0" >PID <span id="pid4"></span></th>
+                                                    <th class="border-top-0" >Uso de CPU <span id="cpu4"></span></th>
+                                                    <th class="border-top-0" >Uso de ram: <span id="ram4"></span></th>
+                                                    <th class="border-top-0" >
+                                                        <button onclick="encerrarProcessos(3)">Encerrar processo</button>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <table class="table table-striped table-hover v-middle">
+                                            <thead class="bg-white">
+                                                <tr>
+                                                    <th class="border-top-0" >Nome <span id="nome5"></span></th>
+                                                    <th class="border-top-0" >PID <span id="pid5"></span></th>
+                                                    <th class="border-top-0" >Uso de CPU <span id="cpu5"></span></th>
+                                                    <th class="border-top-0" >Uso de ram: <span id="ram5"></span></th>
+                                                    <th class="border-top-0" >
+                                                        <button onclick="encerrarProcessos(4)">Encerrar processo</button>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <table class="table table-striped table-hover v-middle">
+                                            <thead class="bg-white">
+                                                <tr>
+                                                    <th class="border-top-0" >Nome <span id="nome6"></span></th>
+                                                    <th class="border-top-0" >PID <span id="pid6"></span></th>
+                                                    <th class="border-top-0" >Uso de CPU <span id="cpu6"></span></th>
+                                                    <th class="border-top-0" >Uso de ram: <span id="ram6"></span></th>
+                                                    <th class="border-top-0" >
+                                                        <button onclick="encerrarProcessos(5)">Encerrar processo</button>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <table class="table table-striped table-hover v-middle">
+                                            <thead class="bg-white">
+                                                <tr>
+                                                    <th class="border-top-0" >Nome <span id="nome7"></span></th>
+                                                    <th class="border-top-0" >PID <span id="pid7"></span></th>
+                                                    <th class="border-top-0" >Uso de CPU <span id="cpu7"></span></th>
+                                                    <th class="border-top-0" >Uso de ram: <span id="ram7"></span></th>
+                                                    <th class="border-top-0" >
+                                                        <button onclick="encerrarProcessos(6)">Encerrar processo</button>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <table class="table table-striped table-hover v-middle">
+                                            <thead class="bg-white">
+                                                <tr>
+                                                    <th class="border-top-0" >Nome <span id="nome8"></span></th>
+                                                    <th class="border-top-0" >PID <span id="pid8"></span></th>
+                                                    <th class="border-top-0" >Uso de CPU <span id="cpu8"></span></th>
+                                                    <th class="border-top-0" >Uso de ram: <span id="ram8"></span></th>
+                                                    <th class="border-top-0" >
+                                                        <button onclick="encerrarProcessos(7)">Encerrar processo</button>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <table class="table table-striped table-hover v-middle">
+                                            <thead class="bg-white">
+                                                <tr>
+                                                    <th class="border-top-0" >Nome <span id="nome9"></span></th>
+                                                    <th class="border-top-0" >PID <span id="pid9"></span></th>
+                                                    <th class="border-top-0" >Uso de CPU <span id="cpu9"></span></th>
+                                                    <th class="border-top-0" >Uso de ram: <span id="ram9"></span></th>
+                                                    <th class="border-top-0" >
+                                                        <button onclick="encerrarProcessos(8)">Encerrar processo</button>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <table class="table table-striped table-hover v-middle">
+                                            <thead class="bg-white">
+                                                <tr>
+                                                    <th class="border-top-0" >Nome <span id="nome10"></span></th>
+                                                    <th class="border-top-0" >PID <span id="pid10"></span></th>
+                                                    <th class="border-top-0" >Uso de CPU <span id="cpu10"></span></th>
+                                                    <th class="border-top-0" >Uso de ram: <span id="ram10"></span></th>
+                                                    <th class="border-top-0" >
+                                                        <button onclick="encerrarProcessos(9)">Encerrar processo</button>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="listagemProcessos">
+                    
+                </div>
+                <!-- Fim do conteudo da página -->
+
+                <!-- Footer -->
+                <my-footer></my-footer>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="./js/main.js"></script>
+<script src="./js/script.js"></script>
+
+<script>
+var selectedServer = 0;
+function getURLParams() {
+        var params = new URLSearchParams(window.location.search)
+        var idServidor = params.get('idServer')
+
+        if (idServidor != null) {
+            selectedServer = idServidor
+            var servers = JSON.parse(sessionStorage.SERVERS)
+
+            var servidor = servers.find(s => {
+                if (s.idServidor == idServidor) {
+                    return s
+                }
+            })
+
+            if (!servidor){
+                window.location = './painel.html'
+            }
+
+            obterProcessos(selectedServer)
+        } else {
+            window.location = './painel.html'
+        }
+    }
+    getURLParams()
+    console.log(selectedServer)
+    
+    function obterProcessos(selectedServer) {
+        console.log("CHAMEI A FUNÇÂO")
+    fetch(`/processos/obterProcessos/${selectedServer}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                inserirProcessos(resposta);
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+    .catch(function (error) {
+        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+    });
+}
+setInterval(() => {
+    obterProcessos(selectedServer)
+    }, 15000)
+
+processos=[]
+
+function inserirProcessos(resposta){
+
+        nome1.innerHTML = resposta[0].nome;
+        pid1.innerHTML = resposta[0].pid;
+        cpu1.innerHTML = resposta[0].usoCpu;
+        ram1.innerHTML = resposta[0].usoRam;
+
+        nome2.innerHTML = resposta[1].nome;
+        pid2.innerHTML = resposta[1].pid;
+        cpu2.innerHTML = resposta[1].usoCpu;
+        ram2.innerHTML = resposta[1].usoRam;
+
+        nome3.innerHTML = resposta[2].nome;
+        pid3.innerHTML = resposta[2].pid;
+        cpu3.innerHTML = resposta[2].usoCpu;
+        ram3.innerHTML = resposta[2].usoRam;
+
+        nome4.innerHTML = resposta[3].nome;
+        pid4.innerHTML = resposta[3].pid;
+        cpu4.innerHTML = resposta[3].usoCpu;
+        ram4.innerHTML = resposta[3].usoRam;
+
+        nome5.innerHTML = resposta[4].nome;
+        pid5.innerHTML = resposta[4].pid;
+        cpu5.innerHTML = resposta[4].usoCpu;
+        ram5.innerHTML = resposta[4].usoRam;
+
+        nome6.innerHTML = resposta[5].nome;
+        pid6.innerHTML = resposta[5].pid;
+        cpu6.innerHTML = resposta[5].usoCpu;
+        ram6.innerHTML = resposta[5].usoRam;
+
+        nome7.innerHTML = resposta[6].nome;
+        pid7.innerHTML = resposta[6].pid;
+        cpu7.innerHTML = resposta[6].usoCpu;
+        ram7.innerHTML = resposta[6].usoRam;
+
+        nome8.innerHTML = resposta[7].nome;
+        pid8.innerHTML = resposta[7].pid;
+        cpu8.innerHTML = resposta[7].usoCpu;
+        ram8.innerHTML = resposta[7].usoRam;
+
+        nome9.innerHTML = resposta[8].nome;
+        pid9.innerHTML = resposta[8].pid;
+        cpu9.innerHTML = resposta[8].usoCpu;
+        ram9.innerHTML = resposta[8].usoRam;
+
+        nome10.innerHTML = resposta[9].nome;
+        pid10.innerHTML = resposta[9].pid;
+        cpu10.innerHTML = resposta[9].usoCpu;
+        ram10.innerHTML = resposta[9].usoRam;
+
+        processos = resposta;
+}
+function encerrarProcessos(valor){
+   
+    if(valor == 0){
+        pidEncerramento = processos[valor].pid;
+    }else if (valor == 1){
+        pidEncerramento = processos[valor].pid
+    }else if (valor == 2){
+        pidEncerramento = processos[valor].pid
+    }else if (valor == 3){
+        pidEncerramento = processos[valor].pid
+    }else if (valor == 4){
+        pidEncerramento = processos[valor].pid
+    }else if (valor == 5){
+        pidEncerramento = processos[valor].pid
+    }else if (valor == 6){
+        pidEncerramento = processos[valor].pid
+    }else if (valor == 7){
+        pidEncerramento = processos[valor].pid
+    }else if (valor == 8){
+        pidEncerramento = processos[valor].pid
+    }else if (valor == 9){
+        pidEncerramento = processos[valor].pid
+    }
+
+
+    fetch(`/processos/encerrarProcessos/${selectedServer}`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+                pid: pidEncerramento,
+                idServidor: selectedServer
+            })
+    }).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (resposta) {
+                inserirProcessos(resposta);
+            });
+        } else {
+            console.error('Nenhum dado encontrado ou erro na API');
+        }
+    })
+    .catch(function (error) {
+        console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+    });
+    
+}
+</script>

@@ -1,5 +1,5 @@
-//process.env.AMBIENTE_PROCESSO = "desenvolvimento";
- process.env.AMBIENTE_PROCESSO = "producao";
+process.env.AMBIENTE_PROCESSO = "desenvolvimento";
+//process.env.AMBIENTE_PROCESSO = "producao";
 
 const express = require("express");
 const cors = require("cors");
@@ -16,6 +16,7 @@ const empresaRouter = require('./src/routes/empresas');
 const parametroRouter = require('./src/routes/parametros');
 const leituraRouter = require('./src/routes/leituras');
 const aplicacaoRouter = require('./src/routes/aplicacoes');
+const processoRouter = require('./src/routes/processos');
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use("/empresas", empresaRouter);
 app.use('/parametros', parametroRouter);
 app.use('/leituras', leituraRouter);
 app.use('/aplicacoes', aplicacaoRouter);
+app.use('/processos', processoRouter);
 
 app.listen(PORTA, function () {
     console.log(`Servidor do seu site já está rodando!\n 
