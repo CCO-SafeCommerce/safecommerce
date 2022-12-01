@@ -64,25 +64,29 @@
                                     <h1 class="h3 mb-0 text-gray-800" id="server_title">Servidor</h1>
                                     <div class="row justify-content-around">
                                         <div class="col d-none d-md-flex">
-                                            <a id="aEditar" class="d-none d-md-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                                            <a id="aEditar"
+                                                class="d-none d-md-inline-block btn btn-sm btn-primary shadow-sm text-light">
                                                 <i class="bi bi-pencil-square"></i>
                                                 Editar
                                             </a>
                                         </div>
                                         <div class="col d-none d-md-flex">
-                                            <a id="aParametros" class="d-none d-md-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                                            <a id="aParametros"
+                                                class="d-none d-md-inline-block btn btn-sm btn-primary shadow-sm text-light">
                                                 <i class="bi bi-list-task"></i>
                                                 Alterar monitoramento
                                             </a>
                                         </div>
                                         <div class="col d-none d-md-flex">
-                                            <button id="btnExcluir" type="button" class="d-none d-md-inline-block btn btn-danger btn-sm">
+                                            <button id="btnExcluir" type="button"
+                                                class="d-none d-md-inline-block btn btn-danger btn-sm">
                                                 <i class="bi bi-trash-fill"></i>
-                                                Excluir    
+                                                Excluir
                                             </button>
                                         </div>
                                         <div class="col d-md-none">
-                                            <a onclick="handleControle()" class="d-inline-block d-md-none btn btn-sm btn-primary shadow-sm text-light">
+                                            <a onclick="handleControle()"
+                                                class="d-inline-block d-md-none btn btn-sm btn-primary shadow-sm text-light">
                                                 <i class="bi bi-list-task"></i>
                                                 Controle
                                             </a>
@@ -95,8 +99,10 @@
                                     <div class="card-body">
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
-                                                <div class="text-xs text-color font-weight-bold text-uppercase mb-1">Sistema Operacional</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="valorSO">valor</div>
+                                                <div class="text-xs text-color font-weight-bold text-uppercase mb-1">
+                                                    Sistema Operacional</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="valorSO">valor
+                                                </div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="bi bi-pc-display-horizontal"></i>
@@ -111,7 +117,8 @@
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="text-xs font-weight-bold text-uppercase mb-1">CPUS</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="valorCPU">valor</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="valorCPU">valor
+                                                </div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="bi bi-cpu"></i>
@@ -126,7 +133,8 @@
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="text-xs font-weight-bold text-uppercase mb-1">RAM</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="valorRAM">valor</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="valorRAM">valor
+                                                </div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="bi bi-memory"></i>
@@ -141,7 +149,8 @@
                                         <div class="row no-gutters align-items-center">
                                             <div class="col mr-2">
                                                 <div class="text-xs font-weight-bold text-uppercase mb-1">Disco</div>
-                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="valorDisco">valor</div>
+                                                <div class="h5 mb-0 font-weight-bold text-gray-800" id="valorDisco">
+                                                    valor</div>
                                             </div>
                                             <div class="col-auto">
                                                 <i class="bi bi-disc"></i>
@@ -150,7 +159,7 @@
                                     </div>
                                 </div>
                             </div>
-                           
+
                         </div>
 
                         <div class="row">
@@ -159,32 +168,46 @@
                                     <h1 class="h3 mb-0 text-gray-800" id="server_title">Monitoramento</h1>
                                     <div class="row justify-content-around">
                                         <div class="col d-flex">
-                                            <a id="aEspecializado" onclick="especializado()" class="btn btn-sm btn-primary shadow-sm text-light" style="display: none;">
+                                            <a id="aEspecializado" onclick="especializado()"
+                                                class="btn btn-sm btn-primary shadow-sm text-light"
+                                                style="display: none;">
                                                 <i class="bi bi-boxes"></i>
                                                 Especializados
                                             </a>
                                         </div>
                                         <div class="col d-none">
-                                            <a id="aHistory" class="d-none d-md-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                                            <a id="aHistory"
+                                                class="d-none d-md-inline-block btn btn-sm btn-primary shadow-sm text-light">
                                                 <i class="bi bi-clock-history"></i>
                                                 Histórico
                                             </a>
                                         </div>
                                         <div class="col d-flex">
-                                            <a id="aAnalytics" class="d-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                                            <a id="aAnalytics"
+                                                class="d-inline-block btn btn-sm btn-primary shadow-sm text-light">
                                                 <i class="bi bi-clipboard2-data"></i>
                                                 Analítico
                                             </a>
                                         </div>
                                         <div class="col d-none">
-                                            <a onclick="handleVisao()" class="d-inline-block d-md-none btn btn-sm btn-primary shadow-sm text-light">
+                                            <a onclick="handleVisao()"
+                                                class="d-inline-block d-md-none btn btn-sm btn-primary shadow-sm text-light">
                                                 <i class="bi bi-window-split"></i>
                                                 Visão
                                             </a>
                                         </div>
                                     </div>
                                 </div>
-                            </div>                         
+                            </div>
+                        </div>
+                        <div aria-live="polite" aria-atomic="true" style="position: relative; z-index:10">
+                            <!-- Position it -->
+                            <div id="alertasTemp" style="position: absolute; top: 0; right: 0;">
+
+                                <!-- Then put toasts within -->
+
+
+                            </div>
                         </div>
 
                         <!-- Tabelas de Métricas -->
@@ -267,7 +290,7 @@
                                 <div id="collapseEight" class="accordion-collapse collapse"
                                     aria-labelledby="headingEight" data-bs-parent="#accordionExample">
                                     <div class="accordion-body bodyCanvas">
-                                        <canvas id="diskPercent" class="chartjs-render-monitor lineChart"></canvas>                                        
+                                        <canvas id="diskPercent" class="chartjs-render-monitor lineChart"></canvas>
                                     </div>
                                 </div>
                             </div>
@@ -309,12 +332,13 @@
                             <div class="accordion-item" id="abaMetrica#11" style="display: none">
                                 <h2 class="accordion-header" id="headingEleven">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseEleven" aria-expanded="false" aria-controls="collapseEleven">
+                                        data-bs-target="#collapseEleven" aria-expanded="false"
+                                        aria-controls="collapseEleven">
                                         Temperatura da CPU (em ºC)
                                     </button>
                                 </h2>
-                                <div id="collapseEleven" class="accordion-collapse collapse" aria-labelledby="headingEleven"
-                                    data-bs-parent="#accordionExample">
+                                <div id="collapseEleven" class="accordion-collapse collapse"
+                                    aria-labelledby="headingEleven" data-bs-parent="#accordionExample">
                                     <div class="accordion-body bodyCanvas">
                                         <canvas id="temperature" class="chartjs-render-monitor lineChart"></canvas>
                                     </div>
@@ -325,36 +349,39 @@
                             <div class="accordion-item" id="abaMetrica#12" style="display: none">
                                 <h2 class="accordion-header" id="headingTwelve">
                                     <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseTwelve" aria-expanded="false" aria-controls="collapseTwelve">
+                                        data-bs-target="#collapseTwelve" aria-expanded="false"
+                                        aria-controls="collapseTwelve">
                                         Processos
                                     </button>
                                 </h2>
-                                <div id="collapseTwelve" class="accordion-collapse collapse" aria-labelledby="headingTwelve"
-                                    data-bs-parent="#accordionExample">
+                                <div id="collapseTwelve" class="accordion-collapse collapse"
+                                    aria-labelledby="headingTwelve" data-bs-parent="#accordionExample">
                                     <div class="accordion-body bodyCanvas">
                                         <canvas id="processos" class="chartjs-render-monitor lineChart"></canvas>
                                     </div>
                                 </div>
-                            </div>                            
                             </div>
                         </div>
-                        <div id="divNoContent" class="row justify-content-center align-items-center" style="display: none;">
-                            <div class="card col-4 ">
-                                <img src="../assets/no-content.svg" class="card-img-top" alt="Nenhum retorno foi encontrado">
-                                <div class="card-body">
-                                    <h2 class="card-title text-center fs-4">Nenhuma parâmetro de monitoramento</h2>
-                                </div>
+                    </div>
+                    <div id="divNoContent" class="row justify-content-center align-items-center" style="display: none;">
+                        <div class="card col-4 ">
+                            <img src="../assets/no-content.svg" class="card-img-top"
+                                alt="Nenhum retorno foi encontrado">
+                            <div class="card-body">
+                                <h2 class="card-title text-center fs-4">Nenhuma parâmetro de monitoramento</h2>
                             </div>
                         </div>
                     </div>
                 </div>
-                <!-- Fim do conteudo da página -->
-
-                <!-- Footer -->
-                <my-footer></my-footer>
             </div>
+            <!-- Fim do conteudo da página -->
+
+            <!-- Footer -->
+            <my-footer></my-footer>
         </div>
     </div>
+    </div>
+
 </body>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="./js/main.js"></script>
@@ -366,7 +393,7 @@
     var selectedServer = 0;
     var parametrosAtuais = [];
 
-    document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;      
+    document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;
 
     function setPage(servidor) {
         var serverTitle = document.getElementById('server_title')
@@ -374,10 +401,10 @@
         var valorSO = document.getElementById('valorSO')
         var valorCPU = document.getElementById('valorCPU')
         var valorRAM = document.getElementById('valorRAM')
-        var valorDisco = document.getElementById('valorDisco')  
+        var valorDisco = document.getElementById('valorDisco')
 
         serverTitle.innerText = servidor.modelo;
-        titlePage.innerHTML = `SafeCommerce | ${servidor.modelo}`;        
+        titlePage.innerHTML = `SafeCommerce | ${servidor.modelo}`;
         valorSO.innerText = servidor.so;
         valorCPU.innerText = `${servidor.qtdCPU ? servidor.qtdCPU : 0}`
         valorRAM.innerText = `${Number(servidor.qtdRAM).toFixed()} GB`
@@ -394,37 +421,37 @@
         criarGraficoDiscoWriteMs()
     }
 
-    async function teste(){
-      let res = await getLocation().then((res) => {
-        return res
-      })
+    async function teste() {
+        let res = await getLocation().then((res) => {
+            return res
+        })
         console.log(res)
-        
+
     }
 
-    async function getLocation(){
-        
+    async function getLocation() {
+
         await fetch(url).then((response) =>
             response.json().then((json) => {
                 var params = new URLSearchParams(window.location.search)
-        var idServidor = params.get('idServer')
-       
-        if (idServidor != null) {
-            selectedServer = idServidor
-            var servers = JSON.parse(sessionStorage.SERVERS)
+                var idServidor = params.get('idServer')
 
-            var servidor = servers.find(s => {
-                if (s.idServidor == idServidor) {
-                    return s
+                if (idServidor != null) {
+                    selectedServer = idServidor
+                    var servers = JSON.parse(sessionStorage.SERVERS)
+
+                    var servidor = servers.find(s => {
+                        if (s.idServidor == idServidor) {
+                            return s
+                        }
+                    })
                 }
-            })
-        }
-        var ip = servidor.ipServidor
-        var apiKey = "1231525ddbe74309926041e22caf7f3b"
-        let url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apiKey}&ip=${ip}`;
-      
+                var ip = servidor.ipServidor
+                var apiKey = "1231525ddbe74309926041e22caf7f3b"
+                let url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apiKey}&ip=${ip}`;
 
-            const output = `
+
+                const output = `
                 ---------------------
                 Country: ${json.country_name}
                 State: ${json.state_prov}
@@ -435,12 +462,13 @@
                 `;
                 cidade = json.city
                 return cidade
-            console.log(output);
+                console.log(output);
             })
         );
 
-        
+
     }
+
     function getURLParams() {
         var params = new URLSearchParams(window.location.search)
         var idServidor = params.get('idServer')
@@ -455,7 +483,7 @@
                 }
             })
 
-            if(!servidor){
+            if (!servidor) {
                 window.location = './painel.html'
             }
 
@@ -468,7 +496,7 @@
             linkParametros.href = `./parametros.html?idServer=${servidor.idServidor}`
             linkAnalytics.href = `./analytics.html?idServer=${servidor.idServidor}`
             btnExcluir.addEventListener('click', () => {
-            deleteServer(servidor.idServidor)
+                deleteServer(servidor.idServidor)
             });
 
             setPage(servidor)
@@ -506,7 +534,7 @@
                     }
                 })
 
-                
+
                 lidarEsconder(remover)
                 lidarExibir(adicionar)
                 lidarAtualizar(atualizar)
@@ -548,8 +576,8 @@
         })
     }
 
-    function lidarExibir(itensParaExibir) {        
-        itensParaExibir.forEach(item => {        
+    function lidarExibir(itensParaExibir) {
+        itensParaExibir.forEach(item => {
             switch (item) {
                 case 12:
                 case 13:
@@ -595,7 +623,7 @@
                     break;
                 case 11:
                     obterDadosTempCPU(selectedServer)
-                    monitorarParaAlertar(selectedServer)
+                    monitorarParaAlertar()
                     break;
             }
         })
@@ -667,7 +695,9 @@
             showCancelButton: true,
             cancelButtonText: 'Cancelar',
             confirmButtonColor: '#6BF178'
-        }).then(({ value: option }) => {
+        }).then(({
+            value: option
+        }) => {
             if (option == 'editar') {
                 window.location = `./editarServidor.html?idServer=${selectedServer}`
 
@@ -684,11 +714,15 @@
         var opcoesEspecilizadas = {}
 
         if (parametrosAtuais.includes(12)) {
-            Object.assign(opcoesEspecilizadas, { 'processos': "Processos" })
+            Object.assign(opcoesEspecilizadas, {
+                'processos': "Processos"
+            })
         }
 
         if (parametrosAtuais.includes(13)) {
-            Object.assign(opcoesEspecilizadas, { 'aplicacoes': "Aplicações" })
+            Object.assign(opcoesEspecilizadas, {
+                'aplicacoes': "Aplicações"
+            })
         }
 
         Swal.fire({
@@ -699,13 +733,15 @@
             showCancelButton: true,
             cancelButtonText: 'Cancelar',
             confirmButtonColor: '#6BF178'
-        }).then(({ value: option }) => {
+        }).then(({
+            value: option
+        }) => {
             if (option == 'processos') {
                 window.location = `./processos.html?idServer=${selectedServer}`
             } else if (option == 'aplicacoes') {
                 window.location = `./aplicacoes.html?idServer=${selectedServer}`
 
             }
-        }) 
+        })
     }
 </script>

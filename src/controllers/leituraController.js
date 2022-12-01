@@ -19,6 +19,23 @@ function obterDadosCPU(req,res) {
         });
     }
 }
+function obterUltimaTemp(req,res) {
+    
+
+  
+        leituraModel.obterUltimaTemp().then(function (resultado) {
+            res.json(resultado);
+            
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log(
+                "\nHouve um erro ao realizar o cadastro! Erro: ",
+                erro.sqlMessage
+            );
+            res.status(500).json(erro.sqlMessage);
+        });
+    
+}
 
 function obterDadosUsoCpuDia(req,res) {
 
@@ -320,5 +337,6 @@ module.exports = {
     obterDadosUsoCpuDia,
     obterDadosAlerta,
     obterDadosEmergencia,
-    appsCorHw
+    appsCorHw,
+    obterUltimaTemp
 }

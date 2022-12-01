@@ -53,4 +53,8 @@ router.get("/appCorHw/:idServidor", (req, res) => {
     leituraController.appsCorHw(req,res);
 })
 
+router.get("/obterUltimaTemp", (req, res) => {
+    leituraController.obterUltimaTemp(req,res);
+})
+
 module.exports = router;
