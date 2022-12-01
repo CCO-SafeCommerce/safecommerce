@@ -30,7 +30,7 @@ function definirChartAlertas(){
         }, 
         {
             label: 'Alertas',
-            data: [0.5],
+            data: [0.5,1,1.8],
             backgroundColor: 'rgba(250, 201, 65, 0.2)',
             borderColor:'rgba(250, 186, 10)',
             borderWidth: 1
@@ -150,29 +150,34 @@ function obterEmergenciaDISCO(idServidor){
 }
 
 function pegarComponenteMaiorEmergencia(idServidor){
-  fetch(`/leituras/obterMaiorAlertas?idServidor=${idServidor}`,{
-    method: "GET",
-    headers:{
-     "contest-type": "application/json"
-    }
-  }).then(function (response){
-    if(response.ok){
-      response.json().then(function (resposta){
-        console.log(resposta)
-      });
-    } else{
-      console.error('Nenhum dado Encontrado ou erro na API');
-    }
-  })
-  .catch(function (error){
-    console.error(`Erro na obtenção dos dados`)
-  });
+  // fetch(`/leituras/obterMaiorAlertas?idServidor=${idServidor}`,{
+  //   method: "GET",
+  //   headers:{
+  //    "contest-type": "application/json"
+  //   }
+  // }).then(function (response){
+  //   if(response.ok){
+  //     response.json().then(function (resposta){
+  //       console.log(resposta)
+  //     });
+  //   } else{
+  //     console.error('Nenhum dado Encontrado ou erro na API');
+  //   }
+  // })
+  // .catch(function (error){
+  //   console.error(`Erro na obtenção dos dados`)
+  // });
+
+  
+
+
+  
 }
 
-function plotarGraficoAlerta(idServidor){
+// function plotarGraficoAlerta(idServidor){
 
 //   data.datasets[0].data = [obterAlertaCPU(idServidor), obterAlertasRAM(idServidor), obterEmergenciaDISCO(idServidor)]
 //   window.chartAlerta.update()
 
   
-}
+// }

@@ -1,6 +1,6 @@
 
-//process.env.AMBIENTE_PROCESSO = "desenvolvimento";
-process.env.AMBIENTE_PROCESSO = "producao";
+process.env.AMBIENTE_PROCESSO = "desenvolvimento";
+//process.env.AMBIENTE_PROCESSO = "producao";
 
 
 const express = require("express");
