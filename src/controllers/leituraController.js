@@ -285,6 +285,29 @@ function obterDadosEmergencia(req,res){
     }
 }
 
+function alertas(req,res){
+    var id = req.query.idServidor
+    var componente = req.query.componente
+
+    if(id == undefined){
+        res.status(400).send("Id do servidor está undefined!");
+    }
+    else if(componente == undefined){
+        res.status(400).send("O componente está undefined!");
+    }else{
+        leituraModel.alertas(id, componente).then(function (resultado){
+            res.json(resultado);
+        }).catch(function (erro){
+            console.log(erro)
+            console.log(
+                "\nHouve um erro ao realizar a captura! Erro: ",
+                erro.sqlMessage
+            );
+            res.status(500).json(erro.sqlMessage);
+        });
+    }
+}
+
 function appsCorHw(req, res) {
     var idServidor = req.params.idServidor
 
@@ -346,5 +369,6 @@ module.exports = {
     obterDadosAlerta,
     obterDadosEmergencia,
     appsCorHw,
-    obterUltimaTemp
+    obterUltimaTemp,
+    alertas
 }

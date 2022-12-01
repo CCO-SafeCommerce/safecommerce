@@ -61,4 +61,8 @@ router.get("/obterUltimaTemp", (req, res) => {
     leituraController.obterUltimaTemp(req,res);
 })
 
+router.get("/alertas", (req,res)=>{
+    leituraController.alertas(req,res);
+})
+
 module.exports = router;
