@@ -118,9 +118,11 @@
                             </div>
                             <div class="card-body bodyCanvas" id="divAertas">
                                 <div class="divAlertas">
-                                <div class="kpiAlerta" style="background-color: #DC3E1D;"><br> Peça com maior quantidade de Emergencias</div>
-                                <div class="kpiAlerta" style="background-color: #E87413;"><br> Media de Tempertura de Emergencias</div>
-                                <div class="kpiAlerta" style="background-color: #F25913;"><br> Peça com maior quantidade de Alertas</div>
+                                <div class="kpiAlerta" style="background-color: #DC3E1D;"><br> Peça com maior quantidade de Emergencias <br>
+                                <span><br>RAM</span></div>
+                                <!-- <div class="kpiAlerta" style="background-color: #E87413;"><br> Media de Tempertura de Emergencias</div> -->
+                                <div class="kpiAlerta" style="background-color: #F25913;"><br> Peça com maior quantidade de Alertas<br>
+                                    <span><br>DISCO</span></div></div>
                                 </div>
                                 <canvas id="chartAlerta" class="chartjs-render-monitor lineChart"></canvas>
                                 
@@ -157,9 +159,6 @@
     const indexPage = false;
     var selectedServer = 0;
     
-  
-    
-
     document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;      
 
     function setPage(servidor) {
@@ -223,10 +222,12 @@
 
     setInterval(() => {
         getData(indexPage)
-    }, 5000)
+    }, 5000);
 </script>
 
 <script>
     definirChartAlertas();
-    plotarGraficoAlertas()
+    obterAlertasRAM(selectedServer)
+    
 </script>
+

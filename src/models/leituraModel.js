@@ -152,7 +152,7 @@ function obterDadosAlerta(idServidor, componente){
 }
 
 function obterDadosEmergencia(idServidor, componente){
-    console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function limparHistoricoAplicacao(): ", componente)
+    console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterDadosEmergencia(): ", componente)
 
     var instruction = `SELECT count(*) as quantidade_de_emergencias FROM Leitura WHERE fkServidor = ${idServidor} and componente = '${componente}' and situacao = "e"`;
 

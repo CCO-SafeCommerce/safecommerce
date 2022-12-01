@@ -1,4 +1,5 @@
 const leituraModel = require("../models/leituraModel");
+const SLR = require('ml-regression').SLR;
 
 function obterDadosCPU(req,res) {
     var id = req.params.idServidor
@@ -262,6 +263,7 @@ function obterDadosAlerta(req,res){
     }
 }
 
+
 function obterDadosEmergencia(req,res){
     var id = req.query.idServidor
     var componente = req.query.componente
@@ -291,7 +293,9 @@ function appsCorHw(req, res) {
     if (idServidor == undefined) {
         res.status(403).send('Id do Servidor está indefinido')
     } else {
-        leituraModel.obterAppsCorHw(idServidor).then(resultado => {            
+        leituraModel.obterAppsCorHw(idServidor).then(resultado => {         
+            resultado.reverse()
+            
             var xD = resultado.map(r => r.demanda);
             var yCPU = resultado.map(r => r.usoCPU);
             var yRAM = resultado.map(r => r.usoRAM);

@@ -1,3 +1,5 @@
+//const { obterDadosAlerta } = require("../../../../src/models/leituraModel")
+
 // variaveis de alerta
 var idServidor = 0
 
@@ -28,7 +30,7 @@ function definirChartAlertas(){
         }, 
         {
             label: 'Alertas',
-            data: [0.5],
+            data: [0.5,1,1.8],
             backgroundColor: 'rgba(250, 201, 65, 0.2)',
             borderColor:'rgba(250, 186, 10)',
             borderWidth: 1
@@ -49,22 +51,15 @@ function definirChartAlertas(){
       };
 
       // render init block
-      const chartAlerta = new Chart(
+      window.chartAlerta = new Chart(
         document.getElementById('chartAlerta'),
         config
       );
 }
 
-function plotarGraficoAlertas(){
-    var componente = "CPU"
-    alertaCPU = obterDadosAlerta(idServidor, componente )
-
-    console.log(alertaCPU)
-}
-
 
 function obterInformacaoAlerta(idServidor, componente){
-    fetch(`/leituas/obterDadosAlerta?idServidor=${idServidor}&componente=${componente}`,{
+    fetch(`/leituras/obterDadosAlerta?idServidor=${idServidor}&componente=${componente}`,{
       method: "GET",
       headers: {
         "contest-type": "application/json"
@@ -73,7 +68,8 @@ function obterInformacaoAlerta(idServidor, componente){
       if(response.ok){
         response.json().then(function (resposta){
           console.log(resposta)
-          plotarGraficoAlertas(resposta, alertaCPU, alertaRAM, alertaDISCO);
+         // plotarGraficoAlertas(resposta, alertaCPU, alertaRAM, alertaDISCO);
+         console.log("funfou")
         });
       } else{
         console.error('Nenhum dado Encontrado ou erro na API');
@@ -105,10 +101,83 @@ function obterInformacaoEmergencia(idServidor, componente){
   });
 }
 
-function plotarGraficoAlertas(idServidor){
-    console.log()
-    var componente = "CPU"
-    alertaCPU =  obterInformacaoAlerta(idServidor, componente )
+function obterAlertasRAM(idServidor){
+    console.log("id do servidor: " + idServidor)
+    var componente = "RAM"
+    alertaRAM =  obterInformacaoAlerta(idServidor, componente )
 
-    console.log(alertaCPU)
+    return alertaRAM
 }
+
+function obterEmergenciaRAM(idServidor){
+  console.log("id do servidor: " + idServidor)
+  var componente = "RAM"
+  emergenciaRAM = obterInformacaoEmergencia(idServidor, componente)
+
+  return emergenciaRAM
+}
+
+function obterAlertasCPU(idServidor){
+  console.log("id do servidor: " + idServidor)
+  var componente = "CPU"
+  alertaCPU =  obterInformacaoAlerta(idServidor, componente )
+
+  return alertaCPU
+}
+
+function obterEmergenciaCPU(idServidor){
+  console.log("id do servidor: " + idServidor)
+  var componente = "CPU"
+  emergenciaCPU = obterInformacaoEmergencia(idServidor, componente)
+
+  return emergenciaCPU
+}
+
+function obterAlertaDISCO(idServidor){
+  console.log("id servidor: " + idServidor)
+  var componente = "DISCO"
+  alertaDisco = obterInformacaoAlerta(idServidor, componente)
+
+  return alertaDISCO
+}
+
+function obterEmergenciaDISCO(idServidor){
+  console.log("id do servidor: " + idServidor)
+  var componente = "DISCO"
+  emergenciaDISCO = obterInformacaoEmergencia(idServidor, componente)
+
+  return emergenciaDISCO
+}
+
+function pegarComponenteMaiorEmergencia(idServidor){
+  // fetch(`/leituras/obterMaiorAlertas?idServidor=${idServidor}`,{
+  //   method: "GET",
+  //   headers:{
+  //    "contest-type": "application/json"
+  //   }
+  // }).then(function (response){
+  //   if(response.ok){
+  //     response.json().then(function (resposta){
+  //       console.log(resposta)
+  //     });
+  //   } else{
+  //     console.error('Nenhum dado Encontrado ou erro na API');
+  //   }
+  // })
+  // .catch(function (error){
+  //   console.error(`Erro na obtenção dos dados`)
+  // });
+
+  
+
+
+  
+}
+
+// function plotarGraficoAlerta(idServidor){
+
+//   data.datasets[0].data = [obterAlertaCPU(idServidor), obterAlertasRAM(idServidor), obterEmergenciaDISCO(idServidor)]
+//   window.chartAlerta.update()
+
+  
+// }
