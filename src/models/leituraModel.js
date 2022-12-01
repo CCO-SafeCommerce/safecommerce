@@ -168,6 +168,14 @@ function obterAppsCorHw(idServidor) {
     return database.execute(instruction, instructionAzure);
 }
 
+function alertas(idServidor,componente){
+    console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterAppsCorHw(): ", idServidor);
+
+    var instruction = `select DISTINCT Componente, qtdAvisos, qtdEmergencias from situacaoLeitura where fkServidor = ${idServidor} order by componente`;
+
+    return database.execute(instruction)
+}
+
 module.exports = {
     limparHistoricoServidor,
     obterDadosCPU,
@@ -185,5 +193,6 @@ module.exports = {
     obterDadosAlerta,
     obterDadosEmergencia,
     obterAppsCorHw,
-    obterUltimaTemp
+    obterUltimaTemp,
+    alertas
 }

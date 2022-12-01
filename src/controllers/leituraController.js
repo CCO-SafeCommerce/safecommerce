@@ -1,5 +1,6 @@
 const leituraModel = require("../models/leituraModel");
 const SLR = require('ml-regression').SLR;
+const calculateCorrelation = require("calculate-correlation")
 
 function obterDadosCPU(req,res) {
     var id = req.params.idServidor
@@ -21,20 +22,17 @@ function obterDadosCPU(req,res) {
     }
 }
 function obterUltimaTemp(req,res) {
-    
-
-  
-        leituraModel.obterUltimaTemp().then(function (resultado) {
-            res.json(resultado);
-            
-        }).catch(function (erro) {
-            console.log(erro);
-            console.log(
-                "\nHouve um erro ao realizar o cadastro! Erro: ",
-                erro.sqlMessage
-            );
-            res.status(500).json(erro.sqlMessage);
-        });
+    leituraModel.obterUltimaTemp().then(function (resultado) {
+        res.json(resultado);
+        
+    }).catch(function (erro) {
+        console.log(erro);
+        console.log(
+            "\nHouve um erro ao realizar o cadastro! Erro: ",
+            erro.sqlMessage
+        );
+        res.status(500).json(erro.sqlMessage);
+    });
     
 }
 
@@ -287,6 +285,29 @@ function obterDadosEmergencia(req,res){
     }
 }
 
+function alertas(req,res){
+    var id = req.query.idServidor
+    var componente = req.query.componente
+
+    if(id == undefined){
+        res.status(400).send("Id do servidor está undefined!");
+    }
+    else if(componente == undefined){
+        res.status(400).send("O componente está undefined!");
+    }else{
+        leituraModel.alertas(id, componente).then(function (resultado){
+            res.json(resultado);
+        }).catch(function (erro){
+            console.log(erro)
+            console.log(
+                "\nHouve um erro ao realizar a captura! Erro: ",
+                erro.sqlMessage
+            );
+            res.status(500).json(erro.sqlMessage);
+        });
+    }
+}
+
 function appsCorHw(req, res) {
     var idServidor = req.params.idServidor
 
@@ -302,19 +323,25 @@ function appsCorHw(req, res) {
 
             var linearRegressionCPU = null;
             var linearRegressionRAM = null;
+            var corCPU = null
+            var corRAM = null
 
             if (yCPU.reduce((somatorio, atual) => somatorio + atual, 0) > 0) {
                 linearRegressionCPU = new SLR(xD, yCPU);
+                corCPU = new calculateCorrelation(xD, yCPU);
             }
 
             if (yCPU.reduce((somatorio, atual) => somatorio + atual, 0) > 0) {
                 linearRegressionRAM = new SLR(xD, yRAM);
+                corRAM = new calculateCorrelation(xD, yRAM);
             }
 
             res.json({
                 data: resultado,
                 lrCPU: linearRegressionCPU,
-                lrRAM: linearRegressionRAM
+                lrRAM: linearRegressionRAM,
+                corCPU: corCPU,
+                corRAM: corRAM
             })
         }).catch(function (erro) {
             console.log(erro);
@@ -342,5 +369,6 @@ module.exports = {
     obterDadosAlerta,
     obterDadosEmergencia,
     appsCorHw,
-    obterUltimaTemp
+    obterUltimaTemp,
+    alertas
 }

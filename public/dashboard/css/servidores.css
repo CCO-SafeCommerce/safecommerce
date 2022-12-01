@@ -44,8 +44,8 @@ canvas{
 .divAlertas{
  display: flex;
  justify-content: space-around;
- margin-bottom: 100px;
- margin-top: 100px;
+ /* margin-bottom: 100px; */
+ /* margin-top: 100px; */
 }
 
 .kpiAlerta{
@@ -56,3 +56,5 @@ canvas{
     height: 150px;
     border-radius: 10px;
 }
+
+

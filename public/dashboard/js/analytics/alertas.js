@@ -5,32 +5,71 @@ var idServidor = 0
 
 // const { obterDadosAlerta } = require("../../../../src/models/leituraModel")
 
-var alertaCPU = {}
-var alertaRAM = {}
-var alertaDISCO = {}
+// var alertaCPU = {}
+// var alertaRAM = {}
+// var alertaDISCO = {}
 
 // variaveis de Emergencia
 
-var emergenciaCPU = {}
-var emergenciaRAM = {}
-var emergenciaDISCO = {}
+// var emergenciaCPU = {}
+// var emergenciaRAM = {}
+// var emergenciaDISCO = {}
+
+var emergencias = {}
+var dataEmergencia = []
+
+var avisos = {}
+var dataAvisos = []
 
 
-function definirChartAlertas(){
+function definirChartAlertas(idServidor, componente){
+    fetch(`/leituras/alertas?idServidor=${idServidor}&componente=${componente}`,{
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+    }
+
+    }).then(function (response){
+      if(response.ok){
+        response.json().then(function (resposta){
+          console.log("esse daqui é de alertas atual")
+          console.log(resposta)
+          var alertaCpu = resposta[0].qtdAvisos
+          console.log("Alertas do CPU: " + alertaCpu)
+          var emergenciaCpu = resposta[0].qtdEmergencias
+          console.log("Quantidade de emergencias da CPU: " +emergenciaCpu)
+          var alertaDisco = resposta[1].qtdAvisos
+          console.log("Quantidade de Avisos do Disco: " + alertaDisco)
+          var emergenciaDisco = resposta[1].qtdEmergencias
+          console.log("Quantidade de Emergencias do Disco: " + emergenciaDisco)
+          var alertaRam = resposta[2].qtdAvisos
+          console.log("Quantidade de alertas da RAM: " + alertaRam)
+          var emergenciaRam = resposta[2].qtdEmergencias
+          console.log("Quantidade de emergencias da RAM: " + emergenciaRam)
+        });
+      } else{
+        console.error('Nenhum dado Encontrado ou erro na API');
+      }
+    })
+    .catch(function (error){
+      console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+    });
+
     console.log("teste")
+
     // setup 
     const data = {
         labels: ['CPU', 'RAM', 'DISCO'],
         datasets: [{
           label: 'Emergencias',
-          data: [1, 2, 0.3],
+          data:  [],//[1, 2, 0.3],
           backgroundColor: 'rgba(255, 26, 104, 0.2)',
           borderColor:'rgba(255, 26, 104, 1)',
           borderWidth: 1
         }, 
         {
             label: 'Alertas',
-            data: [0.5,1,1.8],
+            data: [],//0.5,1,1.8],
             backgroundColor: 'rgba(250, 201, 65, 0.2)',
             borderColor:'rgba(250, 186, 10)',
             borderWidth: 1
@@ -51,10 +90,14 @@ function definirChartAlertas(){
       };
 
       // render init block
-      window.chartAlerta = new Chart(
-        document.getElementById('chartAlerta'),
-        config
-      );
+      // window.chartAlerta = new Chart(
+      //   document.getElementById('chartAlerta'),
+      //   config
+      // );
+
+      data.datasets.forEach(registro =>{
+
+      })
 }
 
 
