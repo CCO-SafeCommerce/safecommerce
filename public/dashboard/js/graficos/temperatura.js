@@ -195,6 +195,24 @@ function plotarGraficoTemperaturaFrequencia(resposta, resposta1, grafico) {
 }
 
 function gerarAlerta(icone, gravidade, mensagem) {
+  var urlIcon = ""
+  if(icone == "emergencia"){
+    urlIcon = "https://raw.githubusercontent.com/CCO-SafeCommerce/safecommerce/main/public/dashboard/assets/emergencia.png"
+  }else{
+    urlIcon = "https://raw.githubusercontent.com/CCO-SafeCommerce/safecommerce/main/public/dashboard/assets/alerta.png"
+  }
+  console.log(urlIcon)
+  const notification = new Notification(`${gravidade} - SafeCommerce`, {
+    body: `${mensagem}`,
+    icon: urlIcon
+  });
+  
+  notification.onclick = (e) => {
+    e.preventDefault();
+    window.focus();
+    notification.close();
+  }
+
   var alerta = ` <div class="toast" role="alert" style="display: block;" aria-live="assertive" aria-atomic="true">
    <div class="toast-header">
      <img src="./assets/${icone}.png" style="width: 30px" class="rounded mr-2" alt="...">
@@ -208,6 +226,7 @@ function gerarAlerta(icone, gravidade, mensagem) {
    </div>
  </div>`;
   document.getElementById("alertasTemp").innerHTML += alerta;
+  
 }
 
 async function getTemperaturaCidade(ipServidor){
@@ -242,6 +261,22 @@ async function getTemperaturaCidade(ipServidor){
  
   );
   return cidade;
+}
+
+function notificarNavegador(){
+  wsNotification.on('new', () => {
+    if (Notification.permission === 'granted') {
+      const notification = new Notification('Título', {
+        body: 'Conteúdo da notificação'
+      });
+      
+      notification.onclick = (e) => {
+        e.preventDefault();
+        window.focus();
+        notification.close();
+      }
+    }
+  });
 }
 
 function monitorarParaAlertar() {

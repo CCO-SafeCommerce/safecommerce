@@ -94,21 +94,21 @@
                             </div>                    
                         </div>
 
-                        <div id="divAnalytic#tempFreq" class="card">
+                       
+                        <div id="divAnalytic#tempUso" class="card">
                             <div class="card-header">
-                                <h6 class="card-title">Correlação entre Temperatura da CPU e Frequência da CPU</h6>
+                                <h6 class="card-title">Comparação entre Temperatura da CPU e Uso da CPU</h6>
                             </div>
                             <div class="card-body bodyCanvas">
-                                <canvas id="tempFreq" class="chartjs-render-monitor lineChart"></canvas>
+                                <canvas id="tempUso" class="chartjs-render-monitor lineChart"></canvas>
                             </div>                         
                         </div>
-
-                        <div id="divAnalytic#tempUso" class="card">
+                        <div id="divAnalytic#tempUsoCor" class="card">
                             <div class="card-header">
                                 <h6 class="card-title">Correlação entre Temperatura da CPU e Uso da CPU</h6>
                             </div>
                             <div class="card-body bodyCanvas">
-                                <canvas id="tempUso" class="chartjs-render-monitor lineChart"></canvas>
+                                <canvas id="tempUsoCor" class="chartjs-render-monitor lineChart"></canvas>
                             </div>                         
                         </div>
 
@@ -202,12 +202,10 @@
             },
         }).then(function (resposta) {
             resposta.json().then(parametros => {
-                if (parametros.includes(11) && parametros.includes(4)) {
-                    criarGraficoTempXFreq(selectedServer)
-                }
-
+               
                 if (parametros.includes(11) && parametros.includes(1)) {
                     criarGraficoTempXUso(selectedServer)
+                    criarCorrelacaoTempXUso(selectedServer)
                 }
                 
                 if (parametros.includes(13) && (parametros.includes(1) || parametros.includes(6))) {

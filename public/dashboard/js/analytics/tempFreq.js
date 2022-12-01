@@ -1,6 +1,6 @@
 var tempCPUFreq = {};
 var tempUsoCpu = {};
-
+var tempUsoCor = {};
 var datasetTemperatura = {
   label: "Temperatura da CPU (ºC)",
   data: [],
@@ -25,104 +25,45 @@ var datasetUso = {
 var labelsTempFreq = [];
 var labelsTempUso = [];
 
-function criarGraficoTempXFreq(idServidor) {
-  const config = {
+  
+const dadosTemp = {
+  labels: [],
+  datasets: [
+    {
+      label: "Temperatura da CPU",
+      backgroundColor: "#dc3e1d",
+      borderColor: "#dc3e1d",
+      data: [35,42,50],
+    },
+  ],
+};
+
+function criarCorrelacaoTempXUso(idServidor){
+
+  
+  const config ={
     type: "line",
-    data: {
-      datasets: [datasetTemperatura, datasetFreq],
-      labels: labelsTempFreq,
-    },
-    options: {
-      animation: {
-        duration: 0,
-      },
+    data: dadosTemp,
+    options:{
       scales: {
+        x: { title: { display: true, text: 'Uso de CPU (ºC)', } },
         y: {
-          min: 0,
-          max: 100,
+            type: 'linear',
+            position: 'left',
+            title: {
+                display: true,
+                text: 'Temperatura da CPU (ºC)',
+              
+            }
         },
-      },
-    },
-  };
-
-  tempCPUFreq = new Chart(document.getElementById("tempFreq"), config);
-  obterDadosTempCPUFreq(idServidor);
-}
-
-function obterDadosTempCPUFreq(idServidor) {
-  fetch(`/leituras/obterDadosTemperaturaDia/${idServidor}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  })
-    .then(function (response) {
-      if (response.ok) {
-        response.json().then(function (resposta) {
-          fetch(`/leituras/obterDadosFreqDia/${idServidor}`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-            .then(function (response1) {
-              if (response1.ok) {
-                response1.json().then(function (resposta1) {
-                  plotarGraficoTemperaturaFrequencia(
-                    resposta,
-                    resposta1,
-                    tempCPUFreq
-                  );
-                });
-              } else {
-                console.error("Nenhum dado encontrado ou erro na API");
-              }
-            })
-            .catch(function (error) {
-              console.error(
-                `Erro na obtenção dos dados p/ gráfico: ${error.message}`
-              );
-            });
-        });
-      } else {
-        console.error("Nenhum dado encontrado ou erro na API");
-      }
-    })
-    .catch(function (error) {
-      console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
-    });
-}
-
-function plotarGraficoTemperaturaFrequencia(resposta, resposta1, grafico) {
-    resposta1 = resposta1.slice(0).reverse();
-    resposta = resposta.slice(0).reverse();
-    if (resposta1.length > resposta.length) {
-      resposta1.forEach((element) => {
-          //console.log(element.horario)
-          let dataCerta = new Date(element.horario)
-          let dataFormatada = dataCerta.getDate()+1 + "/" + (dataCerta.getMonth() + 1) + "/" + dataCerta.getFullYear() 
-          //console.log(dataFormatada)
-          labelsTempFreq.push(dataFormatada);
-      });
-    } else {
-      resposta.forEach((element) => {
-          //console.log(element.horario)
-          let dataCerta = new Date(element.horario)
-          let dataFormatada = dataCerta.getDate()+1 + "/" + (dataCerta.getMonth() + 1) + "/" + dataCerta.getFullYear() 
-          //console.log(dataFormatada)
-          labelsTempFreq.push(dataFormatada);
-      });
+    
     }
-
-  for (i = 0; i < resposta.length; i++) {
-    datasetTemperatura.data.push(resposta[i].valor);
+  }
   }
 
-  resposta1.forEach((element) => {
-    datasetFreq.data.push(element.valor / 1000000000);
-  });
-
-  grafico.update();
+  tempUsoCor = new Chart(document.getElementById("tempUsoCor"), config);
+  obterDadosCor(idServidor);
+  
 }
 
 function criarGraficoTempXUso(idServidor) {
@@ -173,6 +114,7 @@ function obterDadosTempCpuUso(idServidor) {
                     resposta1,
                     tempUsoCpu
                   );
+                 
                   //console.log(resposta)
                 });
               } else {
@@ -193,6 +135,54 @@ function obterDadosTempCpuUso(idServidor) {
       console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
     });
 }
+
+function obterDadosCor(idServidor) {
+  fetch(`/leituras/obterDadosTemperaturaDia/${idServidor}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then(function (response) {
+      if (response.ok) {
+        response.json().then(function (resposta) {
+          fetch(`/leituras/obterDadosUsoCpuDia/${idServidor}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then(function (response1) {
+              if (response1.ok) {
+                response1.json().then(function (resposta1) {
+                  plotarCorrelacaoTemperaturaUsoCpu(
+                    resposta,
+                    resposta1,
+                    tempUsoCpu
+                  );
+                 
+                  //console.log(resposta)
+                });
+              } else {
+                console.error("Nenhum dado encontrado ou erro na API");
+              }
+            })
+            .catch(function (error) {
+              console.error(
+                `Erro na obtenção dos dados p/ gráfico: ${error.message}`
+              );
+            });
+        });
+      } else {
+        console.error("Nenhum dado encontrado ou erro na API");
+      }
+    })
+    .catch(function (error) {
+      console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+    });
+}
+
+
 function plotarGraficoTemperaturaUsoCpu(resposta, resposta1, grafico) {
   resposta1 = resposta1.slice(0).reverse();
   resposta = resposta.slice(0).reverse();
@@ -213,7 +203,7 @@ function plotarGraficoTemperaturaUsoCpu(resposta, resposta1, grafico) {
         labelsTempUso.push(dataFormatada);
     });
   }
-
+  
   for (i = 0; i < resposta.length; i++) {
     datasetTemperatura.data.push(resposta[i].valor);
   }
@@ -224,3 +214,27 @@ function plotarGraficoTemperaturaUsoCpu(resposta, resposta1, grafico) {
 
   grafico.update();
 }
+
+function plotarCorrelacaoTemperaturaUsoCpu(resposta, resposta1, grafico) {
+  resposta1 = resposta1.slice(0).reverse();
+  resposta = resposta.slice(0).reverse();
+  var i = 0;
+  resposta1.forEach((element) => {
+        //console.log(element.horario)
+        //console.log(dataFormatada)
+        if(i<resposta.length){
+        dadosTemp.labels.push(element.valor.toFixed(2));
+        i++
+        }
+    });
+
+    console.log(dadosTemp)
+  for (i = 0; i < resposta.length; i++) {
+    //dadosTemp.datasets[0].data.push(resposta[i].valor);
+  }
+
+ 
+
+  grafico.update();
+}
+
