@@ -186,21 +186,24 @@ function obterDadosCor(idServidor) {
 function plotarGraficoTemperaturaUsoCpu(resposta, resposta1, grafico) {
   resposta1 = resposta1.slice(0).reverse();
   resposta = resposta.slice(0).reverse();
+  console.log(resposta)
+  console.log(resposta1)
+
   if (resposta1.length > resposta.length) {
     resposta1.forEach((element) => {
-        //console.log(element.horario)
-        let dataCerta = new Date(element.horario)
-        let dataFormatada = dataCerta.getDate()+1 + "/" + (dataCerta.getMonth() + 1) + "/" + dataCerta.getFullYear() 
-        //console.log(dataFormatada)
-        labelsTempUso.push(dataFormatada);
+        var data = element.horario.indexOf("T")
+        data = element.horario.slice(0,data)
+        labelsTempUso.push(data);
     });
   } else {
     resposta.forEach((element) => {
-        //console.log(element.horario)
+        console.log(element.horario)
         let dataCerta = new Date(element.horario)
-        let dataFormatada = dataCerta.getDate()+1 + "/" + (dataCerta.getMonth() + 1) + "/" + dataCerta.getFullYear() 
-        //console.log(dataFormatada)
-        labelsTempUso.push(dataFormatada);
+      
+        
+        var data = element.horario.indexOf("T")
+        data = element.horario.slice(0,data)
+        labelsTempUso.push(data);
     });
   }
   

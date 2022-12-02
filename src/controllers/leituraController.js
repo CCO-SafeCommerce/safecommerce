@@ -300,7 +300,10 @@ function maiorAlerta(req,res){
     }
 
 }
+function regressaoTempUso(req, res){
+    var idServidor = req.params.idServidor
 
+}
 function appsCorHw(req, res) {
     var idServidor = req.params.idServidor
 
@@ -321,12 +324,12 @@ function appsCorHw(req, res) {
 
             if (yCPU.reduce((somatorio, atual) => somatorio + atual, 0) > 0) {
                 linearRegressionCPU = new SLR(xD, yCPU);
-                corCPU = new calculateCorrelation(xD, yCPU);
+                corCPU = calculateCorrelation(xD, yCPU);
             }
 
             if (yCPU.reduce((somatorio, atual) => somatorio + atual, 0) > 0) {
                 linearRegressionRAM = new SLR(xD, yRAM);
-                corRAM = new calculateCorrelation(xD, yRAM);
+                corRAM = calculateCorrelation(xD, yRAM);
             }
 
             res.json({
@@ -363,5 +366,7 @@ module.exports = {
     obterUltimaTemp,
     alertas,
     maiorEmergencia,
-    maiorAlerta
+    maiorAlerta,
+   regressaoTempUso
+
 }

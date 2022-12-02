@@ -41,6 +41,13 @@ router.get("/obterDadosTemperaturaDia/:idServidor", (req,res)=>{
     leituraController.obterDadosTemperaturaDia(req,res);
 })
 
+router.get("/obterUltimaTemp/", (req,res)=>{
+    leituraController.obterUltimaTemp(req,res);
+})
+
+router.get("/regressaoTempUso/:idServidor", (req,res)=>{
+    leituraController.regressaoTempUso(req,res);
+})
 
 router.get("/appCorHw/:idServidor", (req, res) => {
     leituraController.appsCorHw(req,res);

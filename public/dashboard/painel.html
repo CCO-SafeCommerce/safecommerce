@@ -123,12 +123,12 @@
     document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;
     var serverTable = document.getElementById("server_table");
 
-    function getStatus(ultimoRegistro) {
-        return dateFns.differenceInSeconds(new Date(ultimoRegistro), new Date()) >= 60
+    function isOnline(ultimoRegistro) {
+        return dateFns.differenceInMinutes(new Date(ultimoRegistro), new Date()) >= -180
     }
 
     function getStatusElement(ultimoRegistro) {
-        if (!getStatus(ultimoRegistro)) {
+        if (!isOnline(ultimoRegistro)) {
             return `
                 <i class="bi bi-exclamation-triangle-fill text-danger"></i> Offline
             `
@@ -275,7 +275,7 @@
         myChartSO.update()
 
         var offline = data.filter(s => {
-            if (!getStatus(s.ultimoRegistro)) {
+            if (!isOnline(s.ultimoRegistro)) {
                 return s
             }
         }).length
