@@ -119,10 +119,10 @@
                             <div class="card-body bodyCanvas" id="divAertas">
                                 <div class="divAlertas">
                                 <div class="kpiAlerta" style="background-color: #DC3E1D;"><br> Peça com maior quantidade de Emergencias <br>
-                                <span><br>RAM</span></div>
+                                <span id="maiorEmergencia"><br></span></div>
                                 <!-- <div class="kpiAlerta" style="background-color: #E87413;"><br> Media de Tempertura de Emergencias</div> -->
                                 <div class="kpiAlerta" style="background-color: #F25913;"><br> Peça com maior quantidade de Alertas<br>
-                                    <span><br>DISCO</span></div></div>
+                                    <span id = "maiorAlerta"></span></div></div>
                                 </div>
                                 <canvas id="chartAlerta" class="chartjs-render-monitor lineChart"></canvas>
                                 
@@ -224,7 +224,9 @@
 </script>
 
 <script>
-    definirChartAlertas(selectedServer, "RAM");
+    definirChartAlertas(selectedServer);
+    maiorEmergencias(selectedServer);
+    maiorAlertas(selectedServer);
    // obterAlertasRAM(selectedServer)
     
 </script>
