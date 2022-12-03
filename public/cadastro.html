@@ -89,17 +89,23 @@
                 <div class="div1 w-75" style="height: 400px;">
 
                     <div class="cadastre">Seja bem vindo!</div>
-        
-                    <input type="Text" class="ipt" id="nome_ipt" 
-                    placeholder="Nome da Empresa">
-        
-                    <input type="Text" class="ipt" id="cnpj_ipt" onkeyup="mascaraCNPJ(event)" maxlength="18"
-                    placeholder="CNPJ">
-        
-                    <input type="Text" class="ipt" id="email_ipt" 
-                    placeholder="Email">
+
+                    <div class="mb-3 w-75">
+                        <label for="nome_ipt" class="form-label">Nome da Empresa</label>
+                        <input type="text" class="form-control" id="nome_ipt" placeholder="Paulão Eletrônicos">
+                    </div>
+
+                    <div class="mb-3 w-75">
+                        <label for="email_ipt" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email_ipt" placeholder="usuario@provedor.com">
+                    </div>
                     
-                    <a href="login.html"><div class="frase">Já tem cadastro? Logue-se </div></a>
+                    <div class="mb-3 w-75">
+                        <label for="cnpj_ipt" class="form-label">Senha</label>
+                        <input type="text" class="form-control" id="cnpj_ipt" onkeyup="mascaraCNPJ(event)" maxlength="18" placeholder="77.077.587/0001-61">
+                    </div>
+                    
+                    <div class="frase">Já tem cadastro? <a href="login.html">Logue-se</a></div>
         
                     <button class="bt" onclick="cadastrar()">Cadastrar</button>
                 </div>

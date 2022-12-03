@@ -1,6 +1,6 @@
-
-
 function definirChartAlertas(idServidor, componente){
+  document.getElementById('divAnalytic#analiseSituacao').style.display = 'flex'
+
     fetch(`/leituras/alertas?idServidor=${idServidor}&componente=${componente}`,{
       method: "GET",
       headers: {

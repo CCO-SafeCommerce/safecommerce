@@ -56,7 +56,7 @@ const dadosTemp = {
 };
 
 function criarCorrelacaoTempXUso(idServidor){
-
+  document.getElementById('divAnalytic#tempUsoCor').style.display = 'flex'
   
   const config = {
     type: 'scatter',
@@ -81,6 +81,8 @@ function criarCorrelacaoTempXUso(idServidor){
 }
 
 function criarGraficoTempXUso(idServidor) {
+  document.getElementById('divAnalytic#tempUso').style.display = 'flex'
+  
   const config = {
     type: "line",
     data: {

@@ -51,6 +51,13 @@
                     <div class="container-fluid px-lg-4">
                         <div class="row">
                             <div class="col-md-12 mt-lg-4 mt-4">
+                                <nav aria-label="breadcrumb">
+                                    <ol class="breadcrumb bg-transparent">
+                                        <li class="breadcrumb-item"><a href="./painel.html" class="link-primary">Visão Geral</a></li>
+                                        <li class="breadcrumb-item"><a id="breadcrumbServidor" class="link-primary">Servidor</a></li>
+                                        <li class="breadcrumb-item" aria-current="page">Editar Servidor</li>
+                                    </ol>
+                                </nav> 
                                 <div class="d-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800">Processos</h1>
                                 </div>
@@ -216,8 +223,8 @@
 <script src="./js/script.js"></script>
 
 <script>
-var selectedServer = 0;
-function getURLParams() {
+    var selectedServer = 0;
+    function getURLParams() {
         var params = new URLSearchParams(window.location.search)
         var idServidor = params.get('idServer')
 
@@ -234,6 +241,10 @@ function getURLParams() {
             if (!servidor){
                 window.location = './painel.html'
             }
+
+            var breadcrumb = document.getElementById('breadcrumbServidor');
+            breadcrumb.innerText = servidor.modelo
+            breadcrumb.href = `./servidores.html?idServer=${servidor.idServidor}`
 
             obterProcessos(selectedServer)
         } else {

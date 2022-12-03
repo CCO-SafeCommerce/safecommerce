@@ -107,18 +107,21 @@
 
             </div>
             <div class="col-12 col-xl-6 d-flex justify-content-center align-items-center">
-                <div class="div1 w-75" style="height: 400px;">
-
+                <div class="div1 w-75" style="height: 400px;">                    
                     <div class="logue">Entrar</div>
 
-                    <input type="Text" class="ipt" id="email_ipt" placeholder="Email">
+                    <div class="mb-3 w-75">
+                        <label for="email_ipt" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email_ipt" placeholder="usuario@provedor.com">
+                    </div>
+                    
+                    <div class="mb-3 w-75">
+                        <label for="senha_ipt" class="form-label">Senha</label>
+                        <input type="password" class="form-control" id="senha_ipt" placeholder="**********">
+                    </div>
 
-                    <input type="password" class="ipt" id="senha_ipt" placeholder="Senha">
-
-                    <a href="cadastro.html">
-                        <div class="frase">Ainda não tem cadastro?
-                            Clique aqui</div>
-                    </a>
+                    
+                    <div class="frase">Ainda não tem cadastro? <a href="cadastro.html">Clique aqui</a></div>                    
 
                     <button class="bt" onclick="entrar()">Login</button>
                 </div>
