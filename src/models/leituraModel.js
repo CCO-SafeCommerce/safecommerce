@@ -160,8 +160,8 @@ function limparHistoricoAplicacao(componente) {
 function obterAppsCorHw(idServidor) {
     console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterAppsCorHw(): ", idServidor);
 
-    var instruction = `SELECT ano, mes, demanda, usoCPU, usoRAM FROM vwAppsCorHW WHERE fkServidor = ${idServidor} ORDER BY ano DESC, mes DESC LIMIT 6`;
-    var instructionAzure = `SELECT TOP 6 ano, mes, demanda, usoCPU, usoRAM FROM vwAppsCorHW WHERE fkServidor = ${idServidor} ORDER BY ano DESC, mes DESC`;
+    var instruction = `SELECT ano, mes, dia, demanda, usoCPU, usoRAM FROM vwAppsCorHW WHERE fkServidor = ${idServidor} ORDER BY ano DESC, mes DESC, dia DESC LIMIT 6`;
+    var instructionAzure = `SELECT TOP 6 ano, mes, dia, demanda, usoCPU, usoRAM FROM vwAppsCorHW WHERE fkServidor = ${idServidor} ORDER BY ano DESC, mes DESC, dia DESC`;
 
     return database.execute(instruction, instructionAzure);
 }

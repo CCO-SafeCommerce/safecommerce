@@ -226,3 +226,23 @@ select
 from Leitura as l
 where l.fkMetrica IN (1,3,4,6,8,9,10,11);
 
+CREATE VIEW vwAppsCorHW AS
+SELECT 
+	fkServidor,
+	ano,
+	mes,
+	dia,
+	[13] as 'demanda',
+	[1] as 'usoCPU',
+	[6] as 'usoRAM'
+FROM (SELECT 
+	l.fkServidor, 
+	l.fkMetrica, 
+	DATEPART(year,l.dataLeitura) as 'ano', 
+	DATEPART(month,l.dataLeitura) as 'mes',
+	DATEPART(day,l.dataLeitura) as 'dia',
+	l.valor_leitura as valor
+FROM Leitura l
+WHERE l.fkMetrica in(1,6,13)) p
+PIVOT (AVG(valor) FOR fkMetrica IN([1],[6],[13])) AS pvt;
+
