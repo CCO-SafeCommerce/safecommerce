@@ -72,6 +72,16 @@ function obterDadosFreq(idServidor) {
     return database.execute(instruction, instructionAzure);
 }
 
+function dadosTempCpu(idServidor){
+    var instruction = `SELECT valor, horario FROM leituraTemp where fkServidor = ${idServidor} order by horario desc limit 20;`
+    var instructionAzure = `SELECT top(500) ROUND(avg(lcpu.valor),2) as 'cpu', avg(ltemp.valor) as 'temp', DATEPART(MINUTE, ltemp.horario) from [dbo].[leituraCPU] as lcpu
+	INNER JOIN [dbo].[leituraTemperatura] as ltemp
+		ON ltemp.fkServidor = lcpu.fkServidor
+			GROUP BY DATEPART(MINUTE, ltemp.horario)`
+
+    return database.execute(instruction, instructionAzure);
+}
+
 function obterUltimaTemp(){
     var instruction = `SELECT valor, horario FROM leituraFreq where fkServidor = 2 order by horario desc limit 20;`
    
@@ -194,5 +204,6 @@ module.exports = {
     obterUltimaTemp,
     alertas,
     maiorEmergencia,
-    maiorAlerta
+    maiorAlerta,
+    dadosTempCpu
 }

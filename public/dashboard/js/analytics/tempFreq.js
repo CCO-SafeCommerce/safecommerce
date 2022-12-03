@@ -22,6 +22,23 @@ var datasetUso = {
   borderColor: "#dc3e1d",
 };
 
+var datasetCor =[]
+var datasetReg = []
+var data = {
+  datasets : [{
+    label: "Dispersão",
+    data: datasetCor
+  },{
+    label: "Regressão Linear",
+    data: datasetReg,
+    type: 'line',
+    pointRadius: 0,
+  }
+]
+}
+
+
+
 var labelsTempFreq = [];
 var labelsTempUso = [];
 
@@ -41,25 +58,22 @@ const dadosTemp = {
 function criarCorrelacaoTempXUso(idServidor){
 
   
-  const config ={
-    type: "line",
-    data: dadosTemp,
-    options:{
+  const config = {
+    type: 'scatter',
+    data: data,
+    options: {
       scales: {
-        x: { title: { display: true, text: 'Uso de CPU (ºC)', } },
-        y: {
-            type: 'linear',
-            position: 'left',
-            title: {
-                display: true,
-                text: 'Temperatura da CPU (ºC)',
-              
-            }
+        x: {
+          type: 'linear',
+          position: 'bottom',
+          title: { display: true, text: 'Temperatura (ºC)', }
         },
-    
+        y: {
+          title: { display: true, text: 'Uso de CPU (%)', }
+        }
+      }
     }
-  }
-  }
+  };
 
   tempUsoCor = new Chart(document.getElementById("tempUsoCor"), config);
   obterDadosCor(idServidor);
@@ -137,7 +151,7 @@ function obterDadosTempCpuUso(idServidor) {
 }
 
 function obterDadosCor(idServidor) {
-  fetch(`/leituras/obterDadosTemperaturaDia/${idServidor}`, {
+  fetch(`/leituras/regressaoTempUso/${idServidor}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -146,32 +160,7 @@ function obterDadosCor(idServidor) {
     .then(function (response) {
       if (response.ok) {
         response.json().then(function (resposta) {
-          fetch(`/leituras/obterDadosUsoCpuDia/${idServidor}`, {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          })
-            .then(function (response1) {
-              if (response1.ok) {
-                response1.json().then(function (resposta1) {
-                  plotarCorrelacaoTemperaturaUsoCpu(
-                    resposta,
-                    resposta1,
-                    tempUsoCpu
-                  );
-                 
-                  //console.log(resposta)
-                });
-              } else {
-                console.error("Nenhum dado encontrado ou erro na API");
-              }
-            })
-            .catch(function (error) {
-              console.error(
-                `Erro na obtenção dos dados p/ gráfico: ${error.message}`
-              );
-            });
+          plotarCorrelacaoTemperaturaUsoCpu(resposta, tempUsoCor)
         });
       } else {
         console.error("Nenhum dado encontrado ou erro na API");
@@ -218,25 +207,14 @@ function plotarGraficoTemperaturaUsoCpu(resposta, resposta1, grafico) {
   grafico.update();
 }
 
-function plotarCorrelacaoTemperaturaUsoCpu(resposta, resposta1, grafico) {
-  resposta1 = resposta1.slice(0).reverse();
-  resposta = resposta.slice(0).reverse();
-  var i = 0;
-  resposta1.forEach((element) => {
-        //console.log(element.horario)
-        //console.log(dataFormatada)
-        if(i<resposta.length){
-        dadosTemp.labels.push(element.valor.toFixed(2));
-        i++
-        }
-    });
+function plotarCorrelacaoTemperaturaUsoCpu(resposta, grafico) {
+  console.log(resposta)
 
-    console.log(dadosTemp)
-  for (i = 0; i < resposta.length; i++) {
-    //dadosTemp.datasets[0].data.push(resposta[i].valor);
+  for(i = 0; i < resposta.data.length; i++){
+    console.log(resposta.data[i].temp)  
+    datasetCor.push({x: resposta.data[i].temp, y: resposta.data[i].cpu})
+    datasetReg.push({x: resposta.data[i].temp, y: resposta.regressao[0] + resposta.data[i].temp * resposta.regressao[1]})
   }
-
- 
 
   grafico.update();
 }

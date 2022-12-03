@@ -302,7 +302,30 @@ function maiorAlerta(req,res){
 }
 function regressaoTempUso(req, res){
     var idServidor = req.params.idServidor
-
+    leituraModel.dadosTempCpu(idServidor).then(function (resultado){
+        resultado.reverse()
+        //criar regressao linear para os dados
+        var x = resultado.map(r => r.temp)
+        var y = resultado.map(r => r.cpu)
+       
+        var regLinear = new SLR(x, y)    
+        var a = regLinear.coefficients
+        console.log(regLinear + ' regressao')
+        var correlacao = calculateCorrelation(x,y)
+        res.json({
+            data: resultado,
+            regressao: regLinear.coefficients,
+            correlacao: correlacao,
+         
+        })
+    }).catch(function (erro){
+        console.log(erro)
+        console.log(
+            "\nHouve um erro ao realizar a captura! Errodddd: ",
+            erro.sqlMessage
+        );
+        res.status(500).json(erro.sqlMessage);
+    });
 }
 function appsCorHw(req, res) {
     var idServidor = req.params.idServidor

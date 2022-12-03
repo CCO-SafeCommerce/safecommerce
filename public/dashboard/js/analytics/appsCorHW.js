@@ -13,7 +13,7 @@ function plotarGraficoAppsDemandCor(idServidor) {
                 cpu: json.lrCPU,
                 ram: json.lrRAM
             }
-
+            
             dataAppsCorHW = json.data
 
             const ctx = document.getElementById('appsDemandCorChart');
