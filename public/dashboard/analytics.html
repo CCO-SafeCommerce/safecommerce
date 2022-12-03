@@ -52,6 +52,7 @@
                     <!-- Conteudo da página -->
                     <div class="container-fluid px-lg-4">
                         <div class="row">
+                            
                             <div class="col-md-12 mt-lg-4 mt-4">
                                 <div class="d-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800" id="server_title">Servidor</h1>
@@ -66,6 +67,23 @@
                                 </div>
                             </div>                    
                         </div>
+                        <div id="divAnalytic#tempUso" class="card">
+                            <div class="card-header">
+                                <h6 class="card-title">Analise de Alertas e Emergencias</h6>
+                            </div>
+                            <div class="card-body col-md-10 bodyCanvas" id="divAertas">
+                                <div class="divAlertas">
+                                <div class="kpiAlerta" style="background-color: #DC3E1D;"><br> Componente com maior quantidade de Emergencias <br>
+                                <span id="maiorEmergencia"><br></span></div>
+                                <!-- <div class="kpiAlerta" style="background-color: #E87413;"><br> Media de Tempertura de Emergencias</div> -->
+                                <div class="kpiAlerta" style="background-color: #F25913;"><br> Componente com maior quantidade de Alertas<br>
+                                    <span id = "maiorAlerta"></span></div>
+                                    </div> <br><br>
+                                    <canvas id="chartAlerta" class="chartjs-render-monitor lineChart"></canvas>
+                                </div>
+                                
+                                <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                            </div> 
                         <div id="divAnalytic#AppsDemandCor" class="card">
                             <div class="card-header">
                                 <h6 class="card-title">Correlação entre demanda de aplicações e uso de hardware</h6>
@@ -112,22 +130,7 @@
                             </div>                         
                         </div>
 
-                        <div id="divAnalytic#tempUso" class="card">
-                            <div class="card-header">
-                                <h6 class="card-title">Analise de Alertas e Emergencias</h6>
-                            </div>
-                            <div class="card-body bodyCanvas" id="divAertas">
-                                <div class="divAlertas">
-                                <div class="kpiAlerta" style="background-color: #DC3E1D;"><br> Peça com maior quantidade de Emergencias <br>
-                                <span id="maiorEmergencia"><br></span></div>
-                                <!-- <div class="kpiAlerta" style="background-color: #E87413;"><br> Media de Tempertura de Emergencias</div> -->
-                                <div class="kpiAlerta" style="background-color: #F25913;"><br> Peça com maior quantidade de Alertas<br>
-                                    <span id = "maiorAlerta"></span></div></div>
-                                </div>
-                                <canvas id="chartAlerta" class="chartjs-render-monitor lineChart"></canvas>
-                                
-                                <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-                            </div>                         
+                                               
                         </div>
                         
                         <div id="divNoContent" class="row justify-content-center align-items-center">

@@ -90,7 +90,13 @@ fetch(`/leituras/maiorEmergencia?idServidor=${idServidor}`,{
   if(response.ok){
     response.json().then(function (resposta){
       console.log(resposta)
-      maiorEmergencia.innerHTML = "<br>" + resposta[0].componente
+
+      if(resposta[0].qtdEmergencias == 0){
+        maiorEmergencia.innerHTML = "<br>" + "Nenhuma Emergencia captada"
+      }else{
+
+        maiorEmergencia.innerHTML = "<br>" + resposta[0].componente
+      }
     });
   } else{
     console.error('Nenhum dado Encontrado ou erro na API');
@@ -110,8 +116,13 @@ function maiorAlertas(idServidor){
   }).then(function (response){
     if(response.ok){
       response.json().then(function (resposta){
+        console.log("essa é a resposta")
         console.log(resposta)
-        maiorAlerta.innerHTML = "<br>" + resposta[0].componente
+        if(resposta[0].qtdAvisos == 0){
+          maiorAlerta.innerHTML = "<br>" + "Nenhum Alerta Captado"
+        }else{
+          maiorAlerta.innerHTML = "<br>" + resposta[0].componente
+        }
       });
     } else{
       console.error('Nenhum dado Encontrado ou erro na API');
