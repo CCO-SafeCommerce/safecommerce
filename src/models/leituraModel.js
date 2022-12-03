@@ -74,10 +74,14 @@ function obterDadosFreq(idServidor) {
 
 function dadosTempCpu(idServidor){
     var instruction = `SELECT valor, horario FROM leituraTemp where fkServidor = ${idServidor} order by horario desc limit 20;`
-    var instructionAzure = `SELECT top(500) ROUND(avg(lcpu.valor),2) as 'cpu', avg(ltemp.valor) as 'temp', DATEPART(MINUTE, ltemp.horario) from [dbo].[leituraCPU] as lcpu
-	INNER JOIN [dbo].[leituraTemperatura] as ltemp
-		ON ltemp.fkServidor = lcpu.fkServidor
-			GROUP BY DATEPART(MINUTE, ltemp.horario)`
+    var instructionAzure = `SELECT fkServidor, horario, [11] as 'temp', [1] as 'cpu'  FROM (
+        SELECT fkServidor, fkMetrica, DATEPART(MINUTE, dataLeitura) as 'horario', valor_leitura FROM [dbo].[Leitura]
+            WHERE fkMetrica = 11 or fkMetrica = 1
+    
+    ) p PIVOT (
+        AVG(valor_leitura) FOR fkMetrica IN ([11],[1])
+    ) pvt 
+    WHERE fkServidor = ${idServidor}`
 
     return database.execute(instruction, instructionAzure);
 }
