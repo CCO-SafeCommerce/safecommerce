@@ -623,7 +623,7 @@
                     break;
                 case 11:
                     obterDadosTempCPU(selectedServer)
-                    monitorarParaAlertar()
+                   //monitorarParaAlertar()
                     break;
             }
         })
@@ -636,6 +636,10 @@
         obterParametros()
         getData(indexPage)
     }, 5000)
+
+    setInterval(() => {
+        monitorarParaAlertar()
+    }, 10000)
 
     function deleteServer(idServer) {
         Swal.fire({

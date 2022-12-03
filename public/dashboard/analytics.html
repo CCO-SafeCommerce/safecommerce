@@ -27,9 +27,10 @@
     <!-- style -->
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/servidores.css">
+    <script src="./js/analytics/tempFreq.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script src="./js/analytics/tempFreq.js"></script>
+    <script src="./js/graficos/temperatura.js"></script>
     <script src="./js/analytics/appsCorHW.js"></script>
 </head>
 
@@ -143,6 +144,15 @@
                         </div>
                     </div>
                 </div>
+                <div aria-live="polite" aria-atomic="true" style="position: absolute; bottom: 0; right: 0; z-index:10">
+                    <!-- Position it -->
+                    <div id="alertasTemp" style=" position: absolute; bottom: 0; right: 0;">
+
+                        <!-- Then put toasts within -->
+
+
+                    </div>
+                </div>
                 <!-- Fim do conteudo da página -->
                 
                 <!-- Footer -->
@@ -224,6 +234,9 @@
     setInterval(() => {
         getData(indexPage)
     }, 5000);
+    setInterval(() => {
+        monitorarParaAlertar()
+    }, 10000)
 </script>
 
 <script>

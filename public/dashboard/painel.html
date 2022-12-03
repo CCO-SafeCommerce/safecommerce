@@ -22,6 +22,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js" integrity="sha512-F+u8eWHrfY8Xw9BLzZ8rG/0wIvs0y+JyRJrXjp3VjtFPylAEEGwKbua5Ip/oiVhaTDaDs4eU2Xtsxjs/9ag2bQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/graficos/temperatura.js"></script>
 </head>
 
 <body onresize="responsive()" onload="responsive(), validateSession()">
@@ -105,7 +106,15 @@
                     </div>
                 </div>
                 <!-- Fim do conteudo da página -->
+                <div aria-live="polite" aria-atomic="true" style="position: absolute; bottom: 0; right: 0; z-index:10">
+                    <!-- Position it -->
+                    <div id="alertasTemp" style=" position: absolute; bottom: 0; right: 0;">
 
+                        <!-- Then put toasts within -->
+
+
+                    </div>
+                </div>
                 <!-- Footer -->
                 <my-footer></my-footer>
             </div>
@@ -253,7 +262,9 @@
     getData(indexPage)
     setInterval(() => {
         getData(indexPage)
+        monitorarParaAlertar()
     }, 10000)
+    
 </script>
 <script>
     function lidarGraficos(data) {
