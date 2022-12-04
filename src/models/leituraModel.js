@@ -54,6 +54,15 @@ function obterDadosCPU(idServidor) {
     return database.execute(instruction, instructionAzure);
 }
 
+function obterCpuAtual(idServidor) {
+    console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterDadosCPU(): ", idServidor);
+
+    var instruction = `SELECT cpu.valor as valorCpu, ram.valor as valorRam FROM leituraCPU as cpu , leituraRam as ram where cpu.fkServidor = ${idServidor} and ram.fkServidor = ${idServidor} order by cpu.horario desc, ram.horario desc limit 1`
+    var instructionAzure = `SELECT top 1 cpu.valor as valorCpu, ram.valor as valorRam FROM leituraCPU as cpu , leituraRam as ram where cpu.fkServidor = ${idServidor} and ram.fkServidor = ${idServidor} order by cpu.horario desc, ram.horario desc`    
+
+    return database.execute(instruction, instructionAzure);
+}
+
 function obterDadosCPUCore(idServidor) {
     console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterDadosCPUCore(): ", idServidor);
     
@@ -197,6 +206,7 @@ function maiorAlerta(idServidor){
 module.exports = {
     limparHistoricoServidor,
     obterDadosCPU,
+    obterCpuAtual,
     obterDadosCPUCore,
     obterDadosFreq,
     obterDadosRam,

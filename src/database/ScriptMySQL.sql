@@ -112,6 +112,12 @@ create table Aplicacao(
     foreign key (fkServidor) references Servidor(idServidor)
 );
 
+create table KillPids(
+	fkServidor int,
+    foreign key (fkServidor) references Servidor(idServidor),
+    pid int
+);
+
 create view visaoGeralServidores as
 select 
 	s.idServidor,
@@ -241,17 +247,6 @@ select
 from Leitura as l
 where l.fkMetrica in (1,3,4,6,8,9,10,11);
 
-create view vwAppsCorHW as
-select
-    l.fkServidor,
-    extract(year from l.dataLeitura) as 'ano',
-    extract(month from l.dataLeitura) as 'mes',
-    extract(day from l.dataLeitura) as 'dia',
-    avg(case when l.fkMetrica = 13 then l.valor_leitura end) as 'demanda',
-    avg(case when l.fkMetrica = 1 then l.valor_leitura end) as 'usoCPU',
-    avg(case when l.fkMetrica = 6 then l.valor_leitura end) as 'usoRAM'
-from Leitura l
-group by l.fkServidor, ano, mes, dia;
-
 -- Configurar para o java carregar o csv
 SET GLOBAL local_infile=1;
+SELECT cpu.valor as valorCpu, ram.valor as valorRam FROM leituraCPU as cpu , leituraRam as ram where cpu.fkServidor = 1 order by cpu.horario desc limit 1

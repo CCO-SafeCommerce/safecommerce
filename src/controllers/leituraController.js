@@ -21,6 +21,26 @@ function obterDadosCPU(req,res) {
         });
     }
 }
+function obterCpuAtual(req,res) {
+    var id = req.params.idServidor
+
+    if (id == undefined) {
+        res.status(400).send("Id do Servidor está undefined!");
+    } else {
+        leituraModel.obterCpuAtual(id).then(function (resultado) {
+            res.json(resultado);
+
+        }).catch(function (erro) {
+            console.log(erro);
+            console.log(
+                "\nHouve um erro ao realizar o cadastro! Erro: ",
+                erro.sqlMessage
+            );
+            res.status(500).json(erro.sqlMessage);
+        });
+    }
+}
+
 function obterUltimaTemp(req,res) {
     leituraModel.obterUltimaTemp().then(function (resultado) {
         res.json(resultado);
@@ -375,6 +395,7 @@ function appsCorHw(req, res) {
 
 module.exports = {
     obterDadosCPU,
+    obterCpuAtual,
     obterDadosCPUCore,
     obterDadosFreq,
     obterDadosRam,

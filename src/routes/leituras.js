@@ -7,6 +7,10 @@ router.get("/obterDadosCPU/:idServidor", (req,res)=>{
     leituraController.obterDadosCPU(req, res);
 })
 
+router.get("/obterCpuAtual/:idServidor", (req,res)=>{
+    leituraController.obterCpuAtual(req, res);
+})
+
 router.get("/obterDadosUsoCpuDia/:idServidor", (req,res)=>{
     leituraController.obterDadosUsoCpuDia(req, res);
 })
