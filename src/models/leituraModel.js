@@ -180,13 +180,15 @@ function alertas(idServidor){
 
     var instruction = `select DISTINCT Componente, qtdAvisos, qtdEmergencias from situacaoLeitura where fkServidor = ${idServidor} order by componente`;
 
+    console.log(instruction);
+
     return database.execute(instruction)
 }
 
 function maiorEmergencia(idServidor){
     console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function maiorEmergencia(): ", idServidor);
 
-    var instruction = `select componente, qtdEmergencias from situacaoleitura where qtdEmergencias = (select max(qtdEmergencias) from leitura where fkServidor = ${idServidor} limit 1) and fkServidor = ${idServidor} limit 1`;
+    var instruction = `select componente, qtdEmergencias from situacaoleitura where qtdEmergencias = (select max(qtdEmergencias) from situacaoLeitura where fkServidor = ${idServidor} limit 1) and fkServidor = ${idServidor} limit 1`;
 
     var instructionAzure = `select top(1) componente, qtdEmergencias from situacaoleitura where qtdEmergencias = (select top(1) max(qtdEmergencias) from [dbo].[situacaoLeitura] where fkServidor = ${idServidor}) and fkServidor = ${idServidor}`
 
@@ -196,7 +198,7 @@ function maiorEmergencia(idServidor){
 function maiorAlerta(idServidor){
     console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function maiorAlerta(): ", idServidor);
 
-    var instruction = `select componente, qtdAvisos from situacaoleitura where qtdAvisos = (select max(qtdAvisos) from leitura where fkServidor = ${idServidor} limit 1) and fkServidor = ${idServidor} limit 1`;
+    var instruction = `select componente, qtdAvisos from situacaoleitura where qtdAvisos = (select max(qtdAvisos) from situacaoLeitura where fkServidor = ${idServidor} limit 1) and fkServidor = ${idServidor} limit 1`;
 
     var instructionAzure = `select top(1) componente, qtdAvisos from situacaoleitura where qtdAvisos = (select top(1) max(qtdAvisos) from [dbo].[situacaoLeitura] where fkServidor = ${idServidor}) and fkServidor = ${idServidor}`
     
