@@ -10,6 +10,15 @@
     <!-- Icon -->
     <link rel="icon" href="./assets/images/logo-icon.png">
 
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8" crossorigin="anonymous">
+    </script>
+
     <!-- bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
@@ -22,6 +31,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.min.js" integrity="sha512-F+u8eWHrfY8Xw9BLzZ8rG/0wIvs0y+JyRJrXjp3VjtFPylAEEGwKbua5Ip/oiVhaTDaDs4eU2Xtsxjs/9ag2bQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="./js/graficos/temperatura.js"></script>
 </head>
 
 <body onresize="responsive()" onload="responsive(), validateSession()">
@@ -46,7 +56,10 @@
                             <div class="col-md-12 mt-lg-4 mt-4">
                                 <div class="d-flex align-items-center justify-content-between mb-4">
                                     <h1 class="h3 mb-0 text-gray-800">Visão Geral</h1>
-                                    <a class="d-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                                    <a 
+                                        href="https://github.com/CCO-SafeCommerce/SafeCommerceClient-Java/raw/main/SafeCommerce-client/target/SafeCommerce-client-1.0-SNAPSHOT-jar-with-dependencies.jar" 
+                                        class="d-inline-block btn btn-sm btn-primary shadow-sm text-light"
+                                    >
                                         <i class="bi bi-cloud-plus"></i>
                                         Cadastrar servidor
                                     </a>
@@ -105,7 +118,15 @@
                     </div>
                 </div>
                 <!-- Fim do conteudo da página -->
+                <div aria-live="polite" aria-atomic="true" style="position: absolute; bottom: 0; right: 0; z-index:10">
+                    <!-- Position it -->
+                    <div id="alertasTemp" style=" position: absolute; bottom: 0; right: 0;">
 
+                        <!-- Then put toasts within -->
+
+
+                    </div>
+                </div>
                 <!-- Footer -->
                 <my-footer></my-footer>
             </div>
@@ -123,12 +144,12 @@
     document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;
     var serverTable = document.getElementById("server_table");
 
-    function getStatus(ultimoRegistro) {
-        return dateFns.differenceInSeconds(new Date(ultimoRegistro), new Date()) >= 60
+    function isOnline(ultimoRegistro) {
+        return dateFns.differenceInMinutes(new Date(ultimoRegistro), new Date()) >= -180
     }
 
     function getStatusElement(ultimoRegistro) {
-        if (!getStatus(ultimoRegistro)) {
+        if (!isOnline(ultimoRegistro)) {
             return `
                 <i class="bi bi-exclamation-triangle-fill text-danger"></i> Offline
             `
@@ -153,7 +174,7 @@
                         </td>
 
                         <td id="tdServerModelo#${data[i].idServidor}">
-                            ${data[i].modelo}
+                            <a class="link-primary" href="./servidores.html?idServer=${data[i].idServidor}">${data[i].modelo}</a>
                         </td>
 
                         <td id="tdServerSO#${data[i].idServidor}">
@@ -189,7 +210,7 @@
                 var tdDisco = document.getElementById(`tdServerDisco#${data[i].idServidor}`)
 
                 tdStatus.innerHTML = status
-                tdModelo.innerText = data[i].modelo
+                tdModelo.innerHTML = `<a class="link-primary" href="./servidores.html?idServer=${data[i].idServidor}">${data[i].modelo}</a>`
                 tdSO.innerText = data[i].so
                 tdVCPU.innerText = data[i].qtdCPU ? data[i].qtdCPU : 0
                 tdRAM.innerText = Number(data[i].qtdRAM).toFixed() + ' GB'
@@ -253,7 +274,9 @@
     getData(indexPage)
     setInterval(() => {
         getData(indexPage)
+        monitorarParaAlertar()
     }, 10000)
+    
 </script>
 <script>
     function lidarGraficos(data) {
@@ -275,7 +298,7 @@
         myChartSO.update()
 
         var offline = data.filter(s => {
-            if (!getStatus(s.ultimoRegistro)) {
+            if (!isOnline(s.ultimoRegistro)) {
                 return s
             }
         }).length

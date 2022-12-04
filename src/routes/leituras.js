@@ -41,24 +41,29 @@ router.get("/obterDadosTemperaturaDia/:idServidor", (req,res)=>{
     leituraController.obterDadosTemperaturaDia(req,res);
 })
 
-router.get("/obterDadosAlerta", (req,res)=>{
-    leituraController.obterDadosAlerta(req,res);
+router.get("/obterUltimaTemp/", (req,res)=>{
+    leituraController.obterUltimaTemp(req,res);
 })
 
-router.get("/obterMaiorAlertas", (req,res)=>{
-    leituraController.obterMaiorAlertas(req,res);
-})
-
-router.get("/obterDadosEmergencia", (req,res)=>{
-    leituraController.obterDadosEmergencia(req,res);
+router.get("/regressaoTempUso/:idServidor", (req,res)=>{
+    leituraController.regressaoTempUso(req,res);
 })
 
 router.get("/appCorHw/:idServidor", (req, res) => {
     leituraController.appsCorHw(req,res);
 })
 
-router.get("/obterUltimaTemp", (req, res) => {
-    leituraController.obterUltimaTemp(req,res);
+
+router.get("/alertas", (req,res)=>{
+    leituraController.alertas(req,res);
+})
+
+router.get("/maiorEmergencia", (req,res) =>{
+    leituraController.maiorEmergencia(req,res);
+})
+
+router.get("/maiorAlerta", (req, res) =>{
+    leituraController.maiorAlerta(req,res);
 })
 
 module.exports = router;

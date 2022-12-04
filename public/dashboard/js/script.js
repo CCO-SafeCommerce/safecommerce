@@ -24,13 +24,22 @@ const paletaCores = [
 ]
 
 //sessão
-function validateSession() {
+async function validateSession() {
     var companyName = sessionStorage.NOME_EMPRESA;
     var userName = sessionStorage.NOME_USUARIO;
     var fkAdmin = sessionStorage.FK_ADMIN;
 
     var spanCompany = document.getElementById('company_name');
     var spanName = document.getElementById('user_name');
+
+    // init.js
+   
+        if (Notification.permission != 'denied') {
+            // Pede ao usuário para utilizar a Notificação Desktop
+            await Notification.requestPermission().then(res => console.log(res))
+        }
+    
+          
 
     if (userName != null) {
         if (spanName != undefined) {

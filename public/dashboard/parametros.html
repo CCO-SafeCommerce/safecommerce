@@ -42,10 +42,17 @@
                 <div class="col-md-12 mt-4">
                   <div class="container h-100">
                     <div class="row d-flex justify-content-center align-items-center h-100">
-                      <div class="col-xl-9">                                    
+                      <div class="col-xl-9">
+                        <nav aria-label="breadcrumb">
+                          <ol class="breadcrumb bg-transparent">
+                              <li class="breadcrumb-item"><a href="./painel.html" class="link-primary">Visão Geral</a></li>
+                              <li class="breadcrumb-item"><a id="breadcrumbServidor" class="link-primary">Servidor</a></li>
+                              <li class="breadcrumb-item" aria-current="page">Monitoramento</li>
+                          </ol>
+                        </nav>                                   
                         <div class="d-flex align-items-center justify-content-between mb-4">
                             <h1 class="h3 mb-0 text-gray-800">Definir monitoramento</h1>
-                            <a class="d-inline-block btn btn-sm btn-primary shadow-sm text-light">
+                            <a class="d-none btn btn-sm btn-primary shadow-sm text-light">
                               <i class="bi bi-file-earmark-text"></i>
                                 Informações sobre métricas
                             </a>
@@ -233,6 +240,10 @@
               return s
           }
       })
+
+      var breadcrumb = document.getElementById('breadcrumbServidor')
+      breadcrumb.innerText = servidor.modelo
+      breadcrumb.href = `./servidores.html?idServer=${servidor.idServidor}`
     } else {
       window.location = './painel.html'
     }

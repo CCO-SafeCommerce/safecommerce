@@ -164,37 +164,26 @@ function obterDadosTempCPUFreq(idServidor) {
     });
 }
 
-function plotarGraficoTemperaturaFrequencia(resposta, resposta1, grafico) {
-  console.log("TO TENTANDO");
-
-  for (i = resposta.length - 1; i >= 0; i--) {
-    if (
-      grafico.data.datasets[0].data.length > 30 &&
-      grafico.data.labels.length > 30
-    ) {
-      grafico.data.datasets[0].data.shift();
-      grafico.data.labels.shift();
-    }
-    var dataN = new Date(resposta[i].horario);
-    var dataS = `${dataN.getHours()}:${dataN.getMinutes()}`;
-    grafico.data.datasets[0].data.push(resposta[i].valor);
-    labelsTempFreq.push(dataS);
-  }
-  for (i = resposta1.length - 1; i >= 0; i--) {
-    if (
-      grafico.data.datasets[1].data.length > 30 &&
-      grafico.data.labels.length > 30
-    ) {
-      grafico.data.datasets[1].data.shift();
-      grafico.data.labels.shift();
-    }
-    var dataN = new Date(resposta1[i].horario);
-    var dataS = `${dataN.getHours()}:${dataN.getMinutes()}`;
-    grafico.data.datasets[1].data.push(resposta1[i].valor);
-  }
-}
 
 function gerarAlerta(icone, gravidade, mensagem) {
+  var urlIcon = ""
+  if(icone == "emergencia"){
+    urlIcon = "https://raw.githubusercontent.com/CCO-SafeCommerce/safecommerce/main/public/dashboard/assets/emergencia.png"
+  }else{
+    urlIcon = "https://raw.githubusercontent.com/CCO-SafeCommerce/safecommerce/main/public/dashboard/assets/alerta.png"
+  }
+  console.log(urlIcon)
+  const notification = new Notification(`${gravidade} - SafeCommerce`, {
+    body: `${mensagem}`,
+    icon: urlIcon
+  });
+  
+  notification.onclick = (e) => {
+    e.preventDefault();
+    window.focus();
+    notification.close();
+  }
+
   var alerta = ` <div class="toast" role="alert" style="display: block;" aria-live="assertive" aria-atomic="true">
    <div class="toast-header">
      <img src="./assets/${icone}.png" style="width: 30px" class="rounded mr-2" alt="...">
@@ -208,6 +197,7 @@ function gerarAlerta(icone, gravidade, mensagem) {
    </div>
  </div>`;
   document.getElementById("alertasTemp").innerHTML += alerta;
+  
 }
 
 async function getTemperaturaCidade(ipServidor){
@@ -242,6 +232,22 @@ async function getTemperaturaCidade(ipServidor){
  
   );
   return cidade;
+}
+
+function notificarNavegador(){
+  wsNotification.on('new', () => {
+    if (Notification.permission === 'granted') {
+      const notification = new Notification('Título', {
+        body: 'Conteúdo da notificação'
+      });
+      
+      notification.onclick = (e) => {
+        e.preventDefault();
+        window.focus();
+        notification.close();
+      }
+    }
+  });
 }
 
 function monitorarParaAlertar() {
@@ -281,50 +287,7 @@ function monitorarParaAlertar() {
             }
             //console.log(servidor.ipServidor);
           });
-          /*if (resposta[0].situacao == "n") {
-          } else {
-            var ip = servidor.ipServidor;
-            var apiKey = "1231525ddbe74309926041e22caf7f3b";
-            let url = `https://api.ipgeolocation.io/ipgeo?apiKey=${apiKey}&ip=189.1.175.50`;
-            var cidade = await fetch(url).then((responseCidade) =>
-              responseCidade.json().then(async (json) => {
-                cidade = json.city;
-                var apiKeyTemp = "2f5227bde113d8d046103f8249cc4cec";
-
-                await fetch(
-                  `https://api.openweathermap.org/data/2.5/weather?q=${cidade}&appid=${apiKeyTemp}&lang=pt_br`
-                )
-                  .then((responseTemp) => {
-                    responseTemp.json().then((jsonTemp) => {
-                      var temp = jsonTemp.main.temp - 273.15;
-                      if (resposta[0].situacao == "a") {
-                       if(temp > 30 && temp <= 35){
-                         alert("A temperatura do servidor está subindo. A temperatura atual da cidade em que o servidor está é de " + temp.toFixed(2) + "°C. Pode ser que o servidor esteja com problemas de refrigeração.");
-                       }else if(temp > 35){
-                            alert("A temperatura do servidor está subindo. A temperatura atual da cidade em que o servidor está é de " + temp.toFixed(2) + "°C, muito alta! Pode ser que o servidor esteja com problemas de refrigeração.");
-                       }
-                       // eu nao sei sdksjdksjdk estou so´ ha
-
-                    }else{
-                        if(temp > 30 && temp <= 35){
-                         alert("A temperatura do servidor está muito alta. A temperatura atual da cidade em que o servidor está é de " + temp.toFixed(2) + "°C. Pode ser que o servidor esteja com problemas de refrigeração.");
-                       }else if(temp > 35){
-                            alert("A temperatura do servidor está muito alta. A temperatura atual da cidade em que o servidor está é de " + temp.toFixed(2) + "°C, muito alta! Pode ser necessário desligar o servidor para evitar danos.");
-                       }
-                    }
-                      console.log(temp);
-                    });
-                  })
-                  .catch((error) => {
-                    console.error(
-                      `Erro na obtenção dos dados p/ gráfico: ${error.message}`
-                    );
-                  });
-              })
-            );
-
-         
-          } */
+          
         });
       } else {
         console.error("Nenhum dado encontrado ou erro na API");

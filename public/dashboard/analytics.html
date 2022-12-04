@@ -27,9 +27,10 @@
     <!-- style -->
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/servidores.css">
+    <script src="./js/analytics/tempFreq.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script src="./js/analytics/tempFreq.js"></script>
+    <script src="./js/graficos/temperatura.js"></script>
     <script src="./js/analytics/appsCorHW.js"></script>
 </head>
 
@@ -52,12 +53,19 @@
                     <!-- Conteudo da página -->
                     <div class="container-fluid px-lg-4">
                         <div class="row">
-                            <div class="col-md-12 mt-lg-4 mt-4">
-                                <div class="d-flex align-items-center justify-content-between mb-4">
-                                    <h1 class="h3 mb-0 text-gray-800" id="server_title">Servidor</h1>
+                            
+                            <div class="col-md-12 mt-lg-4 mt-4">                                
+                                <div class="d-flex align-items-center justify-content-between mb-4">                                    
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb bg-transparent mb-0">
+                                            <li class="breadcrumb-item"><a href="./painel.html" class="link-primary">Visão Geral</a></li>
+                                            <li class="breadcrumb-item"><a id="breadcrumbServidor" class="link-primary">Servidor</a></li>
+                                            <li class="breadcrumb-item" aria-current="page">Analytics</li>
+                                        </ol>
+                                    </nav> 
                                     <div class="row justify-content-around">
                                         <div class="col d-flex">
-                                            <button onclick="" class="btn btn-sm btn-primary shadow-sm text-light">
+                                            <button class="btn btn-sm btn-primary shadow-sm text-light">
                                                 <i class="bi bi-arrow-clockwise"></i>
                                                 Recarregar
                                             </button>
@@ -66,17 +74,44 @@
                                 </div>
                             </div>                    
                         </div>
-                        <div id="divAnalytic#AppsDemandCor" class="card">
+                        <div id="divAnalytic#analiseSituacao" class="card mb-3">
                             <div class="card-header">
-                                <h6 class="card-title">Correlação entre demanda de aplicações e uso de hardware</h6>
+                                <h6 class="card-title">Análise de Alertas e Emergências</h6>
+                            </div>
+                            <div class="card-body col-md-10 bodyCanvas" id="divAertas">
+                                <div class="divAlertas">
+                                <div class="kpiAlerta" style="background-color: #DC3E1D;"><br> Componente com maior quantidade de Emergencias <br>
+                                <span id="maiorEmergencia"><br></span></div>
+                                <!-- <div class="kpiAlerta" style="background-color: #E87413;"><br> Media de Tempertura de Emergencias</div> -->
+                                <div class="kpiAlerta" style="background-color: #F25913;"><br> Componente com maior quantidade de Alertas<br>
+                                    <span id = "maiorAlerta"></span></div>
+                                    </div> <br><br>
+                                    <canvas id="chartAlerta" class="chartjs-render-monitor lineChart"></canvas>
+                                </div>
+                                
+                                <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                            </div>
+
+                        <div id="divAnalytic#AppsCorHW" class="card mb-3">
+                            <div class="card-header">
+                                <h6 class="card-title">Correlação entre conexões simultâneas e uso de hardware</h6>
                             </div>
                             <div class="card-body bodyCanvas">
-                                <canvas id="appsDemandCorChart" class="chartjs-render-monitor lineChart"></canvas>
+                                <div class="mb-3">
+                                    <select id="selAppsCorChart" onchange="changeVisaoAppsCorChart()" class="form-select form-select-sm align-self-center" aria-label=".form-select-sm example">
+                                        <option value="appsCorHWChart" selected>Correlação com Hardware</option>
+                                        <option value="appsCorCPUChart">Correlação com CPU</option>
+                                        <option value="appsCorRAMChart">Correlação com RAM</option>
+                                    </select>
+                                </div>
+                                <canvas id="appsCorHWChart" class="chartjs-render-monitor lineChart"></canvas>
+                                <canvas id="appsCorCPUChart" class="chartjs-render-monitor lineChart" style="display: none;"></canvas>
+                                <canvas id="appsCorRAMChart" class="chartjs-render-monitor lineChart" style="display: none;"></canvas>
                             </div>
                             <hr class="border border-2 opacity-50">
                             <div class="card-body">
                                 <div class="card w-75 mx-auto">
-                                    <div class="card-header">Previsão de uso de hardware com base na demanda</div>
+                                    <div class="card-header">Previsão de uso de hardware com base no número de conexões simultâneas</div>
                                     <div class="card-body">
                                         <div class="mb-3">
                                             <label for="txtDemandaEsperada" class="form-label">Conexões simultâneas esperadas</label>
@@ -86,51 +121,41 @@
                                             <button onclick="forecastAppCorHW()" type="button" class="btn btn-primary">Calcular previsão</button>
                                         </div>
                                     </div>
+                                    <ul class="list-group list-group-flush">
+                                        <li id="appsCoefCorCPU" class="list-group-item"></li>
+                                        <li id="appsCoefCorRAM" class="list-group-item"></li>
+                                    </ul>
                                     <div id="divPrevisaoUsoHWCorApp" class="card-footer" style="display: none;">
-                                        <p id="pPrevisaoCPU" class="card-text">Uso de CPU por volta de 80%</p>
-                                        <p id="pPrevisaoRAM" class="card-text">Uso de CPU por volta de 80%</p>
+                                        <p id="pPrevisaoCPU" class="card-text"></p>
+                                        <p id="pPrevisaoRAM" class="card-text"></p>
                                     </div>
                                 </div>
                             </div>                    
                         </div>
 
-                        <div id="divAnalytic#tempFreq" class="card">
+                       
+                        <div id="divAnalytic#tempUso" class="card mb-3">
                             <div class="card-header">
-                                <h6 class="card-title">Correlação entre Temperatura da CPU e Frequência da CPU</h6>
-                            </div>
-                            <div class="card-body bodyCanvas">
-                                <canvas id="tempFreq" class="chartjs-render-monitor lineChart"></canvas>
-                            </div>                         
-                        </div>
-
-                        <div id="divAnalytic#tempUso" class="card">
-                            <div class="card-header">
-                                <h6 class="card-title">Correlação entre Temperatura da CPU e Uso da CPU</h6>
+                                <h6 class="card-title">Comparação entre Temperatura da CPU e Uso da CPU</h6>
                             </div>
                             <div class="card-body bodyCanvas">
                                 <canvas id="tempUso" class="chartjs-render-monitor lineChart"></canvas>
                             </div>                         
                         </div>
 
-                        <div id="divAnalytic#tempUso" class="card">
+                        <div id="divAnalytic#tempUsoCor" class="card mb-3">
                             <div class="card-header">
-                                <h6 class="card-title">Analise de Alertas e Emergencias</h6>
+                                <h6 class="card-title">Correlação entre Temperatura da CPU e Uso da CPU</h6>
                             </div>
-                            <div class="card-body bodyCanvas" id="divAertas">
-                                <div class="divAlertas">
-                                <div class="kpiAlerta" style="background-color: #DC3E1D;"><br> Peça com maior quantidade de Emergencias <br>
-                                <span><br>RAM</span></div>
-                                <!-- <div class="kpiAlerta" style="background-color: #E87413;"><br> Media de Tempertura de Emergencias</div> -->
-                                <div class="kpiAlerta" style="background-color: #F25913;"><br> Peça com maior quantidade de Alertas<br>
-                                    <span><br>DISCO</span></div></div>
-                                </div>
-                                <canvas id="chartAlerta" class="chartjs-render-monitor lineChart"></canvas>
-                                
-                                <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                            <div class="card-body bodyCanvas">
+                                <canvas id="tempUsoCor" class="chartjs-render-monitor lineChart"></canvas>
                             </div>                         
                         </div>
+
+                                               
+                        </div>
                         
-                        <div id="divNoContent" class="row justify-content-center align-items-center">
+                        <div id="divNoContent" class="row justify-content-center align-items-center mb-3" style="display: none;">
                             <div class="card col-8 col-sm-6 col-md-4">
                                 <img src="../assets/no-content.svg" class="card-img-top" alt="Nenhum retorno foi encontrado">
                                 <div class="card-body">
@@ -138,6 +163,15 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div aria-live="polite" aria-atomic="true" style="position: absolute; bottom: 0; right: 0; z-index:10">
+                    <!-- Position it -->
+                    <div id="alertasTemp" style=" position: absolute; bottom: 0; right: 0;">
+
+                        <!-- Then put toasts within -->
+
+
                     </div>
                 </div>
                 <!-- Fim do conteudo da página -->
@@ -162,10 +196,11 @@
     document.getElementById('company_name').innerText = sessionStorage.NOME_USUARIO;      
 
     function setPage(servidor) {
-        var serverTitle = document.getElementById('server_title')
+        var breadcrumb = document.getElementById('breadcrumbServidor')
         var titlePage = document.getElementById('title_page')
 
-        serverTitle.innerText = servidor.modelo;
+        breadcrumb.innerText = servidor.modelo;
+        breadcrumb.href = `./servidores.html?idServer=${servidor.idServidor}`
         titlePage.innerHTML = `SafeCommerce | ${servidor.modelo}`;
     }
 
@@ -201,18 +236,35 @@
                 "Content-Type": "application/json"
             },
         }).then(function (resposta) {
-            resposta.json().then(parametros => {
-                if (parametros.includes(11) && parametros.includes(4)) {
-                    criarGraficoTempXFreq(selectedServer)
-                }
-
+            resposta.json().then(parametros => {      
+                var anyAnalytics = false
+                
                 if (parametros.includes(11) && parametros.includes(1)) {
                     criarGraficoTempXUso(selectedServer)
+                    criarCorrelacaoTempXUso(selectedServer)
+                    anyAnalytics = true
+                } else {
+                    document.getElementById('divAnalytic#tempUsoCor').style.display = 'none'
+                    document.getElementById('divAnalytic#tempUso').style.display = 'none'
                 }
                 
                 if (parametros.includes(13) && (parametros.includes(1) || parametros.includes(6))) {
-                    plotarGraficoAppsDemandCor(selectedServer)
+                    plotarGraficoAppsDemand(selectedServer)
+                    anyAnalytics = true
+                } else {
+                    document.getElementById('divAnalytic#AppsCorHW').style.display = 'none'
                 }
+
+                if (parametros.filter(p => p != 2 && p != 5 && p != 7 && p != 12 && p != 13)) {
+                    definirChartAlertas(selectedServer);
+                    maiorEmergencias(selectedServer);
+                    maiorAlertas(selectedServer);
+                    anyAnalytics = true
+                } else {
+                    document.getElementById('divAnalytic#analiseSituacao').style.display = 'none'
+                }
+
+                document.getElementById('divNoContent').style.display = anyAnalytics ? 'none' : 'flex'
             })
         })
     }
@@ -223,11 +275,8 @@
     setInterval(() => {
         getData(indexPage)
     }, 5000);
-</script>
-
-<script>
-    definirChartAlertas();
-    obterAlertasRAM(selectedServer)
-    
+    setInterval(() => {
+        monitorarParaAlertar()
+    }, 10000)
 </script>
 

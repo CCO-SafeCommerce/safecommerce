@@ -72,6 +72,20 @@ function obterDadosFreq(idServidor) {
     return database.execute(instruction, instructionAzure);
 }
 
+function dadosTempCpu(idServidor){
+    var instruction = `SELECT valor, horario FROM leituraTemp where fkServidor = ${idServidor} order by horario desc limit 20;`
+    var instructionAzure = `SELECT fkServidor, horario, [11] as 'temp', [1] as 'cpu'  FROM (
+        SELECT fkServidor, fkMetrica, DATEPART(MINUTE, dataLeitura) as 'horario', valor_leitura FROM [dbo].[Leitura]
+            WHERE fkMetrica = 11 or fkMetrica = 1
+    
+    ) p PIVOT (
+        AVG(valor_leitura) FOR fkMetrica IN ([11],[1])
+    ) pvt 
+    WHERE fkServidor = ${idServidor}`
+
+    return database.execute(instruction, instructionAzure);
+}
+
 function obterUltimaTemp(){
     var instruction = `SELECT valor, horario FROM leituraFreq where fkServidor = 2 order by horario desc limit 20;`
    
@@ -143,29 +157,41 @@ function limparHistoricoAplicacao(componente) {
     return database.execute(instruction);
 }
 
-function obterDadosAlerta(idServidor, componente){
-    console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de  'Error: connect ECONNREFUSED', \n\t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterDadosAlerta(): ", idServidor, componente);
-
-    var instruction = `SELECT count(*) as quantidade_de_alertas FROM Leitura WHERE fkServidor = ${idServidor} and componente = '${componente}' and situacao = "a"`;
-
-    return database.execute(instruction);
-}
-
-function obterDadosEmergencia(idServidor, componente){
-    console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterDadosEmergencia(): ", componente)
-
-    var instruction = `SELECT count(*) as quantidade_de_emergencias FROM Leitura WHERE fkServidor = ${idServidor} and componente = '${componente}' and situacao = "e"`;
-
-    return database.execute(instruction);
-}
-
 function obterAppsCorHw(idServidor) {
     console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterAppsCorHw(): ", idServidor);
 
-    var instruction = `SELECT ano, mes, demanda, usoCPU, usoRAM FROM vwAppsCorHW WHERE fkServidor = ${idServidor} ORDER BY ano DESC, mes DESC LIMIT 6`;
-    var instructionAzure = `SELECT TOP 6 ano, mes, demanda, usoCPU, usoRAM FROM vwAppsCorHW WHERE fkServidor = ${idServidor} ORDER BY ano DESC, mes DESC`;
+    var instruction = `SELECT ano, mes, dia, demanda, usoCPU, usoRAM FROM vwAppsCorHW WHERE fkServidor = ${idServidor} ORDER BY ano DESC, mes DESC, dia DESC LIMIT 6`;
+    var instructionAzure = `SELECT TOP 6 ano, mes, dia, demanda, usoCPU, usoRAM FROM vwAppsCorHW WHERE fkServidor = ${idServidor} ORDER BY ano DESC, mes DESC, dia DESC`;
 
     return database.execute(instruction, instructionAzure);
+}
+
+function alertas(idServidor){
+    console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterAppsCorHw(): ", idServidor);
+
+    var instruction = `select DISTINCT Componente, qtdAvisos, qtdEmergencias from situacaoLeitura where fkServidor = ${idServidor} order by componente`;
+
+    return database.execute(instruction)
+}
+
+function maiorEmergencia(idServidor){
+    console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function maiorEmergencia(): ", idServidor);
+
+    var instruction = `select componente, qtdEmergencias from situacaoleitura where qtdEmergencias = (select max(qtdEmergencias) from leitura where fkServidor = ${idServidor} limit 1) and fkServidor = ${idServidor} limit 1`;
+
+    var instructionAzure = `select top(1) componente, qtdEmergencias from situacaoleitura where qtdEmergencias = (select top(1) max(qtdEmergencias) from [dbo].[situacaoLeitura] where fkServidor = ${idServidor}) and fkServidor = ${idServidor}`
+
+    return database.execute(instruction, instructionAzure)
+}
+
+function maiorAlerta(idServidor){
+    console.log("ACESSEI O LEITURA MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function maiorAlerta(): ", idServidor);
+
+    var instruction = `select componente, qtdAvisos from situacaoleitura where qtdAvisos = (select max(qtdAvisos) from leitura where fkServidor = ${idServidor} limit 1) and fkServidor = ${idServidor} limit 1`;
+
+    var instructionAzure = `select top(1) componente, qtdAvisos from situacaoleitura where qtdAvisos = (select top(1) max(qtdAvisos) from [dbo].[situacaoLeitura] where fkServidor = ${idServidor}) and fkServidor = ${idServidor}`
+    
+    return database.execute(instruction, instructionAzure)
 }
 
 module.exports = {
@@ -182,8 +208,10 @@ module.exports = {
     obterDadosTemperaturaDia,
     obterDadosFreqDia,
     obterDadosUsoCpuDia,
-    obterDadosAlerta,
-    obterDadosEmergencia,
     obterAppsCorHw,
-    obterUltimaTemp
+    obterUltimaTemp,
+    alertas,
+    maiorEmergencia,
+    maiorAlerta,
+    dadosTempCpu
 }
