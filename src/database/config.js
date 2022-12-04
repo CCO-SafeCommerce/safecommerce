@@ -4,7 +4,7 @@ require('dotenv').config();
 
 // CONEXÃO DO SQL SERVER - AZURE (NUVEM)
 var sqlServerConfig = {
-    server: "grupo0-1cco.database.windows.net",
+    server: "safecommmerce.database.windows.net",
     database: "safecommmerce",
     user: "grupo01cco",
     password: "1cco#grupo4",
