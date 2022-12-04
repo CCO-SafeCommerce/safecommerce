@@ -109,6 +109,12 @@ CREATE TABLE Aplicacao (
 	foreign key (fkServidor) references Servidor(idServidor)
 );
 
+create table KillPids(
+	fkServidor int,
+    foreign key (fkServidor) references Servidor(idServidor),
+    pid int
+);
+
 CREATE VIEW visaoGeralServidores AS
 SELECT
 	s.idServidor,

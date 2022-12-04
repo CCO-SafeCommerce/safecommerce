@@ -1,13 +1,13 @@
 
-//process.env.AMBIENTE_PROCESSO = "desenvolvimento";
-process.env.AMBIENTE_PROCESSO = "producao";
+process.env.AMBIENTE_PROCESSO = "desenvolvimento";
+//process.env.AMBIENTE_PROCESSO = "producao";
 
 
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const dotenv = require('dotenv');
-const PORTA = process.env.AMBIENTE_PROCESSO == "desenvolvimento" ? 3333 : 8080;
+const PORTA = 8080;
 
 const app = express();
 
