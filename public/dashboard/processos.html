@@ -285,6 +285,7 @@
 <script src="./js/script.js"></script>
 
 <script>
+    processosEncerrar = []
     const indexPage = false;
     var selectedServer = 0;
     function getURLParams() {
@@ -327,7 +328,8 @@
             if (response.ok) {
                 response.json().then(function (resposta) {
                     inserirProcessos(resposta);
-                    criacaoWordCloud(resposta)
+                    criacaoWordCloud(resposta);
+                    processosEncerrar = resposta;
                 });
             } else {
                 console.error('Nenhum dado encontrado ou erro na API');
@@ -355,7 +357,8 @@
         }
     }
     function encerrarProcessos(valor) {
-        pidEncerramento = processos[valor].pid;
+        console.log(processosEncerrar)
+        pidEncerramento = processosEncerrar[valor].pid;
 
         fetch(`/processos/encerrarProcessos/${selectedServer}`, {
             method: "POST",
