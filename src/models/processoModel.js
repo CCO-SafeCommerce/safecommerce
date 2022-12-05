@@ -15,13 +15,35 @@ function obterProcessos(fkServidor) {
 function obterProcessosNotDesejavel(fkServidor) {
     console.log("ACESSEI O Processo MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterProcessos(): ")
     var instrucao = `
-    SELECT nome, qtdMatado FROM Frequencia_Processo WHERE fkServidor = ${fkServidor};
+    SELECT count(nome) as QtdNotDesejaveis FROM Processo WHERE nome NOT IN (select nome FROM Permissao_Processo WHERE Permissao_Processo.fkServidor = ${fkServidor}) AND Processo.fkServidor = ${fkServidor};
     `
     var instructionAzure = `
-    SELECT nome, qtdMatado FROM Frequencia_Processo WHERE fkServidor = ${fkServidor};
+    SELECT count(nome) as QtdNotDesejaveis FROM Processo WHERE nome NOT IN (select nome FROM Permissao_Processo WHERE Permissao_Processo.fkServidor = ${fkServidor}) AND Processo.fkServidor = ${fkServidor};
     `
 
     return database.execute(instrucao, instructionAzure)
+}
+
+
+function obterProcessosDesejavel(fkServidor) {
+    console.log("ACESSEI O Processo MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterProcessos(): ")
+    var instrucao = `
+    SELECT count(nome) as NomesDesejaveis FROM Permissao_Processo WHERE fkServidor = ${fkServidor} AND permissao = 1
+    `
+    var instructionAzure = `
+    SELECT count(nome) as NomesDesejaveis FROM Permissao_Processo WHERE fkServidor = ${fkServidor} AND permissao = 1
+    `
+
+    return database.execute(instrucao, instructionAzure)
+}
+
+function modificarPermissao(fkServidor, nome) {
+    console.log("ACESSEI O Processo MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function obterProcessos(): ")
+    var instrucao = `
+    INSERT INTO Permissao_Processo (nome, permissao, fkServidor) VALUES('${nome}', 1, ${fkServidor})
+    `
+
+    return database.execute(instrucao)
 }
 
 function encerrarProcessos(fkServidor, pid) {
@@ -36,5 +58,7 @@ function encerrarProcessos(fkServidor, pid) {
 module.exports = {
     obterProcessos,
     encerrarProcessos,
-    obterProcessosNotDesejavel
+    obterProcessosNotDesejavel,
+    obterProcessosDesejavel,
+    modificarPermissao
 }

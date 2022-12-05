@@ -123,6 +123,7 @@
                                                     <th class="border-top-0 col-2">Uso de CPU</th>
                                                     <th class="border-top-0 col-2">Uso de ram</th>
                                                     <th class="border-top-0 col-2">Encerramento Remoto</th>
+                                                    <th class="border-top-0 col-2">Adicionar Permissão</th>
                                                 </tr>
                                             </thead>
                                             <thead class="bg-white">
@@ -136,6 +137,10 @@
                                                     <td class="border-top-0 col-2">
                                                         <button onclick="encerrarProcessos(0)"
                                                             class="btn btn-primary">Encerrar processo</button>
+                                                    </td>
+                                                    <td class="border-top-0 col-2">
+                                                        <button onclick="modificarPermissao(0)"
+                                                            class="btn btn-primary">Mudar Permissão</button>
                                                     </td>
                                                 </tr>
                                             </thead>
@@ -151,6 +156,10 @@
                                                         <button onclick="encerrarProcessos(1)"
                                                             class="btn btn-primary">Encerrar processo</button>
                                                     </td>
+                                                    <td class="border-top-0 col-2">
+                                                        <button onclick="modificarPermissao(1)"
+                                                            class="btn btn-primary">Mudar Permissão</button>
+                                                    </td>
                                                 </tr>
                                             </thead>
                                             <thead class="bg-white">
@@ -164,6 +173,10 @@
                                                     <td class="border-top-0 col-2">
                                                         <button onclick="encerrarProcessos(2)"
                                                             class="btn btn-primary">Encerrar processo</button>
+                                                    </td>
+                                                    <td class="border-top-0 col-2">
+                                                        <button onclick="modificarPermissao(2)"
+                                                            class="btn btn-primary">Mudar Permissão</button>
                                                     </td>
                                                 </tr>
                                             </thead>
@@ -179,6 +192,10 @@
                                                         <button onclick="encerrarProcessos(3)"
                                                             class="btn btn-primary">Encerrar processo</button>
                                                     </td>
+                                                    <td class="border-top-0 col-2">
+                                                        <button onclick="modificarPermissao(3)"
+                                                            class="btn btn-primary">Mudar Permissão</button>
+                                                    </td>
                                                 </tr>
                                             </thead>
                                             <thead class="bg-white">
@@ -192,6 +209,10 @@
                                                     <td class="border-top-0 col-2">
                                                         <button onclick="encerrarProcessos(4)"
                                                             class="btn btn-primary">Encerrar processo</button>
+                                                    </td>
+                                                    <td class="border-top-0 col-2">
+                                                        <button onclick="modificarPermissao(4)"
+                                                            class="btn btn-primary">Mudar Permissão</button>
                                                     </td>
                                                 </tr>
                                             </thead>
@@ -207,6 +228,10 @@
                                                         <button onclick="encerrarProcessos(5)"
                                                             class="btn btn-primary">Encerrar processo</button>
                                                     </td>
+                                                    <td class="border-top-0 col-2">
+                                                        <button onclick="modificarPermissao(5)"
+                                                            class="btn btn-primary">Mudar Permissão</button>
+                                                    </td>
                                                 </tr>
                                             </thead>
                                             <thead class="bg-white">
@@ -220,6 +245,10 @@
                                                     <td class="border-top-0 col-2">
                                                         <button onclick="encerrarProcessos(6)"
                                                             class="btn btn-primary">Encerrar processo</button>
+                                                    </td>
+                                                    <td class="border-top-0 col-2">
+                                                        <button onclick="modificarPermissao(6)"
+                                                            class="btn btn-primary">Mudar Permissão</button>
                                                     </td>
                                                 </tr>
                                             </thead>
@@ -235,6 +264,10 @@
                                                         <button onclick="encerrarProcessos(7)"
                                                             class="btn btn-primary">Encerrar processo</button>
                                                     </td>
+                                                    <td class="border-top-0 col-2">
+                                                        <button onclick="modificarPermissao(7)"
+                                                            class="btn btn-primary">Mudar Permissão</button>
+                                                    </td>
                                                 </tr>
                                             </thead>
                                             <thead class="bg-white">
@@ -248,6 +281,10 @@
                                                     <td class="border-top-0 col-2">
                                                         <button onclick="encerrarProcessos(8)"
                                                             class="btn btn-primary">Encerrar processo</button>
+                                                    </td>
+                                                    <td class="border-top-0 col-2">
+                                                        <button onclick="modificarPermissao(8)"
+                                                            class="btn btn-primary">Mudar Permissão</button>
                                                     </td>
                                                 </tr>
                                             </thead>
@@ -263,17 +300,17 @@
                                                         <button onclick="encerrarProcessos(9)"
                                                             class="btn btn-primary">Encerrar processo</button>
                                                     </td>
+                                                    <td class="border-top-0 col-2">
+                                                        <button onclick="modificarPermissao(9)"
+                                                            class="btn btn-primary">Mudar Permissão</button>
+                                                    </td>
                                                 </tr>
                                             </thead>
                                         </table>
                                         <div id="wordCloud" style="height: 20vw;">
-
                                         </div>
                                     </div>
-                                    <div style="display:flex; border: 2px solid red; justify-content: space-around; justify-content: center; flex-direction: row-reverse;">
-                                        <div style="position: relative; height:40vh; width:40vw">
-                                              <canvas id="myChart"></canvas>
-                                        </div>
+                                    <div style="margin-top: 20px; background-color: white; display:flex; border: 2px solid red; justify-content: space-around; justify-content: center; flex-direction: row-reverse;">
                                         <div style="position: relative; height:40vh; width:40vw">
                                               <canvas id="myChart2"></canvas>
                                         </div>
@@ -293,38 +330,55 @@
     </div>
 </body>
 
-<script>
-    const ctx = document.getElementById('myChart');
-  
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        datasets: [{
-          label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    });
-  </script>
+
   <script>
+          function obterQtdProcessoPermitido(selectedServer){
+        console.log("Função qtdPermitido iniciada")
+        fetch(`/processos/obterProcessosNotDesejavel/1`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+
+            },
+        }).then(function(response) {
+            if (response.ok){
+                response.json().then(function (resposta) {
+                    console.log(resposta)
+                    naoDesejavel = resposta[0].QtdNotDesejaveis
+                    console.log("testezinho: " + naoDesejavel)
+                    data.datasets[0].data.push(naoDesejavel)
+                    window.myChart2.update()
+                })
+            }
+        })
+        fetch(`/processos/obterProcessosNotDesejavel/1`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+
+            },
+        }).then(function(response) {
+            if (response.ok){
+                response.json().then(function (resposta) {
+                    console.log(resposta)
+                    desejavel = resposta[0].NomesDesejaveis
+                    console.log("testezinho: " + desejavel)
+                    data.datasets[0].data.push(desejavel)
+                    window.myChart2.update()
+                })
+            }
+        })
+    }
+
     const ctx2 = document.getElementById('myChart2');
   
     new Chart(ctx2, {
       type: 'pie',
       data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        labels: ['Desejaveis', 'Não Desejaveis'],
         datasets: [{
           label: '# of Votes',
-          data: [12, 19, 3, 5, 2, 3],
+          data: [],
           borderWidth: 1
         }]
       },
@@ -373,21 +427,8 @@
         }
     }
 
-    function obterQtdProcessoPermitido(selectedServer){
-        console.log("Função qtdPermitido iniciada")
-        fetch(`/processos/obterProcessos/${selectedServer}`, {
-            method: "GET",
-            headers: {
-
-            }
-        }).then(function(response) {
-            if (response.ok){
-                response.json().then(function (resposta) {
-                    
-                })
-            }
-        })
-    }
+    var naoDesejavel = []
+    var desejavel = []
 
 
     function obterProcessos(selectedServer) {
@@ -429,11 +470,10 @@
             }
         }
     }
-    function encerrarProcessos(valor) {
-        console.log(processosEncerrar)
-        pidEncerramento = processosEncerrar[valor].pid;
 
-        fetch(`/processos/encerrarProcessos/${selectedServer}`, {
+    function encerrarProcessos(valor) {
+        pidEncerramento = processosEncerrar[valor].pid;
+        fetch(`/processos/encerrarProcessos/`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -445,7 +485,50 @@
         }).then(function (response) {
             if (response.ok) {
                 response.json().then(function (resposta) {
-                    inserirProcessos(resposta);
+                    Swal.fire({
+                        title: 'Sucesso',
+                        text: 'Encerrado com sucesso',
+                        icon: 'success',
+                        timer: 1750,
+                        timerProgressBar: true,
+                        confirmButtonColor: '#34e269',
+                    });                    
+                });
+            } else {
+                console.error('Nenhum dado encontrado ou erro na API');
+            }
+        })
+            .catch(function (error) {
+                console.error(`Erro na obtenção dos dados p/ gráfico: ${error.message}`);
+            });
+
+    }
+
+    function modificarPermissao(valor) {
+        nomeModificar = processosEncerrar[valor].nome;
+        console.log(nomeModificar);
+        console.log(valor);
+
+        fetch(`/processos/modificarPermissao/`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name: nomeModificar,
+                idServidor: selectedServer
+            })
+        }).then(function (response) {
+            if (response.ok) {
+                response.json().then(function (resposta) {
+                    Swal.fire({
+                        title: 'Sucesso',
+                        text: 'Permissão alterada com sucesso',
+                        icon: 'success',
+                        timer: 1750,
+                        timerProgressBar: true,
+                        confirmButtonColor: '#34e269',
+                    });
                 });
             } else {
                 console.error('Nenhum dado encontrado ou erro na API');
@@ -516,8 +599,8 @@
         cpu = document.getElementById(`cpuAtual`);
         ram = document.getElementById(`ramAtual`);
 
-        cpu.innerHTML = resposta[0].valorCpu;
-        ram.innerHTML = resposta[0].valorRam;
+        cpu.innerHTML = `${Number(resposta[0].valorCpu).toFixed(2)}%`;
+        ram.innerHTML = `${Number(resposta[0].valorRam).toFixed(2)}%`;
     }
 
     

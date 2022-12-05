@@ -64,7 +64,7 @@
                                         </ol>
                                     </nav> 
                                     <div class="row justify-content-around">
-                                        <div class="col d-flex">
+                                        <div class="col d-none">
                                             <button class="btn btn-sm btn-primary shadow-sm text-light">
                                                 <i class="bi bi-arrow-clockwise"></i>
                                                 Recarregar
@@ -99,7 +99,7 @@
                             <div class="card-body bodyCanvas">
                                 <div class="mb-3">
                                     <select id="selAppsCorChart" onchange="changeVisaoAppsCorChart()" class="form-select form-select-sm align-self-center" aria-label=".form-select-sm example">
-                                        <option value="appsCorHWChart" selected>Correlação com Hardware</option>
+                                        <option value="appsCorHWChart" selected>Comparação com Hardware</option>
                                         <option value="appsCorCPUChart">Correlação com CPU</option>
                                         <option value="appsCorRAMChart">Correlação com RAM</option>
                                     </select>
@@ -255,7 +255,7 @@
                     document.getElementById('divAnalytic#AppsCorHW').style.display = 'none'
                 }
 
-                if (parametros.filter(p => p != 2 && p != 5 && p != 7 && p != 12 && p != 13)) {
+                if (parametros.filter(p => p == 1 || p == 6 || p == 8)) {
                     definirChartAlertas(selectedServer);
                     maiorEmergencias(selectedServer);
                     maiorAlertas(selectedServer);
