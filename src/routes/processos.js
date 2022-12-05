@@ -11,4 +11,8 @@ router.post("/encerrarProcessos/:idServidor", (req,res)=>{
     processoController.encerrarProcessos(req, res);
 })
 
+router.get("/obterProcessosNotDesejavel/:idServidor", (req,res)=>{
+    processoController.obterProcessosNotDesejavel(req, res);
+})
+
 module.exports = router

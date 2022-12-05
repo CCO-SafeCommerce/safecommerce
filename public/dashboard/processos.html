@@ -32,6 +32,10 @@
     <link rel="stylesheet" href="./css/main.css">
     <link rel="stylesheet" href="./css/servidores.css">
 
+    <!-- DashBoard -->
+    <script src="https://cdn.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script src="./js/graficos/percentCPU.js"></script>
     <script src="./js/graficos/percentRAM.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -262,8 +266,16 @@
                                                 </tr>
                                             </thead>
                                         </table>
-                                        <div id="wordCloud" style="height: 30vw;">
+                                        <div id="wordCloud" style="height: 20vw;">
 
+                                        </div>
+                                    </div>
+                                    <div style="display:flex; border: 2px solid red; justify-content: space-around; justify-content: center; flex-direction: row-reverse;">
+                                        <div style="position: relative; height:40vh; width:40vw">
+                                              <canvas id="myChart"></canvas>
+                                        </div>
+                                        <div style="position: relative; height:40vh; width:40vw">
+                                              <canvas id="myChart2"></canvas>
                                         </div>
                                     </div>
                                 </div>
@@ -280,6 +292,51 @@
         </div>
     </div>
 </body>
+
+<script>
+    const ctx = document.getElementById('myChart');
+  
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+          label: '# of Votes',
+          data: [12, 19, 3, 5, 2, 3],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
+  <script>
+    const ctx2 = document.getElementById('myChart2');
+  
+    new Chart(ctx2, {
+      type: 'pie',
+      data: {
+        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+        datasets: [{
+          label: '# of Votes',
+          data: [12, 19, 3, 5, 2, 3],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  </script>
 
 <script src="./js/main.js"></script>
 <script src="./js/script.js"></script>
@@ -314,6 +371,22 @@
         } else {
             window.location = './painel.html'
         }
+    }
+
+    function obterQtdProcessoPermitido(selectedServer){
+        console.log("Função qtdPermitido iniciada")
+        fetch(`/processos/obterProcessos/${selectedServer}`, {
+            method: "GET",
+            headers: {
+
+            }
+        }).then(function(response) {
+            if (response.ok){
+                response.json().then(function (resposta) {
+                    
+                })
+            }
+        })
     }
 
 
